@@ -25,15 +25,25 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const router = useRouter()
   const pathname = usePathname()
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [timedOut, setTimedOut] = useState(false)
 
   useEffect(() => {
     if (!isLoading) {
-      if (!profile) router.push('/login')
+      if (!profile) router.push('/admin/login')
       else if (profile.role !== 'admin') router.push('/dashboard')
     }
   }, [isLoading, profile, router])
 
+  useEffect(() => {
+    const t = setTimeout(() => setTimedOut(true), 8000)
+    return () => clearTimeout(t)
+  }, [])
+
   if (isLoading || !profile || profile.role !== 'admin') {
+    if (timedOut) {
+      window.location.href = '/admin/login'
+      return null
+    }
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />

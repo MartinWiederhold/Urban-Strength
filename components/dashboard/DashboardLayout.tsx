@@ -25,12 +25,22 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const router = useRouter()
   const pathname = usePathname()
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [timedOut, setTimedOut] = useState(false)
 
   useEffect(() => {
     if (!isLoading && !profile) router.push('/login')
   }, [isLoading, profile, router])
 
+  useEffect(() => {
+    const t = setTimeout(() => setTimedOut(true), 8000)
+    return () => clearTimeout(t)
+  }, [])
+
   if (isLoading) {
+    if (timedOut) {
+      window.location.href = '/login'
+      return null
+    }
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
