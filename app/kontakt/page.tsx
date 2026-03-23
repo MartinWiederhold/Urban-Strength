@@ -51,8 +51,8 @@ export default function KontaktPage() {
                   <Mail className="w-6 h-6 text-primary shrink-0 mt-0.5" />
                   <div>
                     <h2 className="font-semibold mb-1">E-Mail</h2>
-                    <a href="mailto:wiederhold.martin@personaltraining-zurich.ch" className="text-primary hover:underline text-sm">
-                      wiederhold.martin@personaltraining-zurich.ch
+                    <a href="mailto:wiederhold.martin@web.de" className="text-primary hover:underline text-sm">
+                      wiederhold.martin@web.de
                     </a>
                   </div>
                 </div>

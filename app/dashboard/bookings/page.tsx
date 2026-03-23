@@ -58,7 +58,41 @@ export default function BookingsPage() {
     if (!confirm('Möchtest du diesen Termin wirklich stornieren?')) return
     setCancellingId(bookingId)
     const supabase = createClient()
+
+    // Booking-Details für E-Mail holen
+    const booking = bookings.find(b => b.id === bookingId)
     await supabase.from('bookings').update({ status: 'cancelled' }).eq('id', bookingId)
+
+    // Admin + Kunde benachrichtigen (fire & forget)
+    if (booking && profile) {
+      const service = (booking as any).services?.title ?? 'Training'
+      fetch('/api/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'booking_cancelled_admin',
+          to: profile.email,
+          customerEmail: profile.email,
+          name: profile.full_name ?? profile.email,
+          service,
+          date: booking.booking_date,
+          time: booking.start_time,
+        }),
+      }).catch(() => {})
+      fetch('/api/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'booking_cancelled_customer',
+          to: profile.email,
+          name: profile.full_name ?? profile.email,
+          service,
+          date: booking.booking_date,
+          time: booking.start_time,
+        }),
+      }).catch(() => {})
+    }
+
     await fetchBookings()
     setCancellingId(null)
   }

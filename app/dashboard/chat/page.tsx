@@ -107,6 +107,20 @@ export default function CustomerChatPage() {
       message: text,
       is_read: false,
     })
+
+    // Admin per E-Mail benachrichtigen (fire & forget)
+    fetch('/api/send-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        type: 'new_chat_message_admin',
+        to: profile.email,
+        customerEmail: profile.email,
+        name: profile.full_name ?? profile.email,
+        message: text,
+      }),
+    }).catch(() => {})
+
     setIsSending(false)
   }
 

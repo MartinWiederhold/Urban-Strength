@@ -172,18 +172,24 @@ export default function BookingPage() {
         return
       }
 
-      // 5. Send email via API (fire and forget)
+      // 5. E-Mails senden (fire & forget)
+      const emailPayload = {
+        name: `${formData.firstName} ${formData.lastName}`,
+        service: service.title,
+        date: selectedSlot.date,
+        time: selectedSlot.start_time,
+      }
+      // Bestätigung an Kunden
       fetch('/api/send-email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          type: 'booking_confirmation',
-          to: formData.email,
-          name: `${formData.firstName} ${formData.lastName}`,
-          service: service.title,
-          date: selectedSlot.date,
-          time: selectedSlot.start_time,
-        }),
+        body: JSON.stringify({ type: 'booking_confirmation', to: formData.email, ...emailPayload }),
+      }).catch(() => {})
+      // Benachrichtigung an Admin
+      fetch('/api/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'new_booking_admin', to: formData.email, customerEmail: formData.email, ...emailPayload }),
       }).catch(() => {})
 
       router.push('/book/success')

@@ -76,7 +76,7 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-2">
                 <Mail className="w-4 h-4 text-primary shrink-0" />
-                <a href="mailto:wiederhold.martin@personaltraining-zurich.ch" className="text-sm hover:text-white transition-colors">
+                <a href="mailto:wiederhold.martin@web.de" className="text-sm hover:text-white transition-colors">
                   Kontakt per Mail
                 </a>
               </li>
