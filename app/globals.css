@@ -1,0 +1,149 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap');
+
+:root {
+  /* Color Palette - 1:1 from onewell-swiss-zen */
+  --background: 40 20% 97%;
+  --foreground: 0 0% 10%;
+  --card: 40 20% 97%;
+  --card-foreground: 0 0% 10%;
+  --popover: 40 20% 97%;
+  --popover-foreground: 0 0% 10%;
+
+  /* Primary: PT Green */
+  --primary: 140 26% 39%;
+  --primary-foreground: 0 0% 100%;
+  --primary-hover: 140 26% 45%;
+
+  /* Secondary: Sand */
+  --secondary: 36 18% 91%;
+  --secondary-foreground: 0 0% 10%;
+
+  /* Muted: Stone */
+  --muted: 36 10% 85%;
+  --muted-foreground: 0 0% 40%;
+
+  /* Accent */
+  --accent: 36 18% 91%;
+  --accent-foreground: 0 0% 10%;
+
+  /* Destructive */
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 98%;
+
+  /* Border & Input */
+  --border: 36 15% 88%;
+  --input: 36 15% 88%;
+  --ring: 140 26% 39%;
+
+  /* Custom Brand Colors */
+  --pt-green: 140 26% 39%;
+  --soft-white: 40 20% 97%;
+  --sand: 36 18% 91%;
+  --stone: 36 10% 85%;
+  --dark: 0 0% 11%;
+
+  /* Shadows */
+  --shadow-soft: 0 2px 8px -2px hsl(0 0% 0% / 0.08);
+  --shadow-medium: 0 8px 24px -4px hsl(0 0% 0% / 0.1);
+  --shadow-strong: 0 16px 48px -8px hsl(0 0% 0% / 0.15);
+  --shadow-card: 0 4px 20px -4px hsl(0 0% 0% / 0.1);
+
+  /* Transitions */
+  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-elegant: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Radius */
+  --radius: 0.75rem;
+}
+
+.dark {
+  --background: 0 0% 8%;
+  --foreground: 0 0% 95%;
+  --card: 0 0% 11%;
+  --card-foreground: 0 0% 95%;
+  --popover: 0 0% 11%;
+  --popover-foreground: 0 0% 95%;
+  --primary: 140 30% 50%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 0 0% 18%;
+  --secondary-foreground: 0 0% 90%;
+  --muted: 0 0% 18%;
+  --muted-foreground: 0 0% 60%;
+  --accent: 0 0% 18%;
+  --accent-foreground: 0 0% 90%;
+  --border: 0 0% 20%;
+  --input: 0 0% 20%;
+  --ring: 140 30% 50%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    letter-spacing: -0.01em;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-sans font-semibold;
+    letter-spacing: -0.02em;
+  }
+
+  p {
+    @apply leading-relaxed;
+    letter-spacing: -0.01em;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .section-padding {
+    @apply px-4 md:px-10 py-16 md:py-24;
+  }
+
+  .container-max {
+    @apply max-w-[1440px] mx-auto;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .gradient-hero {
+    background: linear-gradient(180deg, hsl(0 0% 5% / 0.3), hsl(0 0% 5% / 0.55));
+  }
+
+  .gradient-dark {
+    background: linear-gradient(135deg, hsl(0 0% 8%) 0%, hsl(0 0% 14%) 100%);
+  }
+
+  .gradient-green {
+    background: linear-gradient(135deg, hsl(140 26% 35%) 0%, hsl(140 26% 45%) 100%);
+  }
+
+  .hover-lift {
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-medium);
+  }
+}

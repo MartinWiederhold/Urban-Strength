@@ -1,0 +1,9 @@
+Platzhalter für Bilder:
+- personal-training-zuerich-hero.jpg
+- personal-trainer-martin-zuerich.jpg
+- gym-zuerich-trainingsraum.jpg
+- fitnessgeraete-zuerich.jpg
+- personal-training-session-zuerich.jpg
+- og-image.jpg
+- icon-192.png
+- icon-512.png
