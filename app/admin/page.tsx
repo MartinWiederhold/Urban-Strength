@@ -8,6 +8,7 @@ import { createClient } from '@/lib/supabase/client'
 import type { Booking } from '@/lib/types'
 import { format } from 'date-fns'
 import { de } from 'date-fns/locale'
+import { AnimatedNumber } from '@/components/ui/animated-number'
 
 const statusColor: Record<string, string> = {
   confirmed: 'text-emerald-400 bg-emerald-400/10 border-emerald-400/20',
@@ -81,7 +82,7 @@ export default function AdminOverviewPage() {
                   </div>
                 </div>
                 <p className="text-2xl font-semibold tracking-tight">
-                  {isLoading ? <span className="animate-pulse text-muted-foreground">–</span> : card.value}
+                  {isLoading ? <span className="animate-pulse text-muted-foreground">–</span> : <AnimatedNumber value={card.value} />}
                 </p>
               </div>
             </Link>

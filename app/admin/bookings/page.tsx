@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
-import { Loader2 } from 'lucide-react'
+import { Loader2, CheckCircle2, XCircle } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
@@ -23,22 +23,29 @@ const statusColor: Record<string, string> = {
   no_show: 'text-white/40 bg-white/5 border-white/10',
 }
 
+const RATE_PER_HOUR = 35 // CHF
+
+function calcAmount(service: any): number {
+  if (!service || service.price === 0) return 0
+  const duration = service.duration_minutes ?? 60
+  return Math.round((duration / 60) * RATE_PER_HOUR * 100) / 100
+}
+
 export default function AdminBookingsPage() {
-  const [bookings, setBookings] = useState<Booking[]>([])
-  const [isLoading, setIsLoading] = useState(true)
+  const [bookings, setBookings]     = useState<Booking[]>([])
+  const [isLoading, setIsLoading]   = useState(true)
   const [statusFilter, setStatusFilter] = useState<string>('all')
   const [updatingId, setUpdatingId] = useState<string | null>(null)
+  const [togglingId, setTogglingId] = useState<string | null>(null)
 
   const fetchBookings = async () => {
     const supabase = createClient()
     let query = supabase
       .from('bookings')
-      .select('*, profiles(full_name, email, phone, customer_status), services(title, price)')
+      .select('*, profiles(full_name, email, phone, customer_status), services(title, price, duration_minutes)')
       .order('booking_date', { ascending: false })
-      .order('start_time', { ascending: false })
-
+      .order('start_time',   { ascending: false })
     if (statusFilter !== 'all') query = query.eq('status', statusFilter)
-
     const { data } = await query
     setBookings((data as Booking[]) ?? [])
     setIsLoading(false)
@@ -54,11 +61,28 @@ export default function AdminBookingsPage() {
     setUpdatingId(null)
   }
 
+  const togglePaid = async (booking: Booking) => {
+    setTogglingId(booking.id)
+    const supabase = createClient()
+    const service = (booking as any).services
+    const nowPaid = !(booking.paid ?? false)
+    await supabase.from('bookings').update({
+      paid: nowPaid,
+      paid_amount: nowPaid ? calcAmount(service) : 0,
+    }).eq('id', booking.id)
+    await fetchBookings()
+    setTogglingId(null)
+  }
+
   return (
     <div>
-      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }} className="mb-8">
+      <motion.div
+        initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        className="mb-8"
+      >
         <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Buchungen</h1>
-        <p className="text-muted-foreground mt-1">Alle Buchungen verwalten und Status ändern.</p>
+        <p className="text-muted-foreground mt-1">Buchungen verwalten, Status und Bezahlung tracken.</p>
       </motion.div>
 
       {/* Filters */}
@@ -80,7 +104,9 @@ export default function AdminBookingsPage() {
       {/* Table */}
       <div className="bg-card rounded-xl border border-border overflow-hidden">
         {isLoading ? (
-          <div className="p-6 space-y-3">{[1,2,3,4].map(i => <div key={i} className="h-16 bg-secondary rounded-xl animate-pulse" />)}</div>
+          <div className="p-6 space-y-3">
+            {[1,2,3,4].map(i => <div key={i} className="h-16 bg-secondary rounded-xl animate-pulse" />)}
+          </div>
         ) : bookings.length === 0 ? (
           <div className="p-10 text-center text-muted-foreground">Keine Buchungen gefunden.</div>
         ) : (
@@ -92,44 +118,84 @@ export default function AdminBookingsPage() {
                   <th className="text-left p-4 text-xs font-medium text-muted-foreground uppercase tracking-wide">Angebot</th>
                   <th className="text-left p-4 text-xs font-medium text-muted-foreground uppercase tracking-wide">Datum &amp; Zeit</th>
                   <th className="text-left p-4 text-xs font-medium text-muted-foreground uppercase tracking-wide">Status</th>
+                  <th className="text-left p-4 text-xs font-medium text-muted-foreground uppercase tracking-wide">Bezahlung</th>
                   <th className="text-left p-4 text-xs font-medium text-muted-foreground uppercase tracking-wide">Aktionen</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
-                {bookings.map((booking) => {
-                  const profile = (booking as any).profiles
-                  const service = (booking as any).services
-                  const isNew = profile?.customer_status === 'new'
+                {bookings.map((booking, i) => {
+                  const profile  = (booking as any).profiles
+                  const service  = (booking as any).services
+                  const isNew    = profile?.customer_status === 'new'
+                  const isPaid   = booking.paid ?? false
+                  const amount   = booking.paid_amount ?? calcAmount(service)
+                  const isFree   = service?.price === 0
+
                   return (
-                    <tr key={booking.id} className="hover:bg-secondary/30 transition-colors">
+                    <motion.tr
+                      key={booking.id}
+                      initial={{ opacity: 0, y: 4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3, delay: i * 0.03, ease: [0.22, 1, 0.36, 1] }}
+                      className="hover:bg-secondary/30 transition-colors"
+                    >
+                      {/* Kunde */}
                       <td className="p-4">
-                        <div className="flex items-center gap-2">
-                          <div>
-                            <div className="flex items-center gap-1.5">
-                              <p className="font-medium">{profile?.full_name ?? 'Unbekannt'}</p>
-                              {isNew && (
-                                <span className="text-xs bg-amber-400/10 text-amber-400 border border-amber-400/20 px-1.5 py-0.5 rounded-full font-semibold">
-                                  Neu
-                                </span>
-                              )}
-                            </div>
-                            <p className="text-xs text-muted-foreground">{profile?.email ?? '–'}</p>
-                          </div>
+                        <div className="flex items-center gap-1.5">
+                          <p className="font-medium">{profile?.full_name ?? 'Unbekannt'}</p>
+                          {isNew && (
+                            <span className="text-xs bg-amber-400/10 text-amber-400 border border-amber-400/20 px-1.5 py-0.5 rounded-full font-semibold">Neu</span>
+                          )}
                         </div>
+                        <p className="text-xs text-muted-foreground">{profile?.email ?? '–'}</p>
                       </td>
+
+                      {/* Angebot */}
                       <td className="p-4">
-                        <p className="font-medium truncate max-w-[180px]">{service?.title ?? '–'}</p>
-                        <p className="text-xs text-muted-foreground">{service?.price === 0 ? 'Gratis' : `CHF ${service?.price}`}</p>
+                        <p className="font-medium truncate max-w-[160px]">{service?.title ?? '–'}</p>
+                        <p className="text-xs text-muted-foreground">
+                          {isFree ? 'Gratis' : `CHF ${calcAmount(service).toFixed(2)}`} · {service?.duration_minutes ?? '?'} Min.
+                        </p>
                       </td>
+
+                      {/* Datum */}
                       <td className="p-4">
                         <p className="font-medium">{format(new Date(booking.booking_date), 'dd. MMM yyyy', { locale: de })}</p>
                         <p className="text-xs text-muted-foreground">{booking.start_time.slice(0,5)} Uhr</p>
                       </td>
+
+                      {/* Status */}
                       <td className="p-4">
                         <span className={`text-xs font-semibold px-2.5 py-1 rounded-full border ${statusColor[booking.status]}`}>
                           {statusLabel[booking.status]}
                         </span>
                       </td>
+
+                      {/* Bezahlung */}
+                      <td className="p-4">
+                        {isFree ? (
+                          <span className="text-xs text-muted-foreground/50">Gratis</span>
+                        ) : togglingId === booking.id ? (
+                          <Loader2 className="w-4 h-4 animate-spin text-muted-foreground" />
+                        ) : (
+                          <button
+                            onClick={() => togglePaid(booking)}
+                            className={[
+                              'flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full border transition-all',
+                              isPaid
+                                ? 'text-emerald-400 bg-emerald-400/10 border-emerald-400/20 hover:bg-emerald-400/20'
+                                : 'text-red-400 bg-red-400/10 border-red-400/20 hover:bg-red-400/20',
+                            ].join(' ')}
+                          >
+                            {isPaid
+                              ? <><CheckCircle2 className="w-3 h-3" /> CHF {(booking.paid_amount ?? calcAmount(service)).toFixed(2)}</>
+                              : <><XCircle className="w-3 h-3" /> Offen</>
+                            }
+                          </button>
+                        )}
+                      </td>
+
+                      {/* Aktionen */}
                       <td className="p-4">
                         <div className="flex items-center gap-2">
                           {updatingId === booking.id ? (
@@ -148,12 +214,12 @@ export default function AdminBookingsPage() {
                               </SelectContent>
                             </Select>
                           )}
-                          <Link href={`/admin/customers/${(booking as any).profiles?.id ?? ''}`}>
+                          <Link href={`/admin/customers/${profile?.id ?? ''}`}>
                             <Button variant="ghost" size="sm" className="text-xs h-8">Profil</Button>
                           </Link>
                         </div>
                       </td>
-                    </tr>
+                    </motion.tr>
                   )
                 })}
               </tbody>

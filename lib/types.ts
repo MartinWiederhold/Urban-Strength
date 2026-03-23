@@ -55,6 +55,8 @@ export interface Booking {
   health_conditions: string | null
   how_found_us: string | null
   notes: string | null
+  paid: boolean
+  paid_amount: number
   created_at: string
   updated_at: string
   profiles?: Profile
