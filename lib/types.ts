@@ -36,6 +36,7 @@ export interface Availability {
   is_available: boolean
   recurring_weekly: boolean
   day_of_week: number | null
+  recurring_end_date: string | null
   created_at: string
 }
 

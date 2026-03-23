@@ -1,22 +1,25 @@
 'use client'
 
 import { useEffect, useState, useRef, useCallback } from 'react'
-import { motion } from 'framer-motion'
-import { ChevronLeft, ChevronRight, Loader2, Trash2, RefreshCw } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { ChevronLeft, ChevronRight, Loader2, Trash2, RefreshCw, X, CalendarDays, RotateCcw } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 import { createClient } from '@/lib/supabase/client'
 import type { Availability } from '@/lib/types'
 import {
   format, addDays, startOfWeek, isSameDay, getDay,
-  startOfDay, isBefore,
+  startOfDay, isBefore, parseISO,
 } from 'date-fns'
 import { de } from 'date-fns/locale'
 
 // ── Time grid constants ─────────────────────────────────────────────────────
-const HOUR_START = 6   // 06:00
-const HOUR_END   = 22  // 22:00
-const HOUR_PX    = 56  // px per hour
+const HOUR_START = 6
+const HOUR_END   = 22
+const HOUR_PX    = 56
 const TOTAL_H    = (HOUR_END - HOUR_START) * HOUR_PX
 const HOURS      = Array.from({ length: HOUR_END - HOUR_START }, (_, i) => HOUR_START + i)
+
+const DOW_LABELS = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag']
 
 function snapHalf(h: number) { return Math.round(h * 2) / 2 }
 function hourToTime(h: number): string {
@@ -29,21 +32,27 @@ function timeToHour(t: string): number {
   return hh + mm / 60
 }
 
-// ── Types ───────────────────────────────────────────────────────────────────
 interface DragState {
   dayIndex: number
   startY: number
   currentY: number
 }
 
+interface EditState {
+  slot: Availability
+  recurring: boolean
+  endDate: string
+}
+
 export default function AvailabilityPage() {
-  const [slots, setSlots]         = useState<Availability[]>([])
-  const [isLoading, setIsLoading] = useState(true)
+  const [slots, setSlots]           = useState<Availability[]>([])
+  const [isLoading, setIsLoading]   = useState(true)
   const [deletingId, setDeletingId] = useState<string | null>(null)
-  const [isSaving, setIsSaving]   = useState(false)
-  const [msg, setMsg]             = useState<{ text: string; ok: boolean } | null>(null)
-  const [weekStart, setWeekStart] = useState(() => startOfWeek(new Date(), { weekStartsOn: 1 }))
-  const [drag, setDrag]           = useState<DragState | null>(null)
+  const [isSaving, setIsSaving]     = useState(false)
+  const [msg, setMsg]               = useState<{ text: string; ok: boolean } | null>(null)
+  const [weekStart, setWeekStart]   = useState(() => startOfWeek(new Date(), { weekStartsOn: 1 }))
+  const [drag, setDrag]             = useState<DragState | null>(null)
+  const [edit, setEdit]             = useState<EditState | null>(null)
   const colRefs = useRef<(HTMLDivElement | null)[]>([])
 
   // ── Data ─────────────────────────────────────────────────────────────────
@@ -63,18 +72,54 @@ export default function AvailabilityPage() {
   const getSlotsForDay = (day: Date): Availability[] => {
     const dateStr = format(day, 'yyyy-MM-dd')
     const dow = getDay(day)
-    return slots.filter(s =>
-      s.date === dateStr || (s.recurring_weekly && s.day_of_week === dow)
-    ).sort((a, b) => a.start_time.localeCompare(b.start_time))
+    return slots.filter(s => {
+      if (s.date === dateStr) return true
+      if (s.recurring_weekly && s.day_of_week === dow) {
+        // Don't show before creation date
+        if (dateStr < s.date) return false
+        // Don't show after end date
+        if (s.recurring_end_date && dateStr > s.recurring_end_date) return false
+        return true
+      }
+      return false
+    }).sort((a, b) => a.start_time.localeCompare(b.start_time))
+  }
+
+  // ── Open edit modal ───────────────────────────────────────────────────────
+  const openEdit = (e: React.MouseEvent, slot: Availability) => {
+    e.stopPropagation()
+    setEdit({
+      slot,
+      recurring: slot.recurring_weekly,
+      endDate: slot.recurring_end_date ?? '',
+    })
+  }
+
+  // ── Save edits ────────────────────────────────────────────────────────────
+  const handleSave = async () => {
+    if (!edit) return
+    setIsSaving(true)
+    const supabase = createClient()
+    const dow = getDay(parseISO(edit.slot.date))
+    await supabase.from('availability').update({
+      recurring_weekly:  edit.recurring,
+      day_of_week:       edit.recurring ? dow : null,
+      recurring_end_date: edit.recurring && edit.endDate ? edit.endDate : null,
+    }).eq('id', edit.slot.id)
+    setMsg({ text: 'Gespeichert!', ok: true })
+    setTimeout(() => setMsg(null), 3000)
+    setEdit(null)
+    await load()
+    setIsSaving(false)
   }
 
   // ── Delete ────────────────────────────────────────────────────────────────
-  const handleDelete = async (e: React.MouseEvent, slot: Availability) => {
-    e.stopPropagation()
-    const msg = slot.recurring_weekly
+  const handleDelete = async (slot: Availability) => {
+    const confirmMsg = slot.recurring_weekly
       ? 'Wöchentlich wiederkehrenden Slot löschen? Dieser Slot wird von allen zukünftigen Wochen entfernt.'
       : 'Slot löschen?'
-    if (!confirm(msg)) return
+    if (!confirm(confirmMsg)) return
+    setEdit(null)
     setDeletingId(slot.id)
     const supabase = createClient()
     await supabase.from('availability').update({ is_available: false }).eq('id', slot.id)
@@ -109,7 +154,7 @@ export default function AvailabilityPage() {
 
     const minY = Math.min(startY, currentY)
     const maxY = Math.max(startY, currentY)
-    if (maxY - minY < 8) return // too small → ignore
+    if (maxY - minY < 8) return
 
     let startH = HOUR_START + (minY / TOTAL_H) * (HOUR_END - HOUR_START)
     let endH   = HOUR_START + (maxY / TOTAL_H) * (HOUR_END - HOUR_START)
@@ -128,6 +173,7 @@ export default function AvailabilityPage() {
     const { error } = await supabase.from('availability').insert({
       date: dateStr, start_time: startTime, end_time: endTime,
       is_available: true, recurring_weekly: false, day_of_week: null,
+      recurring_end_date: null,
     })
     setMsg(error
       ? { text: 'Fehler beim Erstellen.', ok: false }
@@ -149,7 +195,6 @@ export default function AvailabilityPage() {
     }
   }, [drag, onMouseMove, onMouseUp])
 
-  // Drag preview
   const getDragRect = (dayIndex: number) => {
     if (!drag || drag.dayIndex !== dayIndex) return null
     const top    = Math.min(drag.startY, drag.currentY)
@@ -171,7 +216,7 @@ export default function AvailabilityPage() {
       >
         <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Verfügbarkeit</h1>
         <p className="text-muted-foreground mt-1">
-          Klicken &amp; ziehen zum Erstellen · Auf Slot klicken zum Löschen
+          Klicken &amp; ziehen zum Erstellen · Auf Slot klicken zum Bearbeiten
         </p>
       </motion.div>
 
@@ -223,7 +268,7 @@ export default function AvailabilityPage() {
       <div className="flex items-center gap-5 mb-5 text-xs text-muted-foreground">
         <span className="flex items-center gap-1.5">
           <span className="w-3 h-3 rounded bg-[#29C46A] inline-block" />
-          Verfügbar – einmalig
+          Einmalig
         </span>
         <span className="flex items-center gap-1.5">
           <span className="w-3 h-3 rounded bg-[#1aaa58] inline-block opacity-70" />
@@ -290,10 +335,10 @@ export default function AvailabilityPage() {
 
               {/* Day columns */}
               {weekDays.map((day, dayIndex) => {
-                const daySlots  = getSlotsForDay(day)
-                const dragRect  = getDragRect(dayIndex)
-                const isToday   = isSameDay(day, new Date())
-                const isPast    = isBefore(startOfDay(day), today) && !isToday
+                const daySlots = getSlotsForDay(day)
+                const dragRect = getDragRect(dayIndex)
+                const isToday  = isSameDay(day, new Date())
+                const isPast   = isBefore(startOfDay(day), today) && !isToday
 
                 return (
                   <div
@@ -332,9 +377,8 @@ export default function AvailabilityPage() {
 
                     {/* Slots */}
                     {daySlots.map(slot => {
-                      const startH = timeToHour(slot.start_time)
-                      const endH   = timeToHour(slot.end_time)
-                      // Clip to visible range
+                      const startH   = timeToHour(slot.start_time)
+                      const endH     = timeToHour(slot.end_time)
                       const visStart = Math.max(startH, HOUR_START)
                       const visEnd   = Math.min(endH, HOUR_END)
                       if (visEnd <= visStart) return null
@@ -354,7 +398,7 @@ export default function AvailabilityPage() {
                             background: isRec ? 'rgba(26,170,88,0.85)' : '#29C46A',
                             border: `1px solid ${isRec ? '#17964d' : '#1FB85A'}`,
                           }}
-                          onClick={e => handleDelete(e, slot)}
+                          onClick={e => openEdit(e, slot)}
                         >
                           <div className="flex items-start justify-between p-1 h-full">
                             <div className="text-[9px] font-semibold text-white leading-tight">
@@ -365,7 +409,7 @@ export default function AvailabilityPage() {
                             <span className="opacity-0 group-hover:opacity-100 transition-opacity pt-0.5">
                               {isDel
                                 ? <Loader2 className="w-3 h-3 animate-spin text-white" />
-                                : <Trash2  className="w-3 h-3 text-white/80" />
+                                : <CalendarDays className="w-3 h-3 text-white/80" />
                               }
                             </span>
                           </div>
@@ -382,9 +426,146 @@ export default function AvailabilityPage() {
 
       {/* Footer note */}
       <p className="text-xs text-muted-foreground mt-3">
-        Slots mit ↻ sind wöchentlich wiederkehrend und erscheinen auf jedem passenden Wochentag.
-        Klicken löscht den Slot dauerhaft (alle zukünftigen Wochen).
+        Slots mit ↻ sind wöchentlich wiederkehrend. Auf einen Slot klicken zum Bearbeiten oder Löschen.
       </p>
+
+      {/* ── Edit Modal ─────────────────────────────────────────────────────── */}
+      <AnimatePresence>
+        {edit && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4"
+            onClick={() => setEdit(null)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 8 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 8 }}
+              transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+              className="bg-card border border-border rounded-2xl p-6 w-full max-w-sm shadow-2xl"
+              onClick={e => e.stopPropagation()}
+            >
+              {/* Modal header */}
+              <div className="flex items-start justify-between mb-5">
+                <div>
+                  <h3 className="font-bold text-lg leading-tight">Slot bearbeiten</h3>
+                  <p className="text-sm text-muted-foreground mt-0.5">
+                    {edit.slot.start_time.slice(0, 5)} – {edit.slot.end_time.slice(0, 5)} Uhr
+                    {' · '}
+                    {format(parseISO(edit.slot.date), 'EEE dd. MMM yyyy', { locale: de })}
+                  </p>
+                </div>
+                <button
+                  onClick={() => setEdit(null)}
+                  className="p-1.5 rounded-lg hover:bg-secondary transition-colors text-muted-foreground hover:text-foreground"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              {/* Recurring toggle */}
+              <div className="mb-5">
+                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2">Wiederholung</p>
+                <div className="grid grid-cols-2 gap-2 p-1 bg-secondary/50 rounded-xl">
+                  <button
+                    onClick={() => setEdit(prev => prev ? { ...prev, recurring: false, endDate: '' } : prev)}
+                    className={[
+                      'flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg text-sm font-medium transition-all',
+                      !edit.recurring
+                        ? 'bg-card text-foreground shadow-sm'
+                        : 'text-muted-foreground hover:text-foreground',
+                    ].join(' ')}
+                  >
+                    <CalendarDays className="w-3.5 h-3.5" />
+                    Einmalig
+                  </button>
+                  <button
+                    onClick={() => setEdit(prev => prev ? { ...prev, recurring: true } : prev)}
+                    className={[
+                      'flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg text-sm font-medium transition-all',
+                      edit.recurring
+                        ? 'bg-[#29C46A]/10 text-[#29C46A] shadow-sm border border-[#29C46A]/20'
+                        : 'text-muted-foreground hover:text-foreground',
+                    ].join(' ')}
+                  >
+                    <RotateCcw className="w-3.5 h-3.5" />
+                    Jeden {DOW_LABELS[getDay(parseISO(edit.slot.date))]}
+                  </button>
+                </div>
+              </div>
+
+              {/* End date (only for recurring) */}
+              <AnimatePresence>
+                {edit.recurring && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="overflow-hidden mb-5"
+                  >
+                    <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2">
+                      Wiederholen bis (optional)
+                    </p>
+                    <input
+                      type="date"
+                      value={edit.endDate}
+                      min={format(addDays(parseISO(edit.slot.date), 7), 'yyyy-MM-dd')}
+                      onChange={e => setEdit(prev => prev ? { ...prev, endDate: e.target.value } : prev)}
+                      className="w-full bg-secondary border border-border rounded-xl px-3 py-2.5 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-ring"
+                    />
+                    {edit.endDate && (
+                      <p className="text-xs text-muted-foreground mt-1.5">
+                        Letzter Slot: {format(parseISO(edit.endDate), 'EEE, dd. MMMM yyyy', { locale: de })}
+                      </p>
+                    )}
+                    {!edit.endDate && (
+                      <p className="text-xs text-muted-foreground mt-1.5">
+                        Kein Enddatum → wiederholt sich unbegrenzt
+                      </p>
+                    )}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Actions */}
+              <div className="flex gap-2">
+                <button
+                  onClick={() => handleDelete(edit.slot)}
+                  disabled={deletingId === edit.slot.id}
+                  className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-red-400/10 hover:bg-red-400/20 text-red-400 text-sm font-medium transition-all border border-red-400/20"
+                >
+                  {deletingId === edit.slot.id
+                    ? <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                    : <Trash2 className="w-3.5 h-3.5" />
+                  }
+                  Löschen
+                </button>
+                <div className="flex-1" />
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setEdit(null)}
+                  className="text-muted-foreground"
+                >
+                  Abbrechen
+                </Button>
+                <Button
+                  size="sm"
+                  onClick={handleSave}
+                  disabled={isSaving}
+                  className="bg-[#29C46A] hover:bg-[#24b060] text-white border-0"
+                >
+                  {isSaving ? <Loader2 className="w-3.5 h-3.5 animate-spin mr-1.5" /> : null}
+                  Speichern
+                </Button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }
