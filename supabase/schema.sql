@@ -95,6 +95,18 @@ CREATE TABLE IF NOT EXISTS admin_online_status (
 );
 
 -- =============================================
+-- HELPER FUNCTION: Admin-Check (SECURITY DEFINER)
+-- Bypasses RLS so keine Rekursion entsteht wenn profiles-Policies
+-- prüfen ob der aktuelle User Admin ist.
+-- =============================================
+CREATE OR REPLACE FUNCTION is_admin()
+RETURNS BOOLEAN AS $$
+  SELECT EXISTS (
+    SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin'
+  );
+$$ LANGUAGE sql SECURITY DEFINER STABLE;
+
+-- =============================================
 -- ROW LEVEL SECURITY
 -- =============================================
 
@@ -102,8 +114,8 @@ CREATE TABLE IF NOT EXISTS admin_online_status (
 ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Users can view own profile" ON profiles FOR SELECT USING (auth.uid() = id);
 CREATE POLICY "Users can update own profile" ON profiles FOR UPDATE USING (auth.uid() = id) WITH CHECK (auth.uid() = id AND role = 'customer');
-CREATE POLICY "Admin can view all profiles" ON profiles FOR SELECT USING (EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin'));
-CREATE POLICY "Admin can manage all profiles" ON profiles FOR ALL USING (EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin'));
+CREATE POLICY "Admin can view all profiles" ON profiles FOR SELECT USING (is_admin());
+CREATE POLICY "Admin can manage all profiles" ON profiles FOR ALL USING (is_admin());
 CREATE POLICY "Allow insert own profile" ON profiles FOR INSERT WITH CHECK (auth.uid() = id);
 
 -- Bookings RLS
@@ -111,7 +123,7 @@ ALTER TABLE bookings ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Customers see own bookings" ON bookings FOR SELECT USING (customer_id = auth.uid());
 CREATE POLICY "Customers can create bookings" ON bookings FOR INSERT WITH CHECK (customer_id = auth.uid());
 CREATE POLICY "Customers can update own bookings" ON bookings FOR UPDATE USING (customer_id = auth.uid());
-CREATE POLICY "Admin full access bookings" ON bookings FOR ALL USING (EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin'));
+CREATE POLICY "Admin full access bookings" ON bookings FOR ALL USING (is_admin());
 
 -- Chat RLS
 ALTER TABLE chat_messages ENABLE ROW LEVEL SECURITY;
@@ -122,17 +134,17 @@ CREATE POLICY "Mark as read" ON chat_messages FOR UPDATE USING (receiver_id = au
 -- Availability RLS
 ALTER TABLE availability ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Anyone can view availability" ON availability FOR SELECT USING (true);
-CREATE POLICY "Admin manages availability" ON availability FOR ALL USING (EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin'));
+CREATE POLICY "Admin manages availability" ON availability FOR ALL USING (is_admin());
 
 -- Training Plans RLS
 ALTER TABLE training_plans ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Customers see own plans" ON training_plans FOR SELECT USING (customer_id = auth.uid());
-CREATE POLICY "Admin full access plans" ON training_plans FOR ALL USING (EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin'));
+CREATE POLICY "Admin full access plans" ON training_plans FOR ALL USING (is_admin());
 
 -- Services RLS
 ALTER TABLE services ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Anyone can view services" ON services FOR SELECT USING (true);
-CREATE POLICY "Admin manages services" ON services FOR ALL USING (EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin'));
+CREATE POLICY "Admin manages services" ON services FOR ALL USING (is_admin());
 
 -- Admin Online Status RLS
 ALTER TABLE admin_online_status ENABLE ROW LEVEL SECURITY;

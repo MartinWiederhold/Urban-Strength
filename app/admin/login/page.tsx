@@ -28,13 +28,19 @@ export default function AdminLoginPage() {
         return
       }
 
-      const { data: profile } = await supabase
+      const { data: profile, error: profileError } = await supabase
         .from('profiles')
         .select('role')
         .eq('id', data.user.id)
         .single()
 
-      if (profile?.role !== 'admin') {
+      if (profileError || !profile) {
+        await supabase.auth.signOut()
+        setError('Kein Profil gefunden. Bitte prüfe die Supabase-Konfiguration.')
+        return
+      }
+
+      if (profile.role !== 'admin') {
         await supabase.auth.signOut()
         setError('Kein Zugriff. Dieses Login ist nur für Admins.')
         return
