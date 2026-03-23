@@ -5,7 +5,12 @@ import { motion } from 'framer-motion'
 import { ChevronLeft, ChevronRight, Clock } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import type { Availability } from '@/lib/types'
-import { format, addMonths, subMonths, startOfMonth, endOfMonth, eachDayOfInterval, isSameDay, isToday, isPast, startOfDay } from 'date-fns'
+import {
+  format, addMonths, subMonths,
+  startOfMonth, endOfMonth, eachDayOfInterval,
+  startOfWeek, endOfWeek,
+  isSameDay, isSameMonth, isToday, isBefore, startOfDay, getDay,
+} from 'date-fns'
 import { de } from 'date-fns/locale'
 
 interface AvailabilityCalendarProps {
@@ -13,168 +18,186 @@ interface AvailabilityCalendarProps {
   selectedSlot: Availability | null
 }
 
+function getSlotsForDate(
+  date: Date,
+  specific: Availability[],
+  recurring: Availability[],
+  bookedKeys: Set<string>,
+): Availability[] {
+  const dateStr = format(date, 'yyyy-MM-dd')
+  const dow = getDay(date)
+  const result: Availability[] = []
+
+  for (const s of specific) {
+    if (s.date === dateStr && !bookedKeys.has(`${dateStr}-${s.start_time}`)) {
+      result.push(s)
+    }
+  }
+  for (const s of recurring) {
+    if (s.day_of_week === dow && !bookedKeys.has(`${dateStr}-${s.start_time}`)) {
+      result.push({ ...s, date: dateStr })
+    }
+  }
+  return result.sort((a, b) => a.start_time.localeCompare(b.start_time))
+}
+
 export default function AvailabilityCalendar({ onSelectSlot, selectedSlot }: AvailabilityCalendarProps) {
   const [currentMonth, setCurrentMonth] = useState(new Date())
-  const [availability, setAvailability] = useState<Availability[]>([])
+  const [specific, setSpecific] = useState<Availability[]>([])
+  const [recurring, setRecurring] = useState<Availability[]>([])
+  const [bookedKeys, setBookedKeys] = useState<Set<string>>(new Set())
   const [selectedDay, setSelectedDay] = useState<Date | null>(null)
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    const fetchAvailability = async () => {
-      setIsLoading(true)
+    const load = async () => {
       const supabase = createClient()
-      const start = format(startOfMonth(currentMonth), 'yyyy-MM-dd')
-      const end = format(endOfMonth(currentMonth), 'yyyy-MM-dd')
-
-      const { data } = await supabase
-        .from('availability')
-        .select('*')
-        .eq('is_available', true)
-        .or(`date.gte.${start},recurring_weekly.eq.true`)
-        .lte('date', end)
-        .order('date', { ascending: true })
-        .order('start_time', { ascending: true })
-
-      setAvailability(data ?? [])
+      const [availRes, bookingsRes] = await Promise.all([
+        supabase.from('availability').select('*').eq('is_available', true),
+        supabase.from('bookings').select('booking_date,start_time').in('status', ['confirmed', 'completed']),
+      ])
+      const all = (availRes.data ?? []) as Availability[]
+      setSpecific(all.filter(s => !s.recurring_weekly))
+      setRecurring(all.filter(s => s.recurring_weekly))
+      const keys = new Set<string>()
+      ;(bookingsRes.data ?? []).forEach((b: any) => keys.add(`${b.booking_date}-${b.start_time}`))
+      setBookedKeys(keys)
       setIsLoading(false)
     }
-    fetchAvailability()
-  }, [currentMonth])
+    load()
+  }, [])
+
+  const today = startOfDay(new Date())
 
   const days = eachDayOfInterval({
-    start: startOfMonth(currentMonth),
-    end: endOfMonth(currentMonth),
+    start: startOfWeek(startOfMonth(currentMonth), { weekStartsOn: 1 }),
+    end: endOfWeek(endOfMonth(currentMonth), { weekStartsOn: 1 }),
   })
 
-  const getAvailableSlots = (date: Date): Availability[] => {
-    const dateStr = format(date, 'yyyy-MM-dd')
-    const dayOfWeek = date.getDay()
-    return availability.filter(slot =>
-      (slot.date === dateStr) ||
-      (slot.recurring_weekly && slot.day_of_week === dayOfWeek)
-    )
-  }
+  const hasSlots = (d: Date) =>
+    !isBefore(d, today) && getSlotsForDate(d, specific, recurring, bookedKeys).length > 0
 
-  const hasAvailability = (date: Date): boolean => {
-    if (isPast(startOfDay(date)) && !isToday(date)) return false
-    return getAvailableSlots(date).length > 0
-  }
-
-  const daySlots = selectedDay ? getAvailableSlots(selectedDay) : []
+  const daySlots = selectedDay
+    ? getSlotsForDate(selectedDay, specific, recurring, bookedKeys)
+    : []
 
   return (
-    <div className="space-y-6">
-      {/* Calendar Header */}
+    <div className="space-y-5">
+      {/* Month navigation */}
       <div className="flex items-center justify-between">
-        <h3 className="font-semibold text-lg">
+        <h3 className="font-semibold text-lg capitalize">
           {format(currentMonth, 'MMMM yyyy', { locale: de })}
         </h3>
         <div className="flex gap-1">
           <button
             onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}
-            className="p-2 rounded-lg hover:bg-muted transition-colors"
-            aria-label="Vorheriger Monat"
+            className="p-2 rounded-lg hover:bg-secondary transition-colors"
           >
-            <ChevronLeft className="w-5 h-5" />
+            <ChevronLeft className="w-4 h-4" />
           </button>
           <button
             onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}
-            className="p-2 rounded-lg hover:bg-muted transition-colors"
-            aria-label="Nächster Monat"
+            className="p-2 rounded-lg hover:bg-secondary transition-colors"
           >
-            <ChevronRight className="w-5 h-5" />
+            <ChevronRight className="w-4 h-4" />
           </button>
         </div>
       </div>
 
-      {/* Weekday Headers */}
-      <div className="grid grid-cols-7 gap-1">
-        {['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'].map(day => (
-          <div key={day} className="text-center text-xs font-medium text-muted-foreground py-2">
-            {day}
-          </div>
+      {/* Weekday headers */}
+      <div className="grid grid-cols-7">
+        {['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'].map(d => (
+          <p key={d} className="text-center text-xs font-medium text-muted-foreground py-1">{d}</p>
         ))}
       </div>
 
-      {/* Days Grid */}
-      <div className="grid grid-cols-7 gap-1">
-        {/* Empty cells for month start offset */}
-        {Array.from({ length: (days[0].getDay() + 6) % 7 }).map((_, i) => (
-          <div key={`empty-${i}`} />
-        ))}
-        {days.map(day => {
-          const available = hasAvailability(day)
-          const isSelected = selectedDay ? isSameDay(day, selectedDay) : false
-          const past = isPast(startOfDay(day)) && !isToday(day)
+      {/* Calendar grid */}
+      {isLoading ? (
+        <div className="h-52 rounded-xl bg-secondary animate-pulse" />
+      ) : (
+        <div className="grid grid-cols-7 gap-1">
+          {days.map(day => {
+            const inMonth = isSameMonth(day, currentMonth)
+            const avail = hasSlots(day)
+            const past = isBefore(day, today)
+            const sel = !!(selectedDay && isSameDay(day, selectedDay))
+            const tod = isToday(day)
 
-          return (
-            <button
-              key={day.toISOString()}
-              onClick={() => { if (available) setSelectedDay(day) }}
-              disabled={!available || past}
-              className={`
-                relative aspect-square rounded-lg text-sm font-medium transition-all
-                ${past ? 'opacity-30 cursor-not-allowed' : ''}
-                ${available && !past ? 'cursor-pointer' : ''}
-                ${isSelected ? 'bg-primary text-white shadow-medium' : ''}
-                ${available && !isSelected && !past ? 'bg-primary/10 text-primary hover:bg-primary/20' : ''}
-                ${!available && !past ? 'text-muted-foreground' : ''}
-                ${isToday(day) && !isSelected ? 'ring-2 ring-primary ring-offset-1' : ''}
-              `}
-            >
-              {format(day, 'd')}
-              {available && !past && (
-                <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-primary opacity-60" />
-              )}
-            </button>
-          )
-        })}
-      </div>
+            return (
+              <button
+                key={day.toISOString()}
+                disabled={!inMonth || past || !avail}
+                onClick={() => { if (avail && inMonth && !past) setSelectedDay(day) }}
+                className={[
+                  'relative flex flex-col items-center py-2.5 rounded-xl text-sm font-medium transition-all duration-150',
+                  !inMonth ? 'opacity-0 pointer-events-none' : '',
+                  inMonth && (past || !avail) ? 'text-muted-foreground/30 cursor-default' : '',
+                  sel ? 'bg-emerald-400 text-black' : '',
+                  !sel && avail && !past ? 'hover:bg-emerald-400/15 cursor-pointer' : '',
+                ].join(' ')}
+              >
+                <span className={tod && !sel ? 'text-primary font-bold' : ''}>{format(day, 'd')}</span>
+                {avail && !past && inMonth && (
+                  <span className={`w-1.5 h-1.5 rounded-full mt-0.5 ${sel ? 'bg-black/40' : 'bg-emerald-400'}`} />
+                )}
+              </button>
+            )
+          })}
+        </div>
+      )}
 
       {/* Legend */}
-      <div className="flex items-center gap-4 text-xs text-muted-foreground">
-        <div className="flex items-center gap-1.5">
-          <div className="w-3 h-3 rounded-sm bg-primary/10" />
-          <span>Verfügbar</span>
-        </div>
-        <div className="flex items-center gap-1.5">
-          <div className="w-3 h-3 rounded-sm bg-primary" />
-          <span>Ausgewählt</span>
-        </div>
+      <div className="flex items-center gap-5 text-xs text-muted-foreground">
+        <span className="flex items-center gap-1.5">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block" />
+          Verfügbar
+        </span>
+        <span className="flex items-center gap-1.5">
+          <span className="w-3 h-3 rounded-md bg-emerald-400 inline-block" />
+          Ausgewählt
+        </span>
+        <span className="flex items-center gap-1.5">
+          <span className="w-3 h-3 rounded-md bg-primary/30 inline-block" />
+          Heute
+        </span>
       </div>
 
-      {/* Time Slots */}
+      {/* Time slots */}
       {selectedDay && (
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
+          initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+          className="border-t border-border pt-5"
         >
-          <h4 className="font-medium mb-3 flex items-center gap-2">
-            <Clock className="w-4 h-4 text-primary" />
-            Uhrzeiten am {format(selectedDay, 'dd. MMMM yyyy', { locale: de })}
-          </h4>
-          {isLoading ? (
-            <div className="grid grid-cols-3 gap-2">
-              {[1,2,3].map(i => <div key={i} className="h-10 rounded-lg bg-muted animate-pulse" />)}
-            </div>
-          ) : daySlots.length === 0 ? (
+          <p className="text-sm font-semibold mb-4 flex items-center gap-2">
+            <Clock className="w-4 h-4 text-emerald-400" />
+            Verfügbare Zeiten — {format(selectedDay, 'EEEE, dd. MMMM', { locale: de })}
+          </p>
+          {daySlots.length === 0 ? (
             <p className="text-sm text-muted-foreground">Keine freien Zeiten an diesem Tag.</p>
           ) : (
-            <div className="grid grid-cols-3 gap-2">
-              {daySlots.map(slot => (
-                <button
-                  key={slot.id}
-                  onClick={() => onSelectSlot(slot)}
-                  className={`py-2.5 px-3 rounded-lg text-sm font-medium border transition-all ${
-                    selectedSlot?.id === slot.id
-                      ? 'bg-primary text-white border-primary shadow-soft'
-                      : 'border-border hover:border-primary hover:bg-primary/5'
-                  }`}
-                >
-                  {slot.start_time.slice(0, 5)}
-                </button>
-              ))}
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              {daySlots.map((slot, i) => {
+                const active =
+                  selectedSlot?.date === slot.date &&
+                  selectedSlot?.start_time === slot.start_time
+                return (
+                  <button
+                    key={i}
+                    onClick={() => onSelectSlot(slot)}
+                    className={[
+                      'flex items-center gap-2 px-3 py-2.5 rounded-xl border text-sm font-medium transition-all',
+                      active
+                        ? 'bg-emerald-400/20 border-emerald-400 text-emerald-400'
+                        : 'bg-emerald-400/5 border-emerald-400/20 text-emerald-400 hover:bg-emerald-400/15 hover:border-emerald-400/50',
+                    ].join(' ')}
+                  >
+                    <Clock className="w-3.5 h-3.5 shrink-0" />
+                    {slot.start_time.slice(0, 5)} Uhr
+                  </button>
+                )
+              })}
             </div>
           )}
         </motion.div>

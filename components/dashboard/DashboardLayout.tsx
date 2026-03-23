@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import {
   LayoutDashboard, Calendar, User, MessageCircle,
-  ClipboardList, LogOut, ChevronRight, Menu, X
+  ClipboardList, LogOut, Menu, X, PlusCircle,
 } from 'lucide-react'
 import { useState } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/button'
 
 const navItems = [
   { href: '/dashboard', label: 'Übersicht', icon: LayoutDashboard, exact: true },
+  { href: '/dashboard/book', label: 'Termin buchen', icon: PlusCircle },
   { href: '/dashboard/bookings', label: 'Meine Buchungen', icon: Calendar },
   { href: '/dashboard/profile', label: 'Mein Profil', icon: User },
   { href: '/dashboard/chat', label: 'Chat', icon: MessageCircle },
