@@ -101,11 +101,30 @@ export default function AvailabilityPage() {
     setIsSaving(true)
     const supabase = createClient()
     const dow = getDay(parseISO(edit.slot.date))
-    await supabase.from('availability').update({
-      recurring_weekly:  edit.recurring,
-      day_of_week:       edit.recurring ? dow : null,
+
+    // Try full update including recurring_end_date
+    let { error } = await supabase.from('availability').update({
+      recurring_weekly:   edit.recurring,
+      day_of_week:        edit.recurring ? dow : null,
       recurring_end_date: edit.recurring && edit.endDate ? edit.endDate : null,
     }).eq('id', edit.slot.id)
+
+    // Fallback: if recurring_end_date column doesn't exist yet, update without it
+    if (error) {
+      const fallback = await supabase.from('availability').update({
+        recurring_weekly: edit.recurring,
+        day_of_week:      edit.recurring ? dow : null,
+      }).eq('id', edit.slot.id)
+      error = fallback.error
+    }
+
+    if (error) {
+      setMsg({ text: 'Fehler beim Speichern: ' + error.message, ok: false })
+      setTimeout(() => setMsg(null), 5000)
+      setIsSaving(false)
+      return
+    }
+
     setMsg({ text: 'Gespeichert!', ok: true })
     setTimeout(() => setMsg(null), 3000)
     setEdit(null)
@@ -173,7 +192,6 @@ export default function AvailabilityPage() {
     const { error } = await supabase.from('availability').insert({
       date: dateStr, start_time: startTime, end_time: endTime,
       is_available: true, recurring_weekly: false, day_of_week: null,
-      recurring_end_date: null,
     })
     setMsg(error
       ? { text: 'Fehler beim Erstellen.', ok: false }
