@@ -11,7 +11,7 @@ import { de } from 'date-fns/locale'
 
 const typeIcon = { training: Dumbbell, nutrition: Apple, general: FileText }
 const typeLabel = { training: 'Trainingsplan', nutrition: 'Ernährungsplan', general: 'Allgemeiner Plan' }
-const typeColor = { training: 'bg-primary/10 text-primary', nutrition: 'bg-green-50 text-green-700', general: 'bg-blue-50 text-blue-700' }
+const typeColor = { training: 'bg-primary/10 text-primary', nutrition: 'bg-emerald-400/10 text-emerald-400', general: 'bg-white/5 text-white/60' }
 
 function PlanCard({ plan }: { plan: TrainingPlan }) {
   const [isOpen, setIsOpen] = useState(false)
@@ -22,7 +22,7 @@ function PlanCard({ plan }: { plan: TrainingPlan }) {
     <div className="rounded-2xl border border-border bg-card overflow-hidden">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between p-5 hover:bg-muted/50 transition-colors text-left"
+        className="w-full flex items-center justify-between p-5 hover:bg-secondary/50 transition-colors text-left"
       >
         <div className="flex items-center gap-3">
           <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${typeColor[plan.type]}`}>

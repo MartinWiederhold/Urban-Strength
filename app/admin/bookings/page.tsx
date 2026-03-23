@@ -16,11 +16,11 @@ const statusLabel: Record<string, string> = {
   rescheduled: 'Verschoben', no_show: 'Nicht erschienen',
 }
 const statusColor: Record<string, string> = {
-  confirmed: 'text-primary bg-primary/10 border-primary/20',
-  cancelled: 'text-destructive bg-destructive/10 border-destructive/20',
-  completed: 'text-green-700 bg-green-50 border-green-200',
-  rescheduled: 'text-orange-700 bg-orange-50 border-orange-200',
-  no_show: 'text-muted-foreground bg-muted border-border',
+  confirmed: 'text-emerald-400 bg-emerald-400/10 border-emerald-400/20',
+  cancelled: 'text-red-400 bg-red-400/10 border-red-400/20',
+  completed: 'text-emerald-400 bg-emerald-400/10 border-emerald-400/20',
+  rescheduled: 'text-amber-400 bg-amber-400/10 border-amber-400/20',
+  no_show: 'text-white/40 bg-white/5 border-white/10',
 }
 
 export default function AdminBookingsPage() {
@@ -64,7 +64,7 @@ export default function AdminBookingsPage() {
       {/* Filters */}
       <div className="flex gap-3 mb-6 flex-wrap">
         <Select value={statusFilter} onValueChange={setStatusFilter}>
-          <SelectTrigger className="w-44 bg-white">
+          <SelectTrigger className="w-44">
             <SelectValue placeholder="Status filtern" />
           </SelectTrigger>
           <SelectContent>
@@ -78,21 +78,21 @@ export default function AdminBookingsPage() {
       </div>
 
       {/* Table */}
-      <div className="bg-white rounded-2xl border border-border overflow-hidden">
+      <div className="bg-card rounded-xl border border-border overflow-hidden">
         {isLoading ? (
-          <div className="p-6 space-y-3">{[1,2,3,4].map(i => <div key={i} className="h-16 bg-muted rounded-xl animate-pulse" />)}</div>
+          <div className="p-6 space-y-3">{[1,2,3,4].map(i => <div key={i} className="h-16 bg-secondary rounded-xl animate-pulse" />)}</div>
         ) : bookings.length === 0 ? (
           <div className="p-10 text-center text-muted-foreground">Keine Buchungen gefunden.</div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-border bg-muted/30">
-                  <th className="text-left p-4 font-semibold text-muted-foreground">Kunde</th>
-                  <th className="text-left p-4 font-semibold text-muted-foreground">Angebot</th>
-                  <th className="text-left p-4 font-semibold text-muted-foreground">Datum &amp; Zeit</th>
-                  <th className="text-left p-4 font-semibold text-muted-foreground">Status</th>
-                  <th className="text-left p-4 font-semibold text-muted-foreground">Aktionen</th>
+                <tr className="border-b border-border bg-secondary/30">
+                  <th className="text-left p-4 text-xs font-medium text-muted-foreground uppercase tracking-wide">Kunde</th>
+                  <th className="text-left p-4 text-xs font-medium text-muted-foreground uppercase tracking-wide">Angebot</th>
+                  <th className="text-left p-4 text-xs font-medium text-muted-foreground uppercase tracking-wide">Datum &amp; Zeit</th>
+                  <th className="text-left p-4 text-xs font-medium text-muted-foreground uppercase tracking-wide">Status</th>
+                  <th className="text-left p-4 text-xs font-medium text-muted-foreground uppercase tracking-wide">Aktionen</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
@@ -101,14 +101,14 @@ export default function AdminBookingsPage() {
                   const service = (booking as any).services
                   const isNew = profile?.customer_status === 'new'
                   return (
-                    <tr key={booking.id} className="hover:bg-muted/20 transition-colors">
+                    <tr key={booking.id} className="hover:bg-secondary/30 transition-colors">
                       <td className="p-4">
                         <div className="flex items-center gap-2">
                           <div>
                             <div className="flex items-center gap-1.5">
                               <p className="font-medium">{profile?.full_name ?? 'Unbekannt'}</p>
                               {isNew && (
-                                <span className="text-xs bg-yellow-50 text-yellow-700 border border-yellow-200 px-1.5 py-0.5 rounded-full font-semibold">
+                                <span className="text-xs bg-amber-400/10 text-amber-400 border border-amber-400/20 px-1.5 py-0.5 rounded-full font-semibold">
                                   Neu
                                 </span>
                               )}

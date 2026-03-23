@@ -20,11 +20,11 @@ const statusLabel: Record<string, string> = {
 }
 
 const statusColor: Record<string, string> = {
-  confirmed: 'text-primary bg-primary/10',
-  cancelled: 'text-destructive bg-destructive/10',
-  completed: 'text-green-600 bg-green-50',
-  rescheduled: 'text-orange-600 bg-orange-50',
-  no_show: 'text-muted-foreground bg-muted',
+  confirmed: 'text-emerald-400 bg-emerald-400/10',
+  cancelled: 'text-red-400 bg-red-400/10',
+  completed: 'text-emerald-400 bg-emerald-400/10',
+  rescheduled: 'text-amber-400 bg-amber-400/10',
+  no_show: 'text-white/40 bg-white/5',
 }
 
 export default function DashboardPage() {
@@ -65,9 +65,9 @@ export default function DashboardPage() {
   }, [profile])
 
   const quickActions = [
-    { href: '/book/probe-training', label: 'Neuen Termin buchen', icon: Calendar, color: 'bg-primary/10 text-primary' },
-    { href: '/dashboard/chat', label: 'Chat öffnen', icon: MessageCircle, color: 'bg-blue-50 text-blue-600', badge: unreadCount },
-    { href: '/dashboard/plans', label: 'Trainingspläne', icon: ClipboardList, color: 'bg-secondary text-foreground', badge: planCount },
+    { href: '/book/probe-training', label: 'Neuen Termin buchen', icon: Calendar, color: 'bg-secondary text-muted-foreground' },
+    { href: '/dashboard/chat', label: 'Chat öffnen', icon: MessageCircle, color: 'bg-secondary text-muted-foreground', badge: unreadCount },
+    { href: '/dashboard/plans', label: 'Trainingspläne', icon: ClipboardList, color: 'bg-secondary text-muted-foreground', badge: planCount },
   ]
 
   return (

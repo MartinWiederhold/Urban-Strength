@@ -15,10 +15,10 @@ const statusLabel: Record<string, string> = {
   new: 'Neu', active: 'Aktiv', inactive: 'Inaktiv', vip: 'VIP',
 }
 const statusColor: Record<string, string> = {
-  new: 'text-yellow-700 bg-yellow-50 border-yellow-200',
-  active: 'text-primary bg-primary/10 border-primary/20',
-  inactive: 'text-muted-foreground bg-muted border-border',
-  vip: 'text-purple-700 bg-purple-50 border-purple-200',
+  new: 'text-amber-400 bg-amber-400/10 border-amber-400/20',
+  active: 'text-emerald-400 bg-emerald-400/10 border-emerald-400/20',
+  inactive: 'text-white/40 bg-white/5 border-white/10',
+  vip: 'text-purple-400 bg-purple-400/10 border-purple-400/20',
 }
 
 export default function AdminCustomersPage() {
@@ -57,7 +57,7 @@ export default function AdminCustomersPage() {
       {/* Search */}
       <div className="relative mb-6 max-w-sm">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-        <Input value={search} onChange={e => setSearch(e.target.value)} placeholder="Name, E-Mail oder Telefon..." className="pl-9 bg-white" />
+        <Input value={search} onChange={e => setSearch(e.target.value)} placeholder="Name, E-Mail oder Telefon..." className="pl-9" />
       </div>
 
       {/* Stats Row */}
@@ -65,8 +65,8 @@ export default function AdminCustomersPage() {
         {(['new', 'active', 'inactive', 'vip'] as const).map(s => {
           const count = customers.filter(c => c.customer_status === s).length
           return (
-            <div key={s} className="bg-white rounded-xl border border-border p-3 text-center">
-              <p className="text-2xl font-bold">{count}</p>
+            <div key={s} className="bg-card rounded-xl border border-border p-4 text-center hover:border-foreground/20 transition-all duration-200">
+              <p className="text-2xl font-semibold tracking-tight mb-1">{count}</p>
               <span className={`text-xs font-semibold px-2 py-0.5 rounded-full border ${statusColor[s]}`}>{statusLabel[s]}</span>
             </div>
           )
@@ -74,9 +74,9 @@ export default function AdminCustomersPage() {
       </div>
 
       {/* Table */}
-      <div className="bg-white rounded-2xl border border-border overflow-hidden">
+      <div className="bg-card rounded-xl border border-border overflow-hidden">
         {isLoading ? (
-          <div className="p-6 space-y-3">{[1,2,3].map(i => <div key={i} className="h-14 bg-muted rounded-xl animate-pulse" />)}</div>
+          <div className="p-6 space-y-3">{[1,2,3].map(i => <div key={i} className="h-14 bg-secondary rounded-xl animate-pulse" />)}</div>
         ) : filtered.length === 0 ? (
           <div className="p-10 text-center">
             <Users className="w-10 h-10 text-muted-foreground/40 mx-auto mb-2" />
@@ -86,17 +86,17 @@ export default function AdminCustomersPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-border bg-muted/30">
-                  <th className="text-left p-4 font-semibold text-muted-foreground">Kunde</th>
-                  <th className="text-left p-4 font-semibold text-muted-foreground hidden md:table-cell">Telefon</th>
-                  <th className="text-left p-4 font-semibold text-muted-foreground">Status</th>
-                  <th className="text-left p-4 font-semibold text-muted-foreground hidden md:table-cell">Registriert</th>
-                  <th className="text-left p-4 font-semibold text-muted-foreground">Aktionen</th>
+                <tr className="border-b border-border bg-secondary/30">
+                  <th className="text-left p-4 text-xs font-medium text-muted-foreground uppercase tracking-wide">Kunde</th>
+                  <th className="text-left p-4 text-xs font-medium text-muted-foreground uppercase tracking-wide hidden md:table-cell">Telefon</th>
+                  <th className="text-left p-4 text-xs font-medium text-muted-foreground uppercase tracking-wide">Status</th>
+                  <th className="text-left p-4 text-xs font-medium text-muted-foreground uppercase tracking-wide hidden md:table-cell">Registriert</th>
+                  <th className="text-left p-4 text-xs font-medium text-muted-foreground uppercase tracking-wide">Aktionen</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
                 {filtered.map((customer) => (
-                  <tr key={customer.id} className="hover:bg-muted/20 transition-colors">
+                  <tr key={customer.id} className="hover:bg-secondary/30 transition-colors">
                     <td className="p-4">
                       <p className="font-medium">{customer.full_name ?? '–'}</p>
                       <p className="text-xs text-muted-foreground">{customer.email}</p>

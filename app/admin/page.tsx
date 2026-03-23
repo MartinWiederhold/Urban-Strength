@@ -10,11 +10,11 @@ import { format } from 'date-fns'
 import { de } from 'date-fns/locale'
 
 const statusColor: Record<string, string> = {
-  confirmed: 'text-primary bg-primary/10',
-  cancelled: 'text-destructive bg-destructive/10',
-  completed: 'text-green-700 bg-green-50',
-  rescheduled: 'text-orange-700 bg-orange-50',
-  no_show: 'text-muted-foreground bg-muted',
+  confirmed: 'text-emerald-400 bg-emerald-400/10 border-emerald-400/20',
+  cancelled: 'text-red-400 bg-red-400/10 border-red-400/20',
+  completed: 'text-emerald-400 bg-emerald-400/10 border-emerald-400/20',
+  rescheduled: 'text-amber-400 bg-amber-400/10 border-amber-400/20',
+  no_show: 'text-white/40 bg-white/5 border-white/10',
 }
 const statusLabel: Record<string, string> = {
   confirmed: 'Bestätigt', cancelled: 'Storniert', completed: 'Abgeschlossen',
@@ -55,10 +55,10 @@ export default function AdminOverviewPage() {
   }, [])
 
   const statCards = [
-    { label: 'Buchungen gesamt', value: stats.totalBookings, icon: Calendar, color: 'text-primary bg-primary/10', href: '/admin/bookings' },
-    { label: 'Heute', value: stats.todayBookings, icon: Clock, color: 'text-orange-600 bg-orange-50', href: '/admin/bookings' },
-    { label: 'Kunden gesamt', value: stats.totalCustomers, icon: Users, color: 'text-blue-600 bg-blue-50', href: '/admin/customers' },
-    { label: 'Neue Kunden', value: stats.newCustomers, icon: Star, color: 'text-yellow-600 bg-yellow-50', href: '/admin/customers' },
+    { label: 'Buchungen gesamt', value: stats.totalBookings, icon: Calendar, href: '/admin/bookings' },
+    { label: 'Heute', value: stats.todayBookings, icon: Clock, href: '/admin/bookings' },
+    { label: 'Kunden gesamt', value: stats.totalCustomers, icon: Users, href: '/admin/customers' },
+    { label: 'Neue Kunden', value: stats.newCustomers, icon: Star, href: '/admin/customers' },
   ]
 
   return (
@@ -73,14 +73,16 @@ export default function AdminOverviewPage() {
         {statCards.map((card, i) => (
           <motion.div key={card.label} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] }}>
             <Link href={card.href}>
-              <div className="bg-white rounded-2xl border border-border p-5 hover:shadow-soft transition-all hover:-translate-y-0.5">
-                <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-3 ${card.color}`}>
-                  <card.icon className="w-5 h-5" />
+              <div className="bg-card rounded-xl border border-border p-4 hover:border-foreground/20 transition-all duration-200">
+                <div className="flex items-start justify-between mb-3">
+                  <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">{card.label}</p>
+                  <div className="p-1.5 bg-secondary rounded-lg">
+                    <card.icon className="w-3.5 h-3.5 text-muted-foreground" />
+                  </div>
                 </div>
-                <p className="text-3xl font-bold tracking-tighter">
-                  {isLoading ? <span className="animate-pulse">–</span> : card.value}
+                <p className="text-2xl font-semibold tracking-tight">
+                  {isLoading ? <span className="animate-pulse text-muted-foreground">–</span> : card.value}
                 </p>
-                <p className="text-sm text-muted-foreground mt-0.5">{card.label}</p>
               </div>
             </Link>
           </motion.div>
@@ -95,18 +97,18 @@ export default function AdminOverviewPage() {
             Alle ansehen <ChevronRight className="w-3 h-3" />
           </Link>
         </div>
-        <div className="bg-white rounded-2xl border border-border overflow-hidden">
+        <div className="bg-card rounded-xl border border-border overflow-hidden">
           {isLoading ? (
-            <div className="p-6 space-y-3">{[1,2,3].map(i => <div key={i} className="h-14 bg-muted rounded-xl animate-pulse" />)}</div>
+            <div className="p-6 space-y-3">{[1,2,3].map(i => <div key={i} className="h-14 bg-secondary rounded-xl animate-pulse" />)}</div>
           ) : recentBookings.length === 0 ? (
             <div className="p-8 text-center text-muted-foreground text-sm">Noch keine Buchungen.</div>
           ) : (
             <div className="divide-y divide-border">
               {recentBookings.map((booking) => (
-                <div key={booking.id} className="flex items-center justify-between p-4 gap-4 hover:bg-muted/30 transition-colors">
+                <div key={booking.id} className="flex items-center justify-between p-4 gap-4 hover:bg-secondary/50 transition-colors">
                   <div className="flex items-center gap-3 min-w-0">
-                    <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                      <Users className="w-4 h-4 text-primary" />
+                    <div className="w-9 h-9 rounded-full bg-secondary flex items-center justify-center shrink-0">
+                      <Users className="w-4 h-4 text-muted-foreground" />
                     </div>
                     <div className="min-w-0">
                       <p className="font-medium text-sm truncate">{(booking as any).profiles?.full_name ?? 'Unbekannt'}</p>
@@ -116,7 +118,7 @@ export default function AdminOverviewPage() {
                     </div>
                   </div>
                   <div className="flex items-center gap-3 shrink-0">
-                    <span className={`text-xs font-semibold px-2 py-1 rounded-full ${statusColor[booking.status]}`}>
+                    <span className={`text-xs font-semibold px-2 py-1 rounded-full border ${statusColor[booking.status]}`}>
                       {statusLabel[booking.status]}
                     </span>
                     <Link href={`/admin/bookings`} className="text-muted-foreground hover:text-foreground transition-colors">

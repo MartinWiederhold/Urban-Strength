@@ -88,7 +88,7 @@ export default function AvailabilityPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Add Form */}
-        <div className="bg-white rounded-2xl border border-border p-6">
+        <div className="bg-card rounded-xl border border-border p-6">
           <h2 className="font-bold mb-5">Neuen Slot hinzufügen</h2>
           <div className="space-y-4">
             <div className="flex items-center gap-3">
@@ -144,16 +144,16 @@ export default function AvailabilityPage() {
         {/* Current Slots */}
         <div className="space-y-4">
           {/* Recurring */}
-          <div className="bg-white rounded-2xl border border-border p-6">
+          <div className="bg-card rounded-xl border border-border p-6">
             <h2 className="font-bold mb-4">Wöchentliche Slots ({recurringSlots.length})</h2>
             {recurringSlots.length === 0 ? (
               <p className="text-sm text-muted-foreground">Keine wiederkehrenden Slots.</p>
             ) : (
               <div className="space-y-2">
                 {recurringSlots.map(slot => (
-                  <div key={slot.id} className="flex items-center justify-between p-3 rounded-lg bg-muted text-sm">
+                  <div key={slot.id} className="flex items-center justify-between p-3 rounded-lg bg-secondary text-sm">
                     <div className="flex items-center gap-2">
-                      <Clock className="w-4 h-4 text-primary" />
+                      <Clock className="w-4 h-4 text-muted-foreground" />
                       <span className="font-medium">{DAYS[slot.day_of_week ?? 0]}</span>
                       <span className="text-muted-foreground">{slot.start_time.slice(0,5)}–{slot.end_time.slice(0,5)}</span>
                     </div>
@@ -167,16 +167,16 @@ export default function AvailabilityPage() {
           </div>
 
           {/* Specific */}
-          <div className="bg-white rounded-2xl border border-border p-6">
+          <div className="bg-card rounded-xl border border-border p-6">
             <h2 className="font-bold mb-4">Spezifische Slots ({specificSlots.length})</h2>
             {specificSlots.length === 0 ? (
               <p className="text-sm text-muted-foreground">Keine spezifischen Slots.</p>
             ) : (
               <div className="space-y-2 max-h-64 overflow-y-auto">
                 {specificSlots.map(slot => (
-                  <div key={slot.id} className="flex items-center justify-between p-3 rounded-lg bg-muted text-sm">
+                  <div key={slot.id} className="flex items-center justify-between p-3 rounded-lg bg-secondary text-sm">
                     <div className="flex items-center gap-2">
-                      <Clock className="w-4 h-4 text-primary" />
+                      <Clock className="w-4 h-4 text-muted-foreground" />
                       <span className="font-medium">{format(new Date(slot.date), 'EEE dd. MMM', { locale: de })}</span>
                       <span className="text-muted-foreground">{slot.start_time.slice(0,5)}–{slot.end_time.slice(0,5)}</span>
                     </div>

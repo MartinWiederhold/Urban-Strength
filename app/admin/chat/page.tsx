@@ -56,9 +56,9 @@ export default function AdminChatListPage() {
         <p className="text-muted-foreground mt-1">Nachrichten mit Kunden.</p>
       </motion.div>
 
-      <div className="bg-white rounded-2xl border border-border overflow-hidden max-w-xl">
+      <div className="bg-card rounded-xl border border-border overflow-hidden max-w-xl">
         {isLoading ? (
-          <div className="p-6 space-y-3">{[1,2,3].map(i => <div key={i} className="h-16 bg-muted rounded-xl animate-pulse" />)}</div>
+          <div className="p-6 space-y-3">{[1,2,3].map(i => <div key={i} className="h-16 bg-secondary rounded-xl animate-pulse" />)}</div>
         ) : customers.length === 0 ? (
           <div className="p-10 text-center">
             <MessageCircle className="w-10 h-10 text-muted-foreground/40 mx-auto mb-2" />
@@ -68,9 +68,9 @@ export default function AdminChatListPage() {
           <div className="divide-y divide-border">
             {customers.map(customer => (
               <Link key={customer.id} href={`/admin/chat/${customer.id}`}>
-                <div className="flex items-center gap-3 p-4 hover:bg-muted/30 transition-colors">
-                  <div className="relative w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                    <Users className="w-5 h-5 text-primary" />
+                <div className="flex items-center gap-3 p-4 hover:bg-secondary/50 transition-colors">
+                  <div className="relative w-10 h-10 rounded-full bg-secondary flex items-center justify-center shrink-0">
+                    <Users className="w-5 h-5 text-muted-foreground" />
                     {customer.unreadCount > 0 && (
                       <span className="absolute -top-1 -right-1 w-5 h-5 bg-primary text-white text-xs rounded-full flex items-center justify-center font-bold">
                         {customer.unreadCount}

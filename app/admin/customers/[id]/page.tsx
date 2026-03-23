@@ -117,7 +117,7 @@ export default function CustomerDetailPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* CRM Fields */}
-        <div className="bg-white rounded-2xl border border-border p-6 space-y-4">
+        <div className="bg-card rounded-xl border border-border p-6 space-y-4">
           <h2 className="font-bold mb-2">CRM</h2>
           <div>
             <Label>Kunden-Status</Label>
@@ -153,14 +153,14 @@ export default function CustomerDetailPage() {
         </div>
 
         {/* Bookings */}
-        <div className="bg-white rounded-2xl border border-border p-6">
+        <div className="bg-card rounded-xl border border-border p-6">
           <h2 className="font-bold mb-4">Buchungshistorie ({bookings.length})</h2>
           {bookings.length === 0 ? (
             <p className="text-sm text-muted-foreground">Noch keine Buchungen.</p>
           ) : (
             <div className="space-y-2 max-h-64 overflow-y-auto">
               {bookings.map(b => (
-                <div key={b.id} className="flex items-center justify-between p-3 rounded-lg bg-muted text-sm">
+                <div key={b.id} className="flex items-center justify-between p-3 rounded-lg bg-secondary text-sm">
                   <div>
                     <p className="font-medium">{(b as any).services?.title ?? '–'}</p>
                     <p className="text-xs text-muted-foreground">
@@ -175,7 +175,7 @@ export default function CustomerDetailPage() {
         </div>
 
         {/* Training Plans */}
-        <div className="bg-white rounded-2xl border border-border p-6 lg:col-span-2">
+        <div className="bg-card rounded-xl border border-border p-6 lg:col-span-2">
           <div className="flex items-center justify-between mb-4">
             <h2 className="font-bold">Trainingspläne ({plans.filter(p => p.is_active).length})</h2>
             <Button variant="outline" size="sm" onClick={() => setShowPlanForm(!showPlanForm)}>
@@ -184,7 +184,7 @@ export default function CustomerDetailPage() {
           </div>
 
           {showPlanForm && (
-            <div className="mb-4 p-4 rounded-xl border border-border bg-muted/30 space-y-3">
+            <div className="mb-4 p-4 rounded-xl border border-border bg-secondary/50 space-y-3">
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <Label>Titel *</Label>
@@ -221,7 +221,7 @@ export default function CustomerDetailPage() {
           ) : (
             <div className="space-y-2">
               {plans.filter(p => p.is_active).map(plan => (
-                <div key={plan.id} className="flex items-center justify-between p-3 rounded-lg bg-muted text-sm">
+                <div key={plan.id} className="flex items-center justify-between p-3 rounded-lg bg-secondary text-sm">
                   <div>
                     <p className="font-medium">{plan.title}</p>
                     <p className="text-xs text-muted-foreground">

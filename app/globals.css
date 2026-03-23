@@ -9,10 +9,10 @@
   --background: 0 0% 4%;
   --foreground: 0 0% 97%;
 
-  --card: 0 0% 8%;
+  --card: 0 0% 10%;
   --card-foreground: 0 0% 97%;
 
-  --popover: 0 0% 8%;
+  --popover: 0 0% 10%;
   --popover-foreground: 0 0% 97%;
 
   /* Primary = White (buttons, accents) */
@@ -21,15 +21,15 @@
   --primary-hover: 0 0% 88%;
 
   /* Secondary = Dark surface */
-  --secondary: 0 0% 11%;
+  --secondary: 0 0% 15%;
   --secondary-foreground: 0 0% 97%;
 
   /* Muted */
-  --muted: 0 0% 13%;
-  --muted-foreground: 0 0% 52%;
+  --muted: 0 0% 15%;
+  --muted-foreground: 0 0% 55%;
 
   /* Accent */
-  --accent: 0 0% 13%;
+  --accent: 0 0% 15%;
   --accent-foreground: 0 0% 97%;
 
   /* Destructive */
@@ -37,8 +37,8 @@
   --destructive-foreground: 0 0% 98%;
 
   /* Border & Input */
-  --border: 0 0% 13%;
-  --input: 0 0% 13%;
+  --border: 0 0% 18%;
+  --input: 0 0% 18%;
   --ring: 0 0% 100%;
 
   /* Shadows */

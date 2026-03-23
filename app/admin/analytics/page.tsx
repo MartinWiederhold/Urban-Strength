@@ -8,7 +8,7 @@ import { createClient } from '@/lib/supabase/client'
 import { format, subMonths } from 'date-fns'
 import { de } from 'date-fns/locale'
 
-const COLORS = ['hsl(140,26%,39%)', 'hsl(36,18%,75%)', 'hsl(0,0%,40%)', 'hsl(210,54%,65%)', 'hsl(0,84%,60%)']
+const COLORS = ['hsl(0,0%,90%)', 'hsl(0,0%,60%)', 'hsl(0,0%,40%)', 'hsl(0,0%,25%)', 'hsl(0,84%,60%)']
 
 export default function AnalyticsPage() {
   const [isLoading, setIsLoading] = useState(true)
@@ -86,10 +86,10 @@ export default function AnalyticsPage() {
   }, [])
 
   const kpiCards = [
-    { label: 'Umsatz gesamt', value: `CHF ${stats.totalRevenue}`, icon: DollarSign, color: 'text-primary bg-primary/10' },
-    { label: 'Buchungen gesamt', value: stats.totalBookings, icon: Calendar, color: 'text-blue-600 bg-blue-50' },
-    { label: 'Kunden', value: stats.totalCustomers, icon: Users, color: 'text-orange-600 bg-orange-50' },
-    { label: 'Conversion', value: `${stats.conversionRate}%`, icon: TrendingUp, color: 'text-green-600 bg-green-50' },
+    { label: 'Umsatz gesamt', value: `CHF ${stats.totalRevenue}`, icon: DollarSign },
+    { label: 'Buchungen gesamt', value: stats.totalBookings, icon: Calendar },
+    { label: 'Kunden', value: stats.totalCustomers, icon: Users },
+    { label: 'Conversion', value: `${stats.conversionRate}%`, icon: TrendingUp },
   ]
 
   return (
@@ -103,14 +103,16 @@ export default function AnalyticsPage() {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         {kpiCards.map((card, i) => (
           <motion.div key={card.label} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] }}
-            className="bg-white rounded-2xl border border-border p-5">
-            <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-3 ${card.color}`}>
-              <card.icon className="w-5 h-5" />
+            className="bg-card rounded-xl border border-border p-4 hover:border-foreground/20 transition-all duration-200">
+            <div className="flex items-start justify-between mb-3">
+              <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">{card.label}</p>
+              <div className="p-1.5 bg-secondary rounded-lg">
+                <card.icon className="w-3.5 h-3.5 text-muted-foreground" />
+              </div>
             </div>
-            <p className="text-3xl font-bold tracking-tighter">
+            <p className="text-2xl font-semibold tracking-tight">
               {isLoading ? <span className="animate-pulse text-muted-foreground">–</span> : card.value}
             </p>
-            <p className="text-sm text-muted-foreground mt-0.5">{card.label}</p>
           </motion.div>
         ))}
       </div>
@@ -118,29 +120,29 @@ export default function AnalyticsPage() {
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Monthly Bookings */}
-        <div className="bg-white rounded-2xl border border-border p-6">
-          <h2 className="font-bold mb-5">Buchungen &amp; Umsatz (6 Monate)</h2>
+        <div className="bg-card rounded-xl border border-border p-6">
+          <h2 className="font-semibold mb-5">Buchungen &amp; Umsatz (6 Monate)</h2>
           <ResponsiveContainer width="100%" height={220}>
             <BarChart data={monthlyData} barSize={20}>
-              <CartesianGrid strokeDasharray="3 3" stroke="hsl(36,15%,88%)" />
-              <XAxis dataKey="month" tick={{ fontSize: 12 }} />
-              <YAxis tick={{ fontSize: 12 }} />
+              <CartesianGrid strokeDasharray="3 3" stroke="hsl(0,0%,18%)" />
+              <XAxis dataKey="month" tick={{ fontSize: 12, fill: 'hsl(0,0%,55%)' }} />
+              <YAxis tick={{ fontSize: 12, fill: 'hsl(0,0%,55%)' }} />
               <Tooltip
-                contentStyle={{ borderRadius: 8, border: '1px solid hsl(36,15%,88%)', fontSize: 12 }}
+                contentStyle={{ borderRadius: 8, border: '1px solid hsl(0,0%,18%)', backgroundColor: 'hsl(0,0%,10%)', color: 'hsl(0,0%,97%)', fontSize: 12 }}
                 formatter={(value: number, name: string) => [
                   name === 'revenue' ? `CHF ${value}` : value,
                   name === 'revenue' ? 'Umsatz' : 'Buchungen',
                 ]}
               />
-              <Bar dataKey="bookings" fill="hsl(140,26%,39%)" radius={[4,4,0,0]} name="bookings" />
-              <Bar dataKey="revenue" fill="hsl(36,18%,75%)" radius={[4,4,0,0]} name="revenue" />
+              <Bar dataKey="bookings" fill="hsl(0,0%,90%)" radius={[4,4,0,0]} name="bookings" />
+              <Bar dataKey="revenue" fill="hsl(0,0%,45%)" radius={[4,4,0,0]} name="revenue" />
             </BarChart>
           </ResponsiveContainer>
         </div>
 
         {/* Status Distribution */}
-        <div className="bg-white rounded-2xl border border-border p-6">
-          <h2 className="font-bold mb-5">Buchungs-Status</h2>
+        <div className="bg-card rounded-xl border border-border p-6">
+          <h2 className="font-semibold mb-5">Buchungs-Status</h2>
           {statusData.length === 0 ? (
             <div className="flex items-center justify-center h-[220px] text-muted-foreground text-sm">Keine Daten</div>
           ) : (
@@ -167,15 +169,15 @@ export default function AnalyticsPage() {
 
         {/* Source Distribution */}
         {sourceData.length > 0 && (
-          <div className="bg-white rounded-2xl border border-border p-6 lg:col-span-2">
-            <h2 className="font-bold mb-5">Herkunft der Kunden</h2>
+          <div className="bg-card rounded-xl border border-border p-6 lg:col-span-2">
+            <h2 className="font-semibold mb-5">Herkunft der Kunden</h2>
             <ResponsiveContainer width="100%" height={180}>
               <BarChart data={sourceData} barSize={36} layout="vertical">
-                <CartesianGrid strokeDasharray="3 3" stroke="hsl(36,15%,88%)" horizontal={false} />
-                <XAxis type="number" tick={{ fontSize: 12 }} />
-                <YAxis type="category" dataKey="name" tick={{ fontSize: 12 }} width={90} />
-                <Tooltip contentStyle={{ borderRadius: 8, border: '1px solid hsl(36,15%,88%)', fontSize: 12 }} />
-                <Bar dataKey="value" fill="hsl(140,26%,39%)" radius={[0,4,4,0]} name="Kunden" />
+                <CartesianGrid strokeDasharray="3 3" stroke="hsl(0,0%,18%)" horizontal={false} />
+                <XAxis type="number" tick={{ fontSize: 12, fill: 'hsl(0,0%,55%)' }} />
+                <YAxis type="category" dataKey="name" tick={{ fontSize: 12, fill: 'hsl(0,0%,55%)' }} width={90} />
+                <Tooltip contentStyle={{ borderRadius: 8, border: '1px solid hsl(0,0%,18%)', backgroundColor: 'hsl(0,0%,10%)', color: 'hsl(0,0%,97%)', fontSize: 12 }} />
+                <Bar dataKey="value" fill="hsl(0,0%,90%)" radius={[0,4,4,0]} name="Kunden" />
               </BarChart>
             </ResponsiveContainer>
           </div>
