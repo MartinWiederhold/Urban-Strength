@@ -28,7 +28,7 @@ export default function BookingSuccessPage() {
               <CheckCircle className="w-10 h-10 text-primary" />
             </motion.div>
 
-            <h1 className="text-3xl md:text-4xl font-bold tracking-tighter mb-3">
+            <h1 className="text-3xl md:text-4xl font-semibold tracking-tight mb-3">
               Buchung bestätigt!
             </h1>
             <p className="text-muted-foreground text-lg mb-8">

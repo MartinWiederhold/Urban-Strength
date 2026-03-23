@@ -39,7 +39,7 @@ export default function AboutPage() {
                 <div className="inline-flex items-center gap-2 bg-primary/20 border border-primary/30 rounded-full px-4 py-1.5 text-sm font-medium text-primary mb-6">
                   Über mich
                 </div>
-                <h1 className="text-4xl md:text-6xl font-bold tracking-tighter mb-6">
+                <h1 className="text-4xl md:text-6xl font-semibold tracking-tight mb-6">
                   Dein Personal Trainer in Zürich – Martin
                 </h1>
                 <p className="text-white/70 leading-relaxed mb-4">
@@ -72,7 +72,7 @@ export default function AboutPage() {
               ].map((stat, i) => (
                 <div key={i} className="p-8 rounded-2xl bg-background border border-border">
                   <stat.icon className="w-8 h-8 text-primary mx-auto mb-3" />
-                  <p className="text-4xl font-bold tracking-tighter mb-1">{stat.value}</p>
+                  <p className="text-4xl font-semibold tracking-tight mb-1">{stat.value}</p>
                   <p className="text-muted-foreground">{stat.label}</p>
                 </div>
               ))}
@@ -83,7 +83,7 @@ export default function AboutPage() {
         {/* Values */}
         <section className="section-padding bg-background">
           <div className="container-max text-center">
-            <h2 className="text-3xl md:text-5xl font-bold tracking-tighter mb-4">Meine Werte</h2>
+            <h2 className="text-3xl md:text-5xl font-semibold tracking-tight mb-4">Meine Werte</h2>
             <p className="text-muted-foreground text-lg max-w-xl mx-auto mb-12">
               Was mich als Personal Trainer auszeichnet.
             </p>

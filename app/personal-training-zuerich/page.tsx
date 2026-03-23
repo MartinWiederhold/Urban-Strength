@@ -35,7 +35,7 @@ export default function PersonalTrainingZuerichPage() {
         <section className="section-padding bg-secondary/30">
           <div className="container-max max-w-4xl">
             <div className="text-center mb-10">
-              <h1 className="text-4xl md:text-6xl font-bold tracking-tighter mb-4">
+              <h1 className="text-4xl md:text-6xl font-semibold tracking-tight mb-4">
                 Personal Training Zürich
               </h1>
               <p className="text-muted-foreground text-xl max-w-2xl mx-auto">
@@ -55,7 +55,7 @@ export default function PersonalTrainingZuerichPage() {
 
         <section className="section-padding bg-background">
           <div className="container-max max-w-4xl prose prose-lg">
-            <h2 className="text-3xl font-bold tracking-tighter mb-6">Was ist Personal Training in Zürich?</h2>
+            <h2 className="text-3xl font-semibold tracking-tight mb-6">Was ist Personal Training in Zürich?</h2>
             <p className="text-muted-foreground leading-relaxed mb-6">
               <strong>Personal Training in Zürich</strong> bedeutet individuelles, auf dich zugeschnittenes Training mit einem zertifizierten Personal Trainer – einem Experten, der dir bei jedem Schritt deiner Fitness-Reise zur Seite steht. Anders als im regulären Fitnessstudio bekommst du beim Personal Training in Zürich volle Aufmerksamkeit, korrekte Ausführung aller Übungen und einen Plan, der wirklich zu dir und deinen Zielen passt.
             </p>
@@ -63,7 +63,7 @@ export default function PersonalTrainingZuerichPage() {
               Als dein <strong>Personal Trainer in Zürich</strong> helfe ich dir – egal ob du Anfänger bist oder schon Erfahrung hast – deine Ziele zu erreichen: Muskelaufbau, Fettabbau, mehr Kraft, bessere Ausdauer oder einfach mehr Wohlbefinden.
             </p>
 
-            <h2 className="text-3xl font-bold tracking-tighter mb-6">Vorteile von Personal Training in Zürich</h2>
+            <h2 className="text-3xl font-semibold tracking-tight mb-6">Vorteile von Personal Training in Zürich</h2>
             <ul className="space-y-3 mb-8">
               {[
                 'Individueller Trainingsplan für deine spezifischen Ziele',
@@ -80,7 +80,7 @@ export default function PersonalTrainingZuerichPage() {
               ))}
             </ul>
 
-            <h2 className="text-3xl font-bold tracking-tighter mb-6">Personal Training Zürich – Preise und Angebote</h2>
+            <h2 className="text-3xl font-semibold tracking-tight mb-6">Personal Training Zürich – Preise und Angebote</h2>
             <p className="text-muted-foreground leading-relaxed mb-4">
               Das <strong>Personal Training in Zürich</strong> kostet CHF 35 pro Stunde. Es gibt zwei Angebote:
             </p>
@@ -97,7 +97,7 @@ export default function PersonalTrainingZuerichPage() {
               </div>
             </div>
 
-            <h2 className="text-3xl font-bold tracking-tighter mb-6">Standort: Personal Training in Zürich Kreis 7</h2>
+            <h2 className="text-3xl font-semibold tracking-tight mb-6">Standort: Personal Training in Zürich Kreis 7</h2>
             <div className="flex items-start gap-3 p-5 rounded-xl bg-secondary mb-8">
               <MapPin className="w-5 h-5 text-primary mt-0.5 shrink-0" />
               <div>
@@ -106,7 +106,7 @@ export default function PersonalTrainingZuerichPage() {
               </div>
             </div>
 
-            <h2 className="text-3xl font-bold tracking-tighter mb-6">Häufige Fragen zum Personal Training Zürich</h2>
+            <h2 className="text-3xl font-semibold tracking-tight mb-6">Häufige Fragen zum Personal Training Zürich</h2>
             {[
               { q: 'Ist Personal Training in Zürich für Anfänger geeignet?', a: 'Absolut! Gerade Anfänger profitieren enorm vom Personal Training, da du von Anfang an die richtigen Techniken lernst und ein auf dich zugeschnittenes Programm bekommst.' },
               { q: 'Wie finde ich einen guten Personal Trainer in Zürich?', a: 'Wichtig sind Erfahrung, Qualifikation, persönliche Chemie und ein klares Konzept. Mit dem kostenlosen Probetraining kannst du mich und meinen Ansatz risikofrei kennenlernen.' },
@@ -119,7 +119,7 @@ export default function PersonalTrainingZuerichPage() {
             ))}
 
             <div className="mt-10 text-center">
-              <h2 className="text-3xl font-bold tracking-tighter mb-4">Personal Training Zürich – Jetzt starten</h2>
+              <h2 className="text-3xl font-semibold tracking-tight mb-4">Personal Training Zürich – Jetzt starten</h2>
               <p className="text-muted-foreground mb-6">Starte mit einem kostenlosen Probetraining. Kein Risiko, keine Verpflichtung.</p>
               <Link href="/book/probe-training">
                 <Button variant="hero" size="xl">Kostenloses Probetraining buchen <ChevronRight className="w-5 h-5" /></Button>

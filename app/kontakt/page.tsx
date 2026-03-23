@@ -29,7 +29,7 @@ export default function KontaktPage() {
         <section className="section-padding">
           <div className="container-max">
             <div className="text-center mb-12">
-              <h1 className="text-4xl md:text-6xl font-bold tracking-tighter mb-4">
+              <h1 className="text-4xl md:text-6xl font-semibold tracking-tight mb-4">
                 Kontakt
               </h1>
               <p className="text-muted-foreground text-lg max-w-xl mx-auto">

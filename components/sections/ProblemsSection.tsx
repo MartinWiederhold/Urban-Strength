@@ -29,7 +29,7 @@ export default function ProblemsSection() {
           transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
           className="text-center mb-12"
         >
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tighter mb-4">
+          <h2 className="text-3xl md:text-5xl font-semibold tracking-tight mb-4">
             Kommt dir das bekannt vor?
           </h2>
           <p className="text-white/60 text-lg max-w-xl mx-auto">
@@ -45,7 +45,7 @@ export default function ProblemsSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.55, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-              className="bg-white/5 border border-white/10 rounded-xl p-6 hover:bg-white/8 transition-colors"
+              className="bg-white/8 border border-white/10 rounded-3xl p-8 hover:bg-white/12 transition-all duration-300 hover:-translate-y-0.5"
             >
               <problem.icon className="w-8 h-8 text-primary mb-4" />
               <p className="text-white/80 text-base leading-relaxed">{problem.text}</p>

@@ -37,7 +37,7 @@ export default function MethodSection() {
           transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tighter mb-4">
+          <h2 className="text-3xl md:text-5xl font-semibold tracking-tight mb-4">
             In 3 Schritten zum Ziel
           </h2>
           <p className="text-white/60 text-lg max-w-xl mx-auto">

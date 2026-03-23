@@ -16,27 +16,29 @@ export default function CTASection() {
           transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
           className="rounded-3xl bg-[hsl(0,0%,11%)] text-white p-10 md:p-16 text-center"
         >
-          <div className="inline-flex items-center gap-2 bg-primary/20 border border-primary/30 rounded-full px-4 py-1.5 text-sm font-medium text-primary mb-6">
+          <div className="inline-block rounded-full border border-white/22 bg-white/8 px-4 py-1.5 text-[10px] uppercase tracking-[0.22em] text-white/90 backdrop-blur-sm mb-6 md:px-5 md:py-2 md:text-xs">
             Erster Termin komplett gratis
           </div>
 
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tighter mb-4 max-w-2xl mx-auto text-balance">
+          <h2 className="text-3xl md:text-5xl font-semibold tracking-tight mb-4 max-w-2xl mx-auto text-balance">
             Bereit für dein Personal Training in Zürich?
           </h2>
           <p className="text-white/60 text-lg mb-10 max-w-xl mx-auto">
             Starte jetzt mit einem kostenlosen Probetraining. Unverbindlich und ohne Risiko.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-            <Link href="/book/probe-training">
-              <Button variant="hero" size="xl" className="w-full sm:w-auto">
-                Kostenloses Probetraining buchen
-              </Button>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center mb-12">
+            <Link
+              href="/book/probe-training"
+              className="inline-flex h-14 items-center justify-center rounded-full bg-primary px-10 text-[15px] font-semibold text-white hover:bg-[hsl(140,26%,45%)] hover:shadow-[0_16px_48px_-8px_hsl(0_0%_0%_/0.3)] hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 w-full sm:w-auto"
+            >
+              Kostenloses Probetraining buchen
             </Link>
-            <Link href="/kontakt">
-              <Button variant="outline-white" size="xl" className="w-full sm:w-auto">
-                Frage stellen
-              </Button>
+            <Link
+              href="/kontakt"
+              className="inline-flex h-14 items-center justify-center rounded-full border border-white/30 bg-white/8 px-10 text-[15px] font-semibold text-white hover:bg-white/15 backdrop-blur-sm transition-all duration-300 w-full sm:w-auto"
+            >
+              Frage stellen
             </Link>
           </div>
 

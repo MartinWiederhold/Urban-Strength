@@ -7,7 +7,7 @@ export default function DatenschutzPage() {
       <Navigation />
       <main className="pt-20 section-padding">
         <div className="container-max max-w-2xl">
-          <h1 className="text-4xl font-bold tracking-tighter mb-8">Datenschutzerklärung</h1>
+          <h1 className="text-4xl font-semibold tracking-tight mb-8">Datenschutzerklärung</h1>
           <div className="prose text-muted-foreground space-y-4">
             <h2 className="text-xl font-semibold text-foreground">Datenschutz</h2>
             <p>Der Schutz deiner persönlichen Daten ist uns wichtig. Diese Datenschutzerklärung beschreibt, wie wir mit deinen Daten umgehen.</p>

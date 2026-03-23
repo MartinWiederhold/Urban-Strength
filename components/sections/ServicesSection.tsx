@@ -57,7 +57,7 @@ export default function ServicesSection() {
           transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
           className="text-center mb-12"
         >
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tighter mb-4">
+          <h2 className="text-3xl md:text-5xl font-semibold tracking-tight mb-4">
             Mein Angebot – Personal Training in Zürich
           </h2>
           <p className="text-muted-foreground text-lg max-w-xl mx-auto">
@@ -73,10 +73,10 @@ export default function ServicesSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.55, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
-              className={`relative rounded-2xl border p-8 flex flex-col hover-lift ${
+              className={`relative rounded-3xl border p-8 md:p-10 flex flex-col group cursor-pointer transition-all duration-500 hover:-translate-y-1 hover:shadow-xl ${
                 service.highlight
-                  ? 'bg-[hsl(0,0%,11%)] border-primary/30 text-white'
-                  : 'bg-card border-border'
+                  ? 'bg-[hsl(0,0%,11%)] border-primary/20 text-white'
+                  : 'bg-white border-black/5 shadow-sm'
               }`}
             >
               {/* Badge */}
@@ -89,7 +89,7 @@ export default function ServicesSection() {
               </div>
 
               {/* Title */}
-              <h3 className={`text-xl font-bold tracking-tight mb-2 ${service.highlight ? 'text-white' : ''}`}>
+              <h3 className={`text-xl font-semibold tracking-tight mb-2 ${service.highlight ? 'text-white' : ''}`}>
                 {service.title}
               </h3>
 

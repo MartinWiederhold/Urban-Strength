@@ -46,7 +46,7 @@ export default function GallerySection() {
           transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
           className="text-center mb-12"
         >
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tighter mb-4">
+          <h2 className="text-3xl md:text-5xl font-semibold tracking-tight mb-4">
             Trainingsumgebung in Zürich
           </h2>
           <p className="text-muted-foreground text-lg max-w-xl mx-auto">

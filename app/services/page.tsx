@@ -27,7 +27,7 @@ export default function ServicesPage() {
       <main className="pt-20">
         <div className="section-padding bg-secondary/30 text-center">
           <div className="container-max">
-            <h1 className="text-4xl md:text-6xl font-bold tracking-tighter mb-4">
+            <h1 className="text-4xl md:text-6xl font-semibold tracking-tight mb-4">
               Angebote – Personal Training in Zürich
             </h1>
             <p className="text-muted-foreground text-lg max-w-xl mx-auto">
