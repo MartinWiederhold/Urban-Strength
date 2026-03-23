@@ -17,15 +17,15 @@ function PlaceholderImage({ alt, label, onClick }: { alt: string; label: string;
   return (
     <div
       onClick={onClick}
-      className="aspect-square rounded-xl bg-muted overflow-hidden relative cursor-pointer group hover-lift"
+      className="aspect-square rounded-2xl bg-[#111] border border-white/8 overflow-hidden relative cursor-pointer group transition-all duration-300 hover:border-white/20 hover:-translate-y-1"
       role="button"
       aria-label={alt}
     >
-      <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-muted-foreground/40">
+      <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-white/20">
         <ImageIcon className="w-8 h-8" />
         <span className="text-xs">{label}</span>
       </div>
-      <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/10 transition-colors rounded-xl" />
+      <div className="absolute inset-0 bg-white/0 group-hover:bg-white/4 transition-colors rounded-2xl" />
     </div>
   )
 }
@@ -37,7 +37,7 @@ export default function GallerySection() {
   const next = () => setLightboxIndex((i) => (i !== null ? (i + 1) % images.length : null))
 
   return (
-    <section className="section-padding bg-secondary/30" id="galerie">
+    <section className="section-padding bg-[#080808]" id="galerie">
       <div className="container-max">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -46,10 +46,10 @@ export default function GallerySection() {
           transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
           className="text-center mb-12"
         >
-          <h2 className="text-3xl md:text-5xl font-semibold tracking-tight mb-4">
+          <h2 className="text-3xl md:text-5xl font-semibold tracking-tight mb-4 text-white">
             Trainingsumgebung in Zürich
           </h2>
-          <p className="text-muted-foreground text-lg max-w-xl mx-auto">
+          <p className="text-white/45 text-lg max-w-xl mx-auto">
             Modernes Equipment in zentraler Lage – perfekte Bedingungen für dein Training.
           </p>
         </motion.div>
@@ -97,10 +97,10 @@ export default function GallerySection() {
             <ChevronLeft className="w-8 h-8" />
           </button>
           <div
-            className="max-w-2xl w-full aspect-square bg-muted rounded-xl flex items-center justify-center"
+            className="max-w-2xl w-full aspect-square bg-[#111] border border-white/10 rounded-2xl flex items-center justify-center"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex flex-col items-center gap-2 text-muted-foreground/40">
+            <div className="flex flex-col items-center gap-2 text-white/20">
               <ImageIcon className="w-16 h-16" />
               <span>{images[lightboxIndex].label}</span>
             </div>

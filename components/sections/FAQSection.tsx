@@ -44,16 +44,16 @@ function FAQItem({ faq, index }: { faq: typeof faqs[0]; index: number }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.1 }}
       transition={{ duration: 0.45, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
-      className="border-b border-white/10 last:border-0"
+      className="border-b border-white/8 last:border-0"
     >
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between py-5 text-left gap-4 hover:text-primary transition-colors"
+        className="w-full flex items-center justify-between py-5 text-left gap-4 hover:text-white transition-colors"
         aria-expanded={isOpen}
       >
-        <span className="font-medium text-white">{faq.question}</span>
+        <span className="font-medium text-white/85">{faq.question}</span>
         <ChevronDown
-          className={`w-5 h-5 text-white/50 shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
+          className={`w-5 h-5 text-white/30 shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-180 text-white/60' : ''}`}
         />
       </button>
       <AnimatePresence initial={false}>
@@ -65,7 +65,7 @@ function FAQItem({ faq, index }: { faq: typeof faqs[0]; index: number }) {
             transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
             className="overflow-hidden"
           >
-            <p className="text-white/60 pb-5 leading-relaxed">{faq.answer}</p>
+            <p className="text-white/50 pb-5 leading-relaxed">{faq.answer}</p>
           </motion.div>
         )}
       </AnimatePresence>
@@ -75,7 +75,7 @@ function FAQItem({ faq, index }: { faq: typeof faqs[0]; index: number }) {
 
 export default function FAQSection() {
   return (
-    <section className="section-padding bg-[hsl(0,0%,8%)]" id="faq">
+    <section className="section-padding bg-[#080808]" id="faq">
       <div className="container-max">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -87,7 +87,7 @@ export default function FAQSection() {
           <h2 className="text-3xl md:text-5xl font-semibold tracking-tight mb-4 text-white">
             Häufige Fragen zum Personal Training in Zürich
           </h2>
-          <p className="text-white/50 text-lg max-w-xl mx-auto">
+          <p className="text-white/45 text-lg max-w-xl mx-auto">
             Hast du noch weitere Fragen? Schreib mir einfach.
           </p>
         </motion.div>

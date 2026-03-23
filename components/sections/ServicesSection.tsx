@@ -3,7 +3,6 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { Check, ChevronRight } from 'lucide-react'
-import { Button } from '@/components/ui/button'
 
 const services = [
   {
@@ -48,24 +47,24 @@ const services = [
 
 export default function ServicesSection() {
   return (
-    <section className="section-padding bg-background" id="angebote">
+    <section className="section-padding bg-black" id="angebote">
       <div className="container-max">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-          className="text-center mb-12"
+          className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-5xl font-semibold tracking-tight mb-4">
+          <h2 className="text-3xl md:text-5xl font-semibold tracking-tight mb-4 text-white">
             Mein Angebot – Personal Training in Zürich
           </h2>
-          <p className="text-muted-foreground text-lg max-w-xl mx-auto">
+          <p className="text-white/45 text-lg max-w-xl mx-auto">
             Zwei klare Angebote, kein Kleingedrucktes. Starte einfach mit dem kostenlosen Termin.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-4xl mx-auto">
           {services.map((service, i) => (
             <motion.div
               key={service.id}
@@ -73,41 +72,41 @@ export default function ServicesSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.55, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
-              className={`relative rounded-3xl border p-8 md:p-10 flex flex-col group cursor-pointer transition-all duration-500 hover:-translate-y-1 hover:shadow-xl ${
+              className={`relative rounded-3xl p-8 md:p-10 flex flex-col transition-all duration-500 hover:-translate-y-1 ${
                 service.highlight
-                  ? 'bg-[hsl(0,0%,11%)] border-primary/20 text-white'
-                  : 'bg-white border-black/5 shadow-sm'
+                  ? 'bg-white text-black hover:shadow-[0_32px_64px_-16px_hsl(0_0%_0%_/0.7)]'
+                  : 'bg-[#111] border border-white/8 hover:border-white/16 hover:shadow-[0_24px_48px_-12px_hsl(0_0%_0%_/0.8)]'
               }`}
             >
               {/* Badge */}
               <div className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold mb-6 w-fit ${
                 service.highlight
-                  ? 'bg-primary/20 text-primary'
-                  : 'bg-secondary text-secondary-foreground'
+                  ? 'bg-black text-white'
+                  : 'bg-white/8 border border-white/12 text-white/70'
               }`}>
                 {service.badge}
               </div>
 
               {/* Title */}
-              <h3 className={`text-xl font-semibold tracking-tight mb-2 ${service.highlight ? 'text-white' : ''}`}>
+              <h3 className={`text-xl font-semibold tracking-tight mb-2 ${service.highlight ? 'text-black' : 'text-white'}`}>
                 {service.title}
               </h3>
 
               {/* Price */}
               <div className="flex items-baseline gap-2 mb-1">
-                <span className={`text-4xl font-bold ${service.highlight ? 'text-primary' : 'text-foreground'}`}>
+                <span className={`text-4xl font-semibold ${service.highlight ? 'text-black' : 'text-white'}`}>
                   {service.price}
                 </span>
-                <span className={`text-sm ${service.highlight ? 'text-white/60' : 'text-muted-foreground'}`}>
+                <span className={`text-sm ${service.highlight ? 'text-black/50' : 'text-white/40'}`}>
                   {service.priceNote}
                 </span>
               </div>
-              <p className={`text-sm mb-4 ${service.highlight ? 'text-white/60' : 'text-muted-foreground'}`}>
+              <p className={`text-sm mb-4 ${service.highlight ? 'text-black/50' : 'text-white/40'}`}>
                 Dauer: {service.duration}
               </p>
 
               {/* Description */}
-              <p className={`text-sm leading-relaxed mb-6 ${service.highlight ? 'text-white/70' : 'text-muted-foreground'}`}>
+              <p className={`text-sm leading-relaxed mb-6 ${service.highlight ? 'text-black/65' : 'text-white/55'}`}>
                 {service.description}
               </p>
 
@@ -115,8 +114,8 @@ export default function ServicesSection() {
               <ul className="space-y-2.5 mb-8 flex-1">
                 {service.features.map((feature, j) => (
                   <li key={j} className="flex items-start gap-2.5">
-                    <Check className="w-4 h-4 text-primary mt-0.5 shrink-0" />
-                    <span className={`text-sm ${service.highlight ? 'text-white/80' : 'text-foreground/80'}`}>
+                    <Check className={`w-4 h-4 mt-0.5 shrink-0 ${service.highlight ? 'text-black' : 'text-white/60'}`} />
+                    <span className={`text-sm ${service.highlight ? 'text-black/75' : 'text-white/70'}`}>
                       {feature}
                     </span>
                   </li>
@@ -125,19 +124,22 @@ export default function ServicesSection() {
 
               {/* Payment note */}
               {service.paymentNote && (
-                <p className="text-xs text-white/40 mb-4">{service.paymentNote}</p>
+                <p className={`text-xs mb-4 ${service.highlight ? 'text-black/40' : 'text-white/30'}`}>
+                  {service.paymentNote}
+                </p>
               )}
 
               {/* CTA */}
-              <Link href={`/book/${service.id}`}>
-                <Button
-                  variant={service.highlight ? 'hero' : 'outline'}
-                  size="lg"
-                  className="w-full group"
-                >
-                  {service.cta}
-                  <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </Button>
+              <Link
+                href={`/book/${service.id}`}
+                className={`inline-flex h-12 items-center justify-center rounded-full px-8 text-sm font-semibold transition-all duration-300 group gap-2 ${
+                  service.highlight
+                    ? 'bg-black text-white hover:bg-black/80 hover:scale-[1.02]'
+                    : 'bg-white text-black hover:bg-white/90 hover:scale-[1.02]'
+                }`}
+              >
+                {service.cta}
+                <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
             </motion.div>
           ))}

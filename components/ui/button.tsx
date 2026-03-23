@@ -8,21 +8,21 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-[hsl(140,26%,45%)] hover:shadow-medium hover:scale-[1.02]",
-        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
-        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
-        hero: "rounded-full bg-primary text-primary-foreground font-semibold hover:bg-[hsl(140,26%,45%)] hover:shadow-[0_16px_48px_-8px_hsl(0_0%_0%_/0.25)] hover:scale-[1.03] active:scale-[0.98]",
-        "outline-white": "rounded-full border border-white/30 text-white bg-white/8 hover:bg-white/15 backdrop-blur-sm",
+        default:       "bg-white text-black hover:bg-white/90 hover:shadow-medium hover:scale-[1.02]",
+        destructive:   "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+        outline:       "border border-white/20 bg-transparent text-white hover:bg-white/8 hover:text-white",
+        secondary:     "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        ghost:         "hover:bg-white/8 hover:text-white text-white/70",
+        link:          "text-white underline-offset-4 hover:underline",
+        hero:          "rounded-full bg-white text-black font-semibold hover:bg-white/90 hover:shadow-[0_16px_48px_-8px_hsl(0_0%_0%_/0.5)] hover:scale-[1.03] active:scale-[0.98]",
+        "outline-white": "rounded-full border border-white/25 text-white bg-white/5 hover:bg-white/12 backdrop-blur-sm",
       },
       size: {
         default: "h-10 px-5 py-2",
-        sm: "h-8 rounded-md px-3 text-xs",
-        lg: "h-12 rounded-lg px-8 text-base",
-        xl: "h-14 px-10 text-[15px]",
-        icon: "h-10 w-10",
+        sm:      "h-8 rounded-md px-3 text-xs",
+        lg:      "h-12 rounded-lg px-8 text-base",
+        xl:      "h-14 px-10 text-[15px]",
+        icon:    "h-10 w-10",
       },
     },
     defaultVariants: {

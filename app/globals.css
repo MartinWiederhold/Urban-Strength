@@ -5,79 +5,54 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap');
 
 :root {
-  /* Color Palette - 1:1 from onewell-swiss-zen */
-  --background: 40 20% 97%;
-  --foreground: 0 0% 10%;
-  --card: 40 20% 97%;
-  --card-foreground: 0 0% 10%;
-  --popover: 40 20% 97%;
-  --popover-foreground: 0 0% 10%;
+  /* ── Pure Black Design System ── */
+  --background: 0 0% 4%;
+  --foreground: 0 0% 97%;
 
-  /* Primary: PT Green */
-  --primary: 140 26% 39%;
-  --primary-foreground: 0 0% 100%;
-  --primary-hover: 140 26% 45%;
+  --card: 0 0% 8%;
+  --card-foreground: 0 0% 97%;
 
-  /* Secondary: Sand */
-  --secondary: 36 18% 91%;
-  --secondary-foreground: 0 0% 10%;
+  --popover: 0 0% 8%;
+  --popover-foreground: 0 0% 97%;
 
-  /* Muted: Stone */
-  --muted: 36 10% 85%;
-  --muted-foreground: 0 0% 40%;
+  /* Primary = White (buttons, accents) */
+  --primary: 0 0% 100%;
+  --primary-foreground: 0 0% 0%;
+  --primary-hover: 0 0% 88%;
+
+  /* Secondary = Dark surface */
+  --secondary: 0 0% 11%;
+  --secondary-foreground: 0 0% 97%;
+
+  /* Muted */
+  --muted: 0 0% 13%;
+  --muted-foreground: 0 0% 52%;
 
   /* Accent */
-  --accent: 36 18% 91%;
-  --accent-foreground: 0 0% 10%;
+  --accent: 0 0% 13%;
+  --accent-foreground: 0 0% 97%;
 
   /* Destructive */
   --destructive: 0 84% 60%;
   --destructive-foreground: 0 0% 98%;
 
   /* Border & Input */
-  --border: 36 15% 88%;
-  --input: 36 15% 88%;
-  --ring: 140 26% 39%;
-
-  /* Custom Brand Colors */
-  --pt-green: 140 26% 39%;
-  --soft-white: 40 20% 97%;
-  --sand: 36 18% 91%;
-  --stone: 36 10% 85%;
-  --dark: 0 0% 11%;
+  --border: 0 0% 13%;
+  --input: 0 0% 13%;
+  --ring: 0 0% 100%;
 
   /* Shadows */
-  --shadow-soft: 0 2px 8px -2px hsl(0 0% 0% / 0.08);
-  --shadow-medium: 0 8px 24px -4px hsl(0 0% 0% / 0.1);
-  --shadow-strong: 0 16px 48px -8px hsl(0 0% 0% / 0.15);
-  --shadow-card: 0 4px 20px -4px hsl(0 0% 0% / 0.1);
+  --shadow-soft:   0 2px 8px -2px hsl(0 0% 0% / 0.5);
+  --shadow-medium: 0 8px 24px -4px hsl(0 0% 0% / 0.6);
+  --shadow-strong: 0 16px 48px -8px hsl(0 0% 0% / 0.7);
+  --shadow-card:   0 4px 20px -4px hsl(0 0% 0% / 0.5);
 
   /* Transitions */
-  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth:  all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   --transition-elegant: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 
   /* Radius */
   --radius: 0.75rem;
-}
-
-.dark {
-  --background: 0 0% 8%;
-  --foreground: 0 0% 95%;
-  --card: 0 0% 11%;
-  --card-foreground: 0 0% 95%;
-  --popover: 0 0% 11%;
-  --popover-foreground: 0 0% 95%;
-  --primary: 140 30% 50%;
-  --primary-foreground: 0 0% 100%;
-  --secondary: 0 0% 18%;
-  --secondary-foreground: 0 0% 90%;
-  --muted: 0 0% 18%;
-  --muted-foreground: 0 0% 60%;
-  --accent: 0 0% 18%;
-  --accent-foreground: 0 0% 90%;
-  --border: 0 0% 20%;
-  --input: 0 0% 20%;
-  --ring: 140 30% 50%;
 }
 
 @layer base {
@@ -115,7 +90,7 @@
   }
 
   .section-padding {
-    @apply px-4 md:px-10 py-16 md:py-24;
+    @apply px-4 md:px-10 py-20 md:py-28;
   }
 
   .container-max {
@@ -127,15 +102,7 @@
   }
 
   .gradient-hero {
-    background: linear-gradient(180deg, hsl(0 0% 5% / 0.3), hsl(0 0% 5% / 0.55));
-  }
-
-  .gradient-dark {
-    background: linear-gradient(135deg, hsl(0 0% 8%) 0%, hsl(0 0% 14%) 100%);
-  }
-
-  .gradient-green {
-    background: linear-gradient(135deg, hsl(140 26% 35%) 0%, hsl(140 26% 45%) 100%);
+    background: linear-gradient(180deg, hsl(0 0% 0% / 0.35), hsl(0 0% 0% / 0.6));
   }
 
   .hover-lift {
@@ -143,7 +110,7 @@
   }
 
   .hover-lift:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-medium);
+    transform: translateY(-3px);
+    box-shadow: 0 16px 40px -8px hsl(0 0% 0% / 0.7);
   }
 }
