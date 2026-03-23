@@ -25,16 +25,45 @@ export async function updateSession(request: NextRequest) {
 
   const { data: { user } } = await supabase.auth.getUser()
 
-  // Protected routes
-  const isAdminRoute = request.nextUrl.pathname.startsWith('/admin')
-  const isDashboardRoute = request.nextUrl.pathname.startsWith('/dashboard')
+  const { pathname } = request.nextUrl
 
-  if ((isAdminRoute || isDashboardRoute) && !user) {
+  const isAdminLogin    = pathname === '/admin/login'
+  const isAdminRoute    = pathname.startsWith('/admin') && !isAdminLogin
+  const isDashboardRoute = pathname.startsWith('/dashboard')
+
+  // /admin/login is public – allow through
+  if (isAdminLogin) {
+    // If already logged-in admin, skip the login page
+    if (user) {
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', user.id)
+        .single()
+      if (profile?.role === 'admin') {
+        const url = request.nextUrl.clone()
+        url.pathname = '/admin'
+        return NextResponse.redirect(url)
+      }
+    }
+    return supabaseResponse
+  }
+
+  // /dashboard/* – unauthenticated → /login
+  if (isDashboardRoute && !user) {
     const url = request.nextUrl.clone()
     url.pathname = '/login'
     return NextResponse.redirect(url)
   }
 
+  // /admin/* – unauthenticated → /admin/login
+  if (isAdminRoute && !user) {
+    const url = request.nextUrl.clone()
+    url.pathname = '/admin/login'
+    return NextResponse.redirect(url)
+  }
+
+  // /admin/* – authenticated but not admin → /dashboard
   if (isAdminRoute && user) {
     const { data: profile } = await supabase
       .from('profiles')

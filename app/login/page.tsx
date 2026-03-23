@@ -33,12 +33,7 @@ export default function LoginPage() {
         return
       }
       if (data.user) {
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('role')
-          .eq('id', data.user.id)
-          .single()
-        router.push(profile?.role === 'admin' ? '/admin' : '/dashboard')
+        router.push('/dashboard')
         router.refresh()
       }
     } catch {
