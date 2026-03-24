@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
 import CTASection from '@/components/sections/CTASection'
@@ -6,7 +7,7 @@ import { Award, Users, Clock, Target, Heart, Dumbbell } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'Über Martin – Dein Personal Trainer in Zürich',
-  description: 'Lerne Martin kennen – zertifizierter Personal Trainer in Zürich mit 5+ Jahren Erfahrung. Spezialisiert auf Muskelaufbau, Fettabbau und individuelles 1:1 Training.',
+  description: 'Lerne Martin kennen – zertifizierter Personal Trainer in Zürich mit 12+ Jahren Erfahrung. Spezialisiert auf Muskelaufbau, Fettabbau und individuelles 1:1 Training.',
   alternates: { canonical: 'https://personaltrainingbymartin.netlify.app/about' },
 }
 
@@ -49,13 +50,15 @@ export default function AboutPage() {
                   Ich glaube, dass jeder das Potenzial hat, seinen Körper zu transformieren – wenn er die richtige Unterstützung und einen Plan bekommt, der wirklich funktioniert.
                 </p>
               </div>
-              <div className="relative">
-                <div className="aspect-[3/4] rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center">
-                  <div className="flex flex-col items-center gap-2 text-white/20">
-                    <Users className="w-16 h-16" />
-                    <span className="text-sm">Foto: Martin – Personal Trainer Zürich</span>
-                  </div>
-                </div>
+              <div className="relative aspect-[3/4] rounded-2xl overflow-hidden border border-white/10 bg-white/5">
+                <Image
+                  src="/assets/images/IMG_9928.jpg"
+                  alt="Martin – Personal Trainer in Zürich"
+                  fill
+                  className="object-cover object-center"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  priority
+                />
               </div>
             </div>
           </div>
@@ -66,7 +69,7 @@ export default function AboutPage() {
           <div className="container-max">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
               {[
-                { icon: Award, value: '5+', label: 'Jahre Erfahrung als Personal Trainer' },
+                { icon: Award, value: '12+', label: 'Jahre Erfahrung als Personal Trainer' },
                 { icon: Users, value: '100+', label: 'Kunden erfolgreich trainiert' },
                 { icon: Clock, value: '1000+', label: 'Trainingsstunden durchgeführt' },
               ].map((stat, i) => (

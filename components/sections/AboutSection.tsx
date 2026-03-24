@@ -1,10 +1,11 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { Award, Users, Clock, ChevronRight } from 'lucide-react'
 
 const stats = [
-  { icon: Award, value: '5+', label: 'Jahre Erfahrung' },
+  { icon: Award, value: '12+', label: 'Jahre Erfahrung' },
   { icon: Users, value: '100+', label: 'Kunden trainiert' },
   { icon: Clock, value: '1000+', label: 'Trainingsstunden' },
 ]
@@ -50,24 +51,22 @@ export default function AboutSection() {
           {/* Profile image — on mobile appears first (top), on desktop goes to right column */}
           <div className="animate-slide-up md:order-2 order-1 flex justify-center">
             <div className="relative">
-              {/* Round profile image placeholder — replace src with real photo when available */}
               <div
-                className="w-64 h-64 md:w-72 md:h-72 rounded-full bg-[#181818] border-2 border-white/10 flex flex-col items-center justify-center overflow-hidden shadow-[0_24px_64px_-12px_hsl(0_0%_0%_/0.9),0_0_0_1px_hsl(0_0%_100%_/0.06)]"
-                role="img"
-                aria-label="Martin – Personal Trainer in Zürich"
+                className="relative w-64 h-64 md:w-72 md:h-72 rounded-full bg-[#181818] border-2 border-white/10 overflow-hidden shadow-[0_24px_64px_-12px_hsl(0_0%_0%_/0.9),0_0_0_1px_hsl(0_0%_100%_/0.06)]"
               >
-                {/* Swap this div for <Image src="/personal-trainer-martin-zuerich.jpg" ... /> once the photo is ready */}
-                <div className="w-24 h-24 rounded-full bg-white/6 flex items-center justify-center mb-3">
-                  <Users className="w-12 h-12 text-white/25" />
-                </div>
-                <span className="text-xs text-white/20 font-medium px-4 text-center leading-snug">
-                  Martin – Personal Trainer Zürich
-                </span>
+                <Image
+                  src="/assets/images/IMG_9928.jpg"
+                  alt="Martin – Personal Trainer in Zürich"
+                  fill
+                  className="object-cover object-center"
+                  sizes="(max-width: 768px) 256px, 288px"
+                  priority
+                />
               </div>
 
               {/* Floating badge */}
               <div className="absolute -bottom-3 -right-3 bg-white text-black rounded-2xl px-4 py-3 shadow-[0_16px_48px_-8px_hsl(0_0%_0%_/0.8)]">
-                <p className="text-xl font-semibold leading-none">5+</p>
+                <p className="text-xl font-semibold leading-none">12+</p>
                 <p className="text-xs text-black/60 mt-0.5">Jahre<br/>Erfahrung</p>
               </div>
             </div>
