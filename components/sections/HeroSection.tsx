@@ -5,19 +5,16 @@ import { ChevronDown, Play } from 'lucide-react'
 
 export default function HeroSection() {
   return (
-    <section className="relative min-h-[88svh] md:min-h-[92svh] overflow-hidden bg-[hsl(0,0%,11%)]">
+    <section className="relative min-h-[88svh] md:min-h-[92svh] overflow-hidden bg-black">
       {/* Video Placeholder Background */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/38 via-black/42 to-black/52" />
+        <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/40 via-black/50 to-black/60" />
         {/* Video placeholder UI */}
         <div className="absolute inset-0 flex items-center justify-center z-0">
           <div className="w-24 h-24 rounded-full border-2 border-white/30 flex items-center justify-center bg-white/10 backdrop-blur-sm cursor-pointer hover:bg-white/20 transition-all duration-300 hover:scale-110">
             <Play className="w-10 h-10 text-white ml-1" fill="white" />
           </div>
         </div>
-        <div className="absolute inset-0 opacity-30"
-          style={{ backgroundImage: 'radial-gradient(circle at 25% 60%, hsl(140 26% 39% / 0.3) 0%, transparent 50%), radial-gradient(circle at 75% 40%, hsl(0 0% 5% / 0.8) 0%, transparent 60%)' }}
-        />
       </div>
 
       {/* Content */}
@@ -56,7 +53,7 @@ export default function HeroSection() {
           >
             <Link
               href="/book/probe-training"
-              className="inline-flex h-14 items-center justify-center rounded-full bg-primary px-10 text-[15px] font-semibold text-white hover:bg-[hsl(140,26%,45%)] hover:shadow-[0_16px_48px_-8px_hsl(0_0%_0%_/0.25)] hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 w-full sm:w-auto"
+              className="inline-flex h-14 items-center justify-center rounded-full bg-primary px-10 text-[15px] font-semibold text-white hover:bg-white/90 hover:shadow-[0_16px_48px_-8px_hsl(0_0%_0%_/0.25)] hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 w-full sm:w-auto"
             >
               Kostenloses Probetraining buchen
             </Link>
