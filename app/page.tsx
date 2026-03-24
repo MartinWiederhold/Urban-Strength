@@ -4,7 +4,6 @@ import Footer from '@/components/Footer'
 import HeroSection from '@/components/sections/HeroSection'
 import ProblemsSection from '@/components/sections/ProblemsSection'
 import ServicesSection from '@/components/sections/ServicesSection'
-import ResultsSection from '@/components/sections/ResultsSection'
 import AboutSection from '@/components/sections/AboutSection'
 import MethodSection from '@/components/sections/MethodSection'
 import GallerySection from '@/components/sections/GallerySection'
@@ -127,7 +126,6 @@ export default function HomePage() {
         <HeroSection />
         <ProblemsSection />
         <ServicesSection />
-        <ResultsSection />
         <AboutSection />
         <MethodSection />
         <GallerySection />
