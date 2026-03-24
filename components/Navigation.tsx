@@ -78,6 +78,15 @@ export default function Navigation() {
     mobileNavTimeoutRef.current = setTimeout(() => { window.location.href = href }, 320)
   }
 
+  const goToLandingAngebote = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault()
+    if (pathname === '/') {
+      document.getElementById('angebote')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    } else {
+      window.location.href = '/#angebote'
+    }
+  }
+
   return (
     <>
       <header
@@ -154,16 +163,13 @@ export default function Navigation() {
                   )}
                 </div>
               ) : (
-                <>
-                  <Link href="/login"
-                    className="px-4 py-2 text-[12px] font-semibold uppercase tracking-[0.11em] text-white/60 hover:text-white transition-colors">
-                    Einloggen
-                  </Link>
-                  <Link href="/book/probe-training"
-                    className="inline-flex h-10 items-center rounded-full bg-white px-5 text-[13px] font-semibold tracking-tight text-black hover:bg-white/90 transition-colors">
-                    Kostenlos buchen
-                  </Link>
-                </>
+                <a
+                  href="/#angebote"
+                  onClick={goToLandingAngebote}
+                  className="inline-flex h-10 items-center rounded-full bg-white px-5 text-[13px] font-semibold tracking-tight text-black hover:bg-white/90 transition-colors"
+                >
+                  Jetzt buchen
+                </a>
               )}
             </div>
 
@@ -224,12 +230,7 @@ export default function Navigation() {
                     Ausloggen
                   </button>
                 </>
-              ) : (
-                <button type="button" onClick={() => navigateFromMobile('/login')}
-                  className="text-left text-[2.05rem] font-semibold leading-tight text-white/85">
-                  Einloggen
-                </button>
-              )}
+              ) : null}
             </nav>
 
             <div className="mt-auto border-t border-white/8 pt-6" />

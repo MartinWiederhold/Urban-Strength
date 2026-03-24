@@ -65,7 +65,7 @@ const services = [
 
 export default function ServicesSection() {
   return (
-    <section className="section-padding bg-black" id="angebote">
+    <section className="section-padding bg-black scroll-mt-[4.75rem] md:scroll-mt-[5rem]" id="angebote">
       <div className="container-max">
         <div className="animate-slide-up text-center mb-16">
           <h2 className="text-3xl md:text-5xl font-semibold tracking-tight mb-4 text-white">
