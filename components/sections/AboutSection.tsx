@@ -16,7 +16,6 @@ export default function AboutSection() {
       <div className="container-max">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
 
-          {/* Content — DOM first so it's left on desktop; on mobile appears below image */}
           <div className="animate-slide-up md:order-1 order-2">
             <h2 className="text-3xl md:text-5xl font-semibold tracking-tight mb-6 text-white">
               Dein Personal Trainer in Zürich – Martin
@@ -28,7 +27,6 @@ export default function AboutSection() {
               Ich trainiere im Gym am Oberer Heuelsteig 30 in Zürich. Mit mir bekommst du keine Standard-Programme – sondern ein Training, das wirklich zu dir und deinen Zielen passt.
             </p>
 
-            {/* Stats */}
             <div className="grid grid-cols-3 gap-4 mb-8">
               {stats.map((stat, i) => (
                 <div key={i} className="text-center p-4 rounded-2xl bg-[#111] border border-white/8">
@@ -48,7 +46,6 @@ export default function AboutSection() {
             </Link>
           </div>
 
-          {/* Profile image — on mobile appears first (top), on desktop goes to right column */}
           <div className="animate-slide-up md:order-2 order-1 flex justify-center">
             <div className="relative">
               <div
@@ -64,10 +61,9 @@ export default function AboutSection() {
                 />
               </div>
 
-              {/* Floating badge */}
               <div className="absolute -bottom-3 -right-3 bg-white text-black rounded-2xl px-4 py-3 shadow-[0_16px_48px_-8px_hsl(0_0%_0%_/0.8)]">
                 <p className="text-xl font-semibold leading-none">12+</p>
-                <p className="text-xs text-black/60 mt-0.5">Jahre<br/>Erfahrung</p>
+                <p className="text-xs text-black/60 mt-0.5">Jahre<br />Erfahrung</p>
               </div>
             </div>
           </div>

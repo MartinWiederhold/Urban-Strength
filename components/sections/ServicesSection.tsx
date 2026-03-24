@@ -82,27 +82,22 @@ export default function ServicesSection() {
               key={service.id}
               className="relative rounded-3xl p-8 flex flex-col transition-all duration-500 hover:-translate-y-1 bg-white text-black hover:shadow-[0_32px_64px_-16px_hsl(0_0%_0%_/0.7)]"
             >
-              {/* Badge */}
               <div className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold mb-6 w-fit bg-black text-white">
                 {service.badge}
               </div>
 
-              {/* Title */}
               <h3 className="text-xl font-semibold tracking-tight mb-2 text-black">
                 {service.title}
               </h3>
 
-              {/* Price */}
               <div className="flex items-baseline gap-2 mb-1">
                 <span className="text-4xl font-semibold text-black">{service.price}</span>
                 <span className="text-sm text-black/50">{service.priceNote}</span>
               </div>
               <p className="text-sm mb-4 text-black/50">Dauer: {service.duration}</p>
 
-              {/* Description */}
               <p className="text-sm leading-relaxed mb-6 text-black/65">{service.description}</p>
 
-              {/* Features */}
               <ul className="space-y-2.5 mb-8 flex-1">
                 {service.features.map((feature, j) => (
                   <li key={j} className="flex items-start gap-2.5">
@@ -112,12 +107,10 @@ export default function ServicesSection() {
                 ))}
               </ul>
 
-              {/* Payment note */}
               {service.paymentNote && (
                 <p className="text-xs mb-4 text-black/40">{service.paymentNote}</p>
               )}
 
-              {/* CTA */}
               <Link
                 href={`/book/${service.id}`}
                 className="inline-flex h-12 items-center justify-center rounded-full px-8 text-sm font-semibold transition-all duration-300 group gap-2 bg-black text-white hover:bg-black/80 hover:scale-[1.02]"

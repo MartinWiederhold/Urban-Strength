@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
 import HeroSection from '@/components/sections/HeroSection'
-import ProblemsSection from '@/components/sections/ProblemsSection'
 import ServicesSection from '@/components/sections/ServicesSection'
 import AboutSection from '@/components/sections/AboutSection'
 import MethodSection from '@/components/sections/MethodSection'
@@ -124,7 +123,6 @@ export default function HomePage() {
       <Navigation />
       <main>
         <HeroSection />
-        <ProblemsSection />
         <ServicesSection />
         <AboutSection />
         <MethodSection />

@@ -1,20 +1,41 @@
 'use client'
 
 import Link from 'next/link'
-import { ChevronDown, Play } from 'lucide-react'
+import Image from 'next/image'
+import { ChevronDown } from 'lucide-react'
 
 export default function HeroSection() {
   return (
     <section className="relative min-h-[88svh] md:min-h-[92svh] overflow-hidden bg-black">
-      {/* Video Placeholder Background */}
+      {/* Hero image + layered black treatment */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/40 via-black/50 to-black/60" />
-        {/* Video placeholder UI */}
-        <div className="absolute inset-0 flex items-center justify-center z-0">
-          <div className="w-24 h-24 rounded-full border-2 border-white/30 flex items-center justify-center bg-white/10 backdrop-blur-sm cursor-pointer hover:bg-white/20 transition-all duration-300 hover:scale-110">
-            <Play className="w-10 h-10 text-white ml-1" fill="white" />
-          </div>
-        </div>
+        <Image
+          src="/assets/images/berdet.png"
+          alt="Personal Training – Gym und Training in Zürich"
+          fill
+          className="object-cover object-center scale-[1.02]"
+          sizes="100vw"
+          priority
+          quality={90}
+        />
+        {/* Base: vertical depth – darker footer zone for scroll affordance */}
+        <div
+          className="pointer-events-none absolute inset-0 z-[1]"
+          style={{
+            background:
+              'linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.28) 38%, rgba(0,0,0,0.52) 72%, rgba(0,0,0,0.82) 100%)',
+          }}
+        />
+        {/* Soft vignette – draws focus to center copy */}
+        <div
+          className="pointer-events-none absolute inset-0 z-[2]"
+          style={{
+            background:
+              'radial-gradient(ellipse 95% 75% at 50% 42%, transparent 0%, rgba(0,0,0,0.35) 55%, rgba(0,0,0,0.75) 100%)',
+          }}
+        />
+        {/* Thin top edge – header blend */}
+        <div className="pointer-events-none absolute inset-x-0 top-0 z-[3] h-28 bg-gradient-to-b from-black/70 to-transparent" />
       </div>
 
       {/* Content */}
@@ -25,7 +46,7 @@ export default function HeroSection() {
           <div className="animate-slide-up mb-8 md:mb-10"
           >
             <span className="inline-block rounded-full border border-white/22 bg-white/8 px-4 py-1.5 text-[10px] uppercase tracking-[0.22em] text-white/90 backdrop-blur-sm md:px-5 md:py-2 md:text-xs">
-              Zürich · Oberer Heuelsteig 30 · Erster Termin gratis
+              Zürich · Oberer Heuelsteig 30 · 8032 Zürich
             </span>
           </div>
 
@@ -74,7 +95,7 @@ export default function HeroSection() {
       >
         <button
           onClick={() => {
-            const el = document.getElementById('probleme')
+            const el = document.getElementById('angebote')
             if (el) el.scrollIntoView({ behavior: 'smooth' })
           }}
           className="group inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/8 px-4 py-2 text-[10px] uppercase tracking-[0.2em] text-white/90 backdrop-blur-sm transition-colors duration-500 hover:bg-white/14 md:text-[11px]"
