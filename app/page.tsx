@@ -8,7 +8,6 @@ import MethodSection from '@/components/sections/MethodSection'
 import GallerySection from '@/components/sections/GallerySection'
 import MapSection from '@/components/sections/MapSection'
 import FAQSection from '@/components/sections/FAQSection'
-import CTASection from '@/components/sections/CTASection'
 
 export const metadata: Metadata = {
   title: 'Personal Training Zürich | Kostenloses Probetraining | by Martin',
@@ -129,7 +128,6 @@ export default function HomePage() {
         <GallerySection />
         <MapSection />
         <FAQSection />
-        <CTASection />
       </main>
       <Footer />
     </>

@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { MapPin, Mail, Instagram, Facebook } from 'lucide-react'
+import { MapPin, Mail } from 'lucide-react'
 
 export default function Footer() {
   return (
@@ -17,17 +17,9 @@ export default function Footer() {
                 by Martin
               </span>
             </Link>
-            <p className="text-sm text-white/45 font-light leading-relaxed mb-5">
+            <p className="text-sm text-white/45 font-light leading-relaxed">
               Professionelles Personal Training in Zürich. Individuelles 1:1 Training für deine Ziele.
             </p>
-            <div className="flex gap-2">
-              <a href="#" aria-label="Instagram" className="w-9 h-9 rounded-full border border-white/10 flex items-center justify-center hover:border-white/30 hover:bg-white/5 transition-all">
-                <Instagram className="w-4 h-4 text-white/50" />
-              </a>
-              <a href="#" aria-label="Facebook" className="w-9 h-9 rounded-full border border-white/10 flex items-center justify-center hover:border-white/30 hover:bg-white/5 transition-all">
-                <Facebook className="w-4 h-4 text-white/50" />
-              </a>
-            </div>
           </div>
 
             <div>
