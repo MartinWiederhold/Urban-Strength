@@ -77,7 +77,7 @@ async function sendMail(to: string, subject: string, html: string) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { type, to, name, service, date, time, message, customerEmail } = body
+    const { type, to, name, service, date, time, message, customerEmail, phone, age, experience, goals } = body
 
     // ── Kunden-E-Mails ─────────────────────────────────────────────────────────
 
@@ -110,12 +110,19 @@ export async function POST(request: NextRequest) {
     // ── Admin-Benachrichtigungen ────────────────────────────────────────────────
 
     else if (type === 'new_booking_admin') {
+      const extraRows = [
+        phone ? `<tr><td style="color:#999;font-size:12px;text-transform:uppercase;padding:6px 0;">Telefon</td><td style="font-weight:600;color:#1c1c1c;text-align:right;">${phone}</td></tr>` : '',
+        age ? `<tr><td style="color:#999;font-size:12px;text-transform:uppercase;padding:6px 0;">Alter</td><td style="font-weight:600;color:#1c1c1c;text-align:right;">${age}</td></tr>` : '',
+        experience ? `<tr><td style="color:#999;font-size:12px;text-transform:uppercase;padding:6px 0;">Erfahrung</td><td style="font-weight:600;color:#1c1c1c;text-align:right;">${experience}</td></tr>` : '',
+        goals ? `<tr><td style="color:#999;font-size:12px;text-transform:uppercase;padding:6px 0;">Ziele</td><td style="font-weight:600;color:#1c1c1c;text-align:right;">${goals}</td></tr>` : '',
+      ].join('')
       const html = baseTemplate(`
         <h2 style="color: #1c1c1c; font-size: 20px; font-weight: 700; margin: 0 0 8px;">🆕 Neue Buchung eingegangen</h2>
         <p style="color: #666; margin: 0 0 16px;">
           <strong>${name}</strong> (${customerEmail ?? to}) hat einen neuen Termin gebucht.
         </p>
         ${bookingTable(service, date, time)}
+        ${extraRows ? `<div style="background:#f7f6f3;border-radius:12px;padding:20px;margin:12px 0;"><table style="width:100%;border-collapse:collapse;">${extraRows}</table></div>` : ''}
         ${ctaButton(`${APP_URL}/admin/bookings`, 'Im Admin Dashboard ansehen')}
       `)
       await sendMail(ADMIN_EMAIL, `🆕 Neue Buchung: ${name} – ${service}`, html)

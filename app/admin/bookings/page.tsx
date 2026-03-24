@@ -127,18 +127,28 @@ export default function AdminBookingsPage() {
                   const amount   = booking.paid_amount ?? calcAmount(service)
                   const isFree   = service?.price === 0
 
+                  const displayName = profile?.full_name
+                    ?? (booking.first_name ? `${booking.first_name} ${booking.last_name ?? ''}`.trim() : null)
+                    ?? 'Unbekannt'
+                  const displayEmail = profile?.email ?? booking.customer_email ?? '–'
+                  const isAnon = !booking.customer_id
+
                   return (
                     <tr key={booking.id} className="hover:bg-secondary/30 transition-colors animate-in" style={{ animationDelay: `${i * 0.03}s` }}
                     >
                       {/* Kunde */}
                       <td className="p-4">
                         <div className="flex items-center gap-1.5">
-                          <p className="font-medium">{profile?.full_name ?? 'Unbekannt'}</p>
+                          <p className="font-medium">{displayName}</p>
                           {isNew && (
                             <span className="text-xs bg-amber-400/10 text-amber-400 border border-amber-400/20 px-1.5 py-0.5 rounded-full font-semibold">Neu</span>
                           )}
+                          {isAnon && (
+                            <span className="text-xs bg-secondary text-muted-foreground border border-border px-1.5 py-0.5 rounded-full font-semibold">Gast</span>
+                          )}
                         </div>
-                        <p className="text-xs text-muted-foreground">{profile?.email ?? '–'}</p>
+                        <p className="text-xs text-muted-foreground">{displayEmail}</p>
+                        {booking.customer_phone && <p className="text-xs text-muted-foreground">{booking.customer_phone}</p>}
                       </td>
 
                       {/* Angebot */}
@@ -205,9 +215,11 @@ export default function AdminBookingsPage() {
                               </SelectContent>
                             </Select>
                           )}
-                          <Link href={`/admin/customers/${profile?.id ?? ''}`}>
-                            <Button variant="ghost" size="sm" className="text-xs h-8">Profil</Button>
-                          </Link>
+                          {profile?.id && (
+                            <Link href={`/admin/customers/${profile.id}`}>
+                              <Button variant="ghost" size="sm" className="text-xs h-8">Profil</Button>
+                            </Link>
+                          )}
                         </div>
                       </td>
                     </tr>

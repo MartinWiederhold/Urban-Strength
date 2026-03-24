@@ -28,6 +28,10 @@ export const metadata: Metadata = {
     description: 'Dein Personal Trainer in Zürich. Individuelles 1:1 Training. Erster Termin gratis! Ab CHF 35/h.',
     images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Personal Training Zürich – by Martin' }],
   },
+  icons: {
+    icon: '/faviconXmartin.png',
+    apple: '/faviconXmartin.png',
+  },
   twitter: { card: 'summary_large_image' },
   robots: {
     index: true,

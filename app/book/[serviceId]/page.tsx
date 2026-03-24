@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
-import { ArrowLeft, ArrowRight, Check, Loader2, Eye, EyeOff, MapPin } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Check, Loader2, MapPin } from 'lucide-react'
 import Link from 'next/link'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
@@ -10,7 +10,6 @@ import AvailabilityCalendar from '@/components/booking/AvailabilityCalendar'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { createClient } from '@/lib/supabase/client'
 import type { Service, Availability } from '@/lib/types'
@@ -21,6 +20,17 @@ const SERVICE_SLUGS: Record<string, string> = {
   'probe-training': 'Kostenloser Start',
   'personal-training': 'Personal Training 1:1',
 }
+
+const GOAL_OPTIONS = [
+  'Muskelaufbau',
+  'Fettabbau',
+  'Ausdauer',
+  'Kraft',
+  'Flexibilität',
+  'Gesundheit',
+  'Rehabilitation',
+  'Allgemeine Fitness',
+]
 
 type Step = 1 | 2 | 3
 
@@ -34,22 +44,15 @@ export default function BookingPage() {
   const [selectedSlot, setSelectedSlot] = useState<Availability | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
-  const [showPassword, setShowPassword] = useState(false)
+  const [selectedGoals, setSelectedGoals] = useState<string[]>([])
 
-  // Form data
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
     email: '',
     phone: '',
     age: '',
-    gender: '',
-    fitnessLevel: '',
-    goals: '',
-    healthConditions: '',
-    howFoundUs: '',
-    password: '',
-    confirmPassword: '',
+    experience: '',
   })
 
   useEffect(() => {
@@ -70,14 +73,16 @@ export default function BookingPage() {
   const updateForm = (field: string, value: string) =>
     setFormData(prev => ({ ...prev, [field]: value }))
 
+  const toggleGoal = (goal: string) =>
+    setSelectedGoals(prev =>
+      prev.includes(goal) ? prev.filter(g => g !== goal) : [...prev, goal]
+    )
+
   const validateStep2 = () => {
     if (!formData.firstName.trim()) return 'Vorname ist erforderlich.'
     if (!formData.lastName.trim()) return 'Nachname ist erforderlich.'
     if (!formData.email.trim()) return 'E-Mail ist erforderlich.'
     if (!formData.phone.trim()) return 'Telefonnummer ist erforderlich.'
-    if (!formData.password) return 'Passwort ist erforderlich.'
-    if (formData.password.length < 8) return 'Passwort muss mindestens 8 Zeichen haben.'
-    if (formData.password !== formData.confirmPassword) return 'Passwörter stimmen nicht überein.'
     return null
   }
 
@@ -88,69 +93,20 @@ export default function BookingPage() {
     try {
       const supabase = createClient()
 
-      // 1. Check if user exists
-      const { data: existingUsers } = await supabase
-        .from('profiles')
-        .select('id')
-        .eq('email', formData.email)
-        .limit(1)
-
-      let userId: string
-
-      if (existingUsers && existingUsers.length > 0) {
-        // User exists - try to sign in
-        const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
-          email: formData.email,
-          password: formData.password,
-        })
-        if (signInError) {
-          setError('Diese E-Mail ist bereits registriert. Bitte melde dich mit deinem bestehenden Passwort an oder nutze "Passwort vergessen".')
-          setIsLoading(false)
-          return
-        }
-        userId = signInData.user!.id
-      } else {
-        // 2. Sign up new user
-        const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
-          email: formData.email,
-          password: formData.password,
-          options: {
-            data: {
-              full_name: `${formData.firstName} ${formData.lastName}`,
-              role: 'customer',
-            },
-          },
-        })
-
-        if (signUpError || !signUpData.user) {
-          setError(signUpError?.message ?? 'Fehler beim Erstellen des Kontos.')
-          setIsLoading(false)
-          return
-        }
-        userId = signUpData.user.id
-
-        // 3. Update profile with additional data
-        await supabase.from('profiles').upsert({
-          id: userId,
-          email: formData.email,
-          full_name: `${formData.firstName} ${formData.lastName}`,
-          phone: formData.phone,
-          fitness_goals: formData.goals,
-          health_notes: formData.healthConditions,
-          role: 'customer',
-          customer_status: 'new',
-        })
-      }
-
-      // 4. Create booking
       if (!service || !selectedSlot) {
         setError('Bitte wähle einen Termin aus.')
         setIsLoading(false)
         return
       }
 
+      const goalsStr = selectedGoals.join(', ') || null
+
       const { error: bookingError } = await supabase.from('bookings').insert({
-        customer_id: userId,
+        customer_id: null,
+        first_name: formData.firstName,
+        last_name: formData.lastName,
+        customer_email: formData.email,
+        customer_phone: formData.phone,
         service_id: service.id,
         availability_id: selectedSlot.id,
         booking_date: selectedSlot.date,
@@ -158,11 +114,8 @@ export default function BookingPage() {
         end_time: selectedSlot.end_time,
         status: 'confirmed',
         age: formData.age ? parseInt(formData.age) : null,
-        gender: formData.gender || null,
-        fitness_level: formData.fitnessLevel || null,
-        goals: formData.goals || null,
-        health_conditions: formData.healthConditions || null,
-        how_found_us: formData.howFoundUs || null,
+        fitness_level: formData.experience || null,
+        goals: goalsStr,
       })
 
       if (bookingError) {
@@ -171,24 +124,49 @@ export default function BookingPage() {
         return
       }
 
-      // 5. E-Mails senden (fire & forget)
-      const emailPayload = {
+      // Pass booking data to success page via sessionStorage
+      const bookingInfo = {
         name: `${formData.firstName} ${formData.lastName}`,
+        email: formData.email,
+        phone: formData.phone,
         service: service.title,
         date: selectedSlot.date,
         time: selectedSlot.start_time,
+        experience: formData.experience,
+        goals: goalsStr,
       }
-      // Bestätigung an Kunden
+      sessionStorage.setItem('booking_success', JSON.stringify(bookingInfo))
+
+      // Fire & forget emails
       fetch('/api/send-email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ type: 'booking_confirmation', to: formData.email, ...emailPayload }),
+        body: JSON.stringify({
+          type: 'booking_confirmation',
+          to: formData.email,
+          name: bookingInfo.name,
+          service: service.title,
+          date: selectedSlot.date,
+          time: selectedSlot.start_time,
+        }),
       }).catch(() => {})
-      // Benachrichtigung an Admin
+
       fetch('/api/send-email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ type: 'new_booking_admin', to: formData.email, customerEmail: formData.email, ...emailPayload }),
+        body: JSON.stringify({
+          type: 'new_booking_admin',
+          to: formData.email,
+          customerEmail: formData.email,
+          name: bookingInfo.name,
+          service: service.title,
+          date: selectedSlot.date,
+          time: selectedSlot.start_time,
+          phone: formData.phone,
+          age: formData.age || null,
+          experience: formData.experience || null,
+          goals: goalsStr,
+        }),
       }).catch(() => {})
 
       router.push('/book/success')
@@ -240,270 +218,244 @@ export default function BookingPage() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-5xl">
             {/* Main Content */}
             <div className="lg:col-span-2">
+
               {/* STEP 1: Calendar */}
-                {step === 1 && (
-                  <div
-                    key="step1"
-                    className="bg-card border border-border rounded-2xl p-6"
-                  >
-                    <h2 className="text-xl font-bold mb-6">Termin auswählen</h2>
-                    <AvailabilityCalendar
-                      onSelectSlot={setSelectedSlot}
-                      selectedSlot={selectedSlot}
-                    />
-                    <div className="mt-6">
-                      <Button
-                        variant="hero"
-                        size="lg"
-                        className="w-full"
-                        disabled={!selectedSlot}
-                        onClick={() => setStep(2)}
-                      >
-                        Weiter
-                        <ArrowRight className="w-4 h-4" />
-                      </Button>
+              {step === 1 && (
+                <div className="bg-card border border-border rounded-2xl p-6">
+                  <h2 className="text-xl font-bold mb-6">Termin auswählen</h2>
+                  <AvailabilityCalendar
+                    onSelectSlot={setSelectedSlot}
+                    selectedSlot={selectedSlot}
+                  />
+                  <div className="mt-6">
+                    <Button
+                      variant="hero"
+                      size="lg"
+                      className="w-full"
+                      disabled={!selectedSlot}
+                      onClick={() => setStep(2)}
+                    >
+                      Weiter
+                      <ArrowRight className="w-4 h-4" />
+                    </Button>
+                  </div>
+                </div>
+              )}
+
+              {/* STEP 2: Simplified Form */}
+              {step === 2 && (
+                <div className="bg-card border border-border rounded-2xl p-6">
+                  <h2 className="text-xl font-bold mb-6">Deine Daten</h2>
+
+                  <div className="space-y-4">
+                    {/* Name */}
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <Label htmlFor="firstName">Vorname *</Label>
+                        <Input
+                          id="firstName"
+                          value={formData.firstName}
+                          onChange={e => updateForm('firstName', e.target.value)}
+                          placeholder="Max"
+                          className="mt-1"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="lastName">Nachname *</Label>
+                        <Input
+                          id="lastName"
+                          value={formData.lastName}
+                          onChange={e => updateForm('lastName', e.target.value)}
+                          placeholder="Muster"
+                          className="mt-1"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Age */}
+                    <div>
+                      <Label htmlFor="age">Alter (optional)</Label>
+                      <Input
+                        id="age"
+                        type="number"
+                        value={formData.age}
+                        onChange={e => updateForm('age', e.target.value)}
+                        placeholder="30"
+                        className="mt-1"
+                        min="10"
+                        max="100"
+                      />
+                    </div>
+
+                    {/* Experience */}
+                    <div>
+                      <Label htmlFor="experience">Erfahrung</Label>
+                      <Select value={formData.experience} onValueChange={v => updateForm('experience', v)}>
+                        <SelectTrigger className="mt-1">
+                          <SelectValue placeholder="Auswählen" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Anfänger">Anfänger</SelectItem>
+                          <SelectItem value="Fortgeschritten">Fortgeschritten</SelectItem>
+                          <SelectItem value="Profi">Profi</SelectItem>
+                          <SelectItem value="Keine Angabe">Keine Angabe</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    {/* Goals chips */}
+                    <div>
+                      <Label>Ziele (mehrere wählbar)</Label>
+                      <div className="flex flex-wrap gap-2 mt-2">
+                        {GOAL_OPTIONS.map(goal => (
+                          <button
+                            key={goal}
+                            type="button"
+                            onClick={() => toggleGoal(goal)}
+                            className={[
+                              'px-3 py-1.5 rounded-full text-sm font-medium border transition-all',
+                              selectedGoals.includes(goal)
+                                ? 'bg-primary text-white border-primary'
+                                : 'bg-secondary text-foreground border-border hover:border-primary/50',
+                            ].join(' ')}
+                          >
+                            {goal}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Email */}
+                    <div>
+                      <Label htmlFor="email">E-Mail *</Label>
+                      <Input
+                        id="email"
+                        type="email"
+                        value={formData.email}
+                        onChange={e => updateForm('email', e.target.value)}
+                        placeholder="max@beispiel.ch"
+                        className="mt-1"
+                      />
+                    </div>
+
+                    {/* Phone */}
+                    <div>
+                      <Label htmlFor="phone">Telefon *</Label>
+                      <Input
+                        id="phone"
+                        type="tel"
+                        value={formData.phone}
+                        onChange={e => updateForm('phone', e.target.value)}
+                        placeholder="+41 79 123 45 67"
+                        className="mt-1"
+                      />
                     </div>
                   </div>
-                )}
 
-                {/* STEP 2: Form */}
-                {step === 2 && (
-                  <div
-                    key="step2"
-                    className="bg-card border border-border rounded-2xl p-6"
-                  >
-                    <h2 className="text-xl font-bold mb-6">Deine Daten</h2>
+                  {error && (
+                    <div className="mt-4 p-3 rounded-lg bg-destructive/10 text-destructive text-sm">{error}</div>
+                  )}
 
-                    <div className="space-y-4">
-                      {/* Name */}
-                      <div className="grid grid-cols-2 gap-4">
-                        <div>
-                          <Label htmlFor="firstName">Vorname *</Label>
-                          <Input id="firstName" value={formData.firstName} onChange={e => updateForm('firstName', e.target.value)} placeholder="Max" className="mt-1" required />
-                        </div>
-                        <div>
-                          <Label htmlFor="lastName">Nachname *</Label>
-                          <Input id="lastName" value={formData.lastName} onChange={e => updateForm('lastName', e.target.value)} placeholder="Muster" className="mt-1" required />
-                        </div>
-                      </div>
-
-                      {/* Email & Phone */}
-                      <div>
-                        <Label htmlFor="email">E-Mail *</Label>
-                        <Input id="email" type="email" value={formData.email} onChange={e => updateForm('email', e.target.value)} placeholder="max@beispiel.ch" className="mt-1" required />
-                      </div>
-                      <div>
-                        <Label htmlFor="phone">Telefon *</Label>
-                        <Input id="phone" type="tel" value={formData.phone} onChange={e => updateForm('phone', e.target.value)} placeholder="+41 79 123 45 67" className="mt-1" required />
-                      </div>
-
-                      {/* Optional */}
-                      <div className="grid grid-cols-2 gap-4">
-                        <div>
-                          <Label htmlFor="age">Alter</Label>
-                          <Input id="age" type="number" value={formData.age} onChange={e => updateForm('age', e.target.value)} placeholder="30" className="mt-1" min="10" max="100" />
-                        </div>
-                        <div>
-                          <Label htmlFor="gender">Geschlecht</Label>
-                          <Select value={formData.gender} onValueChange={v => updateForm('gender', v)}>
-                            <SelectTrigger className="mt-1">
-                              <SelectValue placeholder="Auswählen" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="male">Männlich</SelectItem>
-                              <SelectItem value="female">Weiblich</SelectItem>
-                              <SelectItem value="other">Andere</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </div>
-                      </div>
-
-                      <div>
-                        <Label htmlFor="fitnessLevel">Fitnesslevel</Label>
-                        <Select value={formData.fitnessLevel} onValueChange={v => updateForm('fitnessLevel', v)}>
-                          <SelectTrigger className="mt-1">
-                            <SelectValue placeholder="Auswählen" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="beginner">Anfänger (kein/wenig Training)</SelectItem>
-                            <SelectItem value="intermediate">Fortgeschritten (1-2 Jahre)</SelectItem>
-                            <SelectItem value="advanced">Erfahren (3+ Jahre)</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-
-                      <div>
-                        <Label htmlFor="goals">Ziele</Label>
-                        <Textarea id="goals" value={formData.goals} onChange={e => updateForm('goals', e.target.value)} placeholder="Was möchtest du erreichen? (z.B. Muskelaufbau, Fettabbau, mehr Energie)" className="mt-1" />
-                      </div>
-
-                      <div>
-                        <Label htmlFor="healthConditions">Gesundheitliche Einschränkungen</Label>
-                        <Textarea id="healthConditions" value={formData.healthConditions} onChange={e => updateForm('healthConditions', e.target.value)} placeholder="Verletzungen, Erkrankungen oder sonstige Einschränkungen (optional)" className="mt-1" />
-                      </div>
-
-                      <div>
-                        <Label htmlFor="howFoundUs">Wie hast du uns gefunden?</Label>
-                        <Select value={formData.howFoundUs} onValueChange={v => updateForm('howFoundUs', v)}>
-                          <SelectTrigger className="mt-1">
-                            <SelectValue placeholder="Auswählen" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="google">Google</SelectItem>
-                            <SelectItem value="instagram">Instagram</SelectItem>
-                            <SelectItem value="facebook">Facebook</SelectItem>
-                            <SelectItem value="recommendation">Empfehlung</SelectItem>
-                            <SelectItem value="other">Anderes</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-
-                      {/* Password */}
-                      <div className="pt-2 border-t border-border">
-                        <p className="text-sm font-medium mb-3">Konto erstellen</p>
-                        <div className="space-y-3">
-                          <div>
-                            <Label htmlFor="password">Passwort * (min. 8 Zeichen)</Label>
-                            <div className="relative mt-1">
-                              <Input
-                                id="password"
-                                type={showPassword ? 'text' : 'password'}
-                                value={formData.password}
-                                onChange={e => updateForm('password', e.target.value)}
-                                placeholder="Mind. 8 Zeichen"
-                                className="pr-10"
-                                required
-                                minLength={8}
-                              />
-                              <button
-                                type="button"
-                                onClick={() => setShowPassword(!showPassword)}
-                                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-                              >
-                                {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                              </button>
-                            </div>
-                          </div>
-                          <div>
-                            <Label htmlFor="confirmPassword">Passwort bestätigen *</Label>
-                            <Input
-                              id="confirmPassword"
-                              type={showPassword ? 'text' : 'password'}
-                              value={formData.confirmPassword}
-                              onChange={e => updateForm('confirmPassword', e.target.value)}
-                              placeholder="Passwort wiederholen"
-                              className="mt-1"
-                              required
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {error && (
-                      <div className="mt-4 p-3 rounded-lg bg-destructive/10 text-destructive text-sm">{error}</div>
-                    )}
-
-                    <div className="flex gap-3 mt-6">
-                      <Button variant="outline" size="lg" onClick={() => setStep(1)}>
-                        <ArrowLeft className="w-4 h-4" />
-                        Zurück
-                      </Button>
-                      <Button
-                        variant="hero"
-                        size="lg"
-                        className="flex-1"
-                        onClick={() => {
-                          const err = validateStep2()
-                          if (err) { setError(err); return }
-                          setError('')
-                          setStep(3)
-                        }}
-                      >
-                        Weiter
-                        <ArrowRight className="w-4 h-4" />
-                      </Button>
-                    </div>
+                  <div className="flex gap-3 mt-6">
+                    <Button variant="outline" size="lg" onClick={() => setStep(1)}>
+                      <ArrowLeft className="w-4 h-4" />
+                      Zurück
+                    </Button>
+                    <Button
+                      variant="hero"
+                      size="lg"
+                      className="flex-1"
+                      onClick={() => {
+                        const err = validateStep2()
+                        if (err) { setError(err); return }
+                        setError('')
+                        setStep(3)
+                      }}
+                    >
+                      Weiter
+                      <ArrowRight className="w-4 h-4" />
+                    </Button>
                   </div>
-                )}
+                </div>
+              )}
 
-                {/* STEP 3: Summary */}
-                {step === 3 && (
-                  <div
-                    key="step3"
-                    className="bg-card border border-border rounded-2xl p-6"
-                  >
-                    <h2 className="text-xl font-bold mb-6">Zusammenfassung</h2>
+              {/* STEP 3: Summary */}
+              {step === 3 && (
+                <div className="bg-card border border-border rounded-2xl p-6">
+                  <h2 className="text-xl font-bold mb-6">Zusammenfassung</h2>
 
-                    <div className="space-y-4 mb-6">
-                      <div className="p-4 rounded-xl bg-secondary space-y-2">
-                        <h3 className="font-semibold text-sm text-muted-foreground uppercase tracking-wide">Termin</h3>
-                        {selectedSlot && (
-                          <p className="font-medium">
-                            {format(new Date(selectedSlot.date), 'EEEE, dd. MMMM yyyy', { locale: de })} · {selectedSlot.start_time.slice(0, 5)} Uhr
-                          </p>
-                        )}
-                      </div>
-
-                      <div className="p-4 rounded-xl bg-secondary space-y-2">
-                        <h3 className="font-semibold text-sm text-muted-foreground uppercase tracking-wide">Angebot</h3>
-                        <p className="font-medium">{service?.title}</p>
-                        <p className="text-sm text-muted-foreground">
-                          {service?.price === 0 ? 'Kostenlos' : `CHF ${service?.price}`} · {service?.duration_minutes} Minuten
+                  <div className="space-y-4 mb-6">
+                    <div className="p-4 rounded-xl bg-secondary space-y-2">
+                      <h3 className="font-semibold text-sm text-muted-foreground uppercase tracking-wide">Termin</h3>
+                      {selectedSlot && (
+                        <p className="font-medium">
+                          {format(new Date(selectedSlot.date), 'EEEE, dd. MMMM yyyy', { locale: de })} · {selectedSlot.start_time.slice(0, 5)} Uhr
                         </p>
-                      </div>
-
-                      <div className="p-4 rounded-xl bg-secondary space-y-2">
-                        <h3 className="font-semibold text-sm text-muted-foreground uppercase tracking-wide">Deine Daten</h3>
-                        <p className="font-medium">{formData.firstName} {formData.lastName}</p>
-                        <p className="text-sm text-muted-foreground">{formData.email}</p>
-                        <p className="text-sm text-muted-foreground">{formData.phone}</p>
-                      </div>
-
-                      <div className="flex items-start gap-2 p-4 rounded-xl bg-primary/5 border border-primary/20">
-                        <MapPin className="w-4 h-4 text-primary mt-0.5 shrink-0" />
-                        <div>
-                          <p className="text-sm font-medium">Trainingsstandort</p>
-                          <p className="text-sm text-muted-foreground">Oberer Heuelsteig 30, 8032 Zürich</p>
-                        </div>
-                      </div>
-
-                      {service?.price === 0 && (
-                        <div className="p-4 rounded-xl bg-primary/5 border border-primary/20 text-sm text-primary">
-                          ✓ Dieser Termin ist komplett kostenlos und unverbindlich.
-                        </div>
-                      )}
-                      {service?.price !== undefined && service.price > 0 && (
-                        <div className="p-4 rounded-xl bg-muted text-sm text-muted-foreground">
-                          Bezahlung erfolgt bequem per Twint nach dem Training.
-                        </div>
                       )}
                     </div>
 
-                    {error && (
-                      <div className="mb-4 p-3 rounded-lg bg-destructive/10 text-destructive text-sm">{error}</div>
+                    <div className="p-4 rounded-xl bg-secondary space-y-2">
+                      <h3 className="font-semibold text-sm text-muted-foreground uppercase tracking-wide">Angebot</h3>
+                      <p className="font-medium">{service?.title}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {service?.price === 0 ? 'Kostenlos' : `CHF ${service?.price}`} · {service?.duration_minutes} Minuten
+                      </p>
+                    </div>
+
+                    <div className="p-4 rounded-xl bg-secondary space-y-2">
+                      <h3 className="font-semibold text-sm text-muted-foreground uppercase tracking-wide">Deine Daten</h3>
+                      <p className="font-medium">{formData.firstName} {formData.lastName}</p>
+                      <p className="text-sm text-muted-foreground">{formData.email}</p>
+                      <p className="text-sm text-muted-foreground">{formData.phone}</p>
+                      {selectedGoals.length > 0 && (
+                        <p className="text-sm text-muted-foreground">Ziele: {selectedGoals.join(', ')}</p>
+                      )}
+                    </div>
+
+                    <div className="flex items-start gap-2 p-4 rounded-xl bg-primary/5 border border-primary/20">
+                      <MapPin className="w-4 h-4 text-primary mt-0.5 shrink-0" />
+                      <div>
+                        <p className="text-sm font-medium">Trainingsstandort</p>
+                        <p className="text-sm text-muted-foreground">Oberer Heuelsteig 30, 8032 Zürich</p>
+                      </div>
+                    </div>
+
+                    {service?.price === 0 && (
+                      <div className="p-4 rounded-xl bg-primary/5 border border-primary/20 text-sm text-primary">
+                        ✓ Dieser Termin ist komplett kostenlos und unverbindlich.
+                      </div>
                     )}
-
-                    <div className="flex gap-3">
-                      <Button variant="outline" size="lg" onClick={() => setStep(2)}>
-                        <ArrowLeft className="w-4 h-4" />
-                        Zurück
-                      </Button>
-                      <Button
-                        variant="hero"
-                        size="lg"
-                        className="flex-1"
-                        onClick={handleSubmit}
-                        disabled={isLoading}
-                      >
-                        {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}
-                        Verbindlich buchen
-                        <Check className="w-4 h-4" />
-                      </Button>
-                    </div>
+                    {service?.price !== undefined && service.price > 0 && (
+                      <div className="p-4 rounded-xl bg-muted text-sm text-muted-foreground">
+                        Bezahlung erfolgt bequem per Twint nach dem Training.
+                      </div>
+                    )}
                   </div>
-                )}
-              
+
+                  {error && (
+                    <div className="mb-4 p-3 rounded-lg bg-destructive/10 text-destructive text-sm">{error}</div>
+                  )}
+
+                  <div className="flex gap-3">
+                    <Button variant="outline" size="lg" onClick={() => setStep(2)}>
+                      <ArrowLeft className="w-4 h-4" />
+                      Zurück
+                    </Button>
+                    <Button
+                      variant="hero"
+                      size="lg"
+                      className="flex-1"
+                      onClick={handleSubmit}
+                      disabled={isLoading}
+                    >
+                      {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}
+                      Verbindlich buchen
+                      <Check className="w-4 h-4" />
+                    </Button>
+                  </div>
+                </div>
+              )}
+
             </div>
 
             {/* Sidebar */}

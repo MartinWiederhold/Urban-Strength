@@ -42,7 +42,7 @@ export interface Availability {
 
 export interface Booking {
   id: string
-  customer_id: string
+  customer_id: string | null
   service_id: string
   availability_id: string | null
   booking_date: string
@@ -58,6 +58,10 @@ export interface Booking {
   notes: string | null
   paid: boolean
   paid_amount: number
+  first_name: string | null
+  last_name: string | null
+  customer_email: string | null
+  customer_phone: string | null
   created_at: string
   updated_at: string
   profiles?: Profile
