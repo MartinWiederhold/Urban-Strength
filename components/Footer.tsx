@@ -30,9 +30,6 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* 3 columns on mobile */}
-          <div className="grid grid-cols-3 md:contents gap-4 md:gap-0">
-
             <div>
               <h3 className="font-semibold text-xs tracking-[0.12em] mb-4 uppercase text-white">Navigation</h3>
               <ul className="space-y-3">
@@ -86,8 +83,6 @@ export default function Footer() {
                 </li>
               </ul>
             </div>
-
-          </div>
         </div>
 
         {/* Bottom */}

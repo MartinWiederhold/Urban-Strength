@@ -7,6 +7,9 @@ import { User, LogOut, LayoutDashboard, Shield } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import type { Profile } from '@/lib/types'
 
+/** Auf `true` setzen, um Profil-Icon + Dropdown im Desktop-Header wieder anzuzeigen */
+const SHOW_DESKTOP_PROFILE_MENU = false
+
 const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/services', label: 'Angebote' },
@@ -130,13 +133,16 @@ export default function Navigation() {
               </div>
             </div>
 
-            {/* Desktop Right */}
+            {/* Desktop Right: Profil-Dropdown nur wenn SHOW_DESKTOP_PROFILE_MENU true; sonst immer „Jetzt buchen“ */}
             <div className="hidden md:flex items-center gap-2">
-              {profile ? (
+              {SHOW_DESKTOP_PROFILE_MENU && profile ? (
                 <div className="relative">
                   <button
+                    type="button"
                     onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
                     className="flex items-center justify-center w-10 h-10 rounded-full border border-white/20 hover:border-white/40 text-white/70 hover:text-white transition-all"
+                    aria-expanded={isUserMenuOpen}
+                    aria-haspopup="true"
                   >
                     <User className="w-4 h-4" />
                   </button>
@@ -153,7 +159,7 @@ export default function Navigation() {
                         <LayoutDashboard className="w-4 h-4" /> Mein Dashboard
                       </Link>
                       <div className="border-t border-white/8 my-1" />
-                      <button onClick={handleSignOut}
+                      <button type="button" onClick={handleSignOut}
                         className="flex items-center gap-2 px-4 py-2.5 text-sm text-red-400 hover:bg-white/5 transition-all w-full text-left">
                         <LogOut className="w-4 h-4" /> Ausloggen
                       </button>

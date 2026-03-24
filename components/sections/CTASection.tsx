@@ -1,48 +1,48 @@
+'use client'
+
 import Link from 'next/link'
 import { Mail, MapPin } from 'lucide-react'
 
 export default function CTASection() {
   return (
-    <section className="section-padding bg-black">
+    <section className="py-14 md:py-20 bg-black">
       <div className="container-max">
-        <div className="animate-slide-up rounded-3xl bg-white text-black p-10 md:p-16 text-center"
-        >
-          <div className="inline-block rounded-full border border-black/10 bg-black/5 px-4 py-1.5 text-[10px] uppercase tracking-[0.22em] text-black/60 mb-6 md:px-5 md:py-2 md:text-xs">
+        <div className="animate-slide-up mx-auto max-w-2xl rounded-2xl bg-white text-black px-6 py-8 md:px-10 md:py-10 text-center shadow-[0_16px_48px_-12px_rgb(0_0_0_/_0.35)]">
+          <div className="inline-block rounded-full border border-black/10 bg-black/5 px-3 py-1 text-[9px] uppercase tracking-[0.2em] text-black/55 mb-4 md:mb-5 md:text-[10px] md:px-4 md:py-1.5">
             Erster Termin komplett gratis
           </div>
 
-          <h2 className="text-3xl md:text-5xl font-semibold tracking-tight mb-4 max-w-2xl mx-auto text-balance text-black">
+          <h2 className="text-xl md:text-2xl font-semibold tracking-tight mb-2 text-black text-balance">
             Bereit für dein Personal Training in Zürich?
           </h2>
-          <p className="text-black/55 text-lg mb-10 max-w-xl mx-auto">
+          <p className="text-black/55 text-sm md:text-[15px] mb-6 max-w-md mx-auto leading-relaxed">
             Starte jetzt mit einem kostenlosen Probetraining. Unverbindlich und ohne Risiko.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-3 justify-center mb-12">
+          <div className="flex flex-col sm:flex-row gap-2.5 justify-center mb-6">
             <Link
               href="/book/probe-training"
-              className="inline-flex h-14 items-center justify-center rounded-full bg-black text-white px-10 text-[15px] font-semibold hover:bg-black/80 hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 w-full sm:w-auto"
+              className="inline-flex h-11 items-center justify-center rounded-full bg-black text-white px-6 text-[13px] font-semibold hover:bg-black/85 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 w-full sm:w-auto"
             >
               Kostenloses Probetraining buchen
             </Link>
             <Link
               href="/kontakt"
-              className="inline-flex h-14 items-center justify-center rounded-full border border-black/15 bg-black/5 text-black px-10 text-[15px] font-semibold hover:bg-black/10 transition-all duration-300 w-full sm:w-auto"
+              className="inline-flex h-11 items-center justify-center rounded-full border border-black/15 bg-black/5 text-black px-6 text-[13px] font-semibold hover:bg-black/10 transition-all duration-300 w-full sm:w-auto"
             >
               Frage stellen
             </Link>
           </div>
 
-          {/* Contact info */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 text-sm text-black/40">
-            <div className="flex items-center gap-2">
-              <MapPin className="w-4 h-4 text-black/30" />
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-5 text-xs text-black/45">
+            <div className="flex items-center gap-1.5">
+              <MapPin className="w-3.5 h-3.5 text-black/30 shrink-0" />
               <span>Oberer Heuelsteig 30, 8032 Zürich</span>
             </div>
-            <div className="hidden sm:block w-px h-4 bg-black/10" />
-            <div className="flex items-center gap-2">
-              <Mail className="w-4 h-4 text-black/30" />
-              <a href="mailto:wiederhold.martin@web.de" className="hover:text-black/70 transition-colors">
+            <div className="hidden sm:block w-px h-3 bg-black/10" />
+            <div className="flex items-center gap-1.5">
+              <Mail className="w-3.5 h-3.5 text-black/30 shrink-0" />
+              <a href="mailto:wiederhold.martin@web.de" className="hover:text-black/65 transition-colors">
                 wiederhold.martin@web.de
               </a>
             </div>

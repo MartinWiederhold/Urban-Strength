@@ -80,7 +80,8 @@ export default function ServicesSection() {
           {services.map((service) => (
             <div
               key={service.id}
-              className="relative rounded-3xl p-8 flex flex-col transition-all duration-500 hover:-translate-y-1 bg-white text-black hover:shadow-[0_32px_64px_-16px_hsl(0_0%_0%_/0.7)]"
+              id={service.id}
+              className="relative scroll-mt-[5.5rem] md:scroll-mt-[6rem] rounded-3xl p-8 flex flex-col transition-all duration-500 hover:-translate-y-1 bg-white text-black hover:shadow-[0_32px_64px_-16px_hsl(0_0%_0%_/0.7)]"
             >
               <div className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold mb-6 w-fit bg-black text-white">
                 {service.badge}

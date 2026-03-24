@@ -69,7 +69,6 @@ function GalleryTile({
         className="object-cover transition-transform duration-500 group-hover:scale-105"
         sizes="(max-width: 768px) 50vw, 33vw"
       />
-      <div className="absolute inset-0 bg-white/0 group-hover:bg-white/5 transition-colors pointer-events-none" />
     </button>
   )
 }
