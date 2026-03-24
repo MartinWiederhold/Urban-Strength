@@ -101,7 +101,6 @@ const jsonLdFAQ = {
     { '@type': 'Question', name: 'Was kostet Personal Training in Zürich?', acceptedAnswer: { '@type': 'Answer', text: 'Das Personal Training 1:1 kostet CHF 85 pro Stunde. Es gibt auch ein Quartals-Abo (4 Sessions/Monat) für CHF 600 pro Quartal – das spart CHF 420 gegenüber Einzelbuchungen (12 × 85 = 1020). Der erste Termin ist komplett kostenlos.' } },
     { '@type': 'Question', name: 'Wie bezahle ich das Personal Training?', acceptedAnswer: { '@type': 'Answer', text: 'Die Bezahlung erfolgt bequem per Twint nach dem Training. Keine Vorauszahlung nötig.' } },
     { '@type': 'Question', name: 'Wie oft sollte ich Personal Training in Zürich machen?', acceptedAnswer: { '@type': 'Answer', text: 'Für optimale Resultate empfehle ich 2–3 Einheiten pro Woche. Auch einmal pro Woche bringt schon deutliche Fortschritte.' } },
-    { '@type': 'Question', name: 'Kann ich einen Termin absagen oder verschieben?', acceptedAnswer: { '@type': 'Answer', text: 'Ja, über dein persönliches Dashboard kannst du Termine jederzeit verwalten. Bitte sage mindestens 24 Stunden vorher ab.' } },
   ],
 }
 

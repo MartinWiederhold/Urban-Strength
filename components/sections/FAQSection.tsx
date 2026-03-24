@@ -28,10 +28,6 @@ const faqs = [
     question: 'Wie oft sollte ich trainieren?',
     answer: 'Für optimale Resultate empfehle ich 2–3 Einheiten pro Woche. Aber auch einmal pro Woche bringt schon deutliche Fortschritte.',
   },
-  {
-    question: 'Kann ich einen Termin absagen oder verschieben?',
-    answer: 'Ja, über dein persönliches Dashboard kannst du Termine jederzeit verwalten. Bitte sage mindestens 24 Stunden vorher ab.',
-  },
 ]
 
 function FAQItem({ faq, index }: { faq: typeof faqs[0]; index: number }) {
