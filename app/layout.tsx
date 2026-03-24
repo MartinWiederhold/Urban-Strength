@@ -4,7 +4,7 @@ import { AuthProvider } from '@/contexts/AuthContext'
 import ScrollToTop from '@/components/ScrollToTop'
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://personaltraining-zurich.ch'),
+  metadataBase: new URL('https://personaltrainingbymartin.netlify.app'),
   title: 'Personal Training Zürich | Kostenloses Probetraining | by Martin',
   description: 'Dein Personal Trainer in Zürich. Individuelles 1:1 Training für Muskelaufbau, Fettabbau & Fitness. Erster Termin gratis! ✓ CHF 35/h ✓ Geräte-Einweisung ✓ Trainingsplan. Jetzt buchen!',
   keywords: [
@@ -13,16 +13,16 @@ export const metadata: Metadata = {
     'Muskelaufbau Zürich', 'Fettabbau Zürich', 'Gym Zürich', 'Trainingsplan Zürich',
   ],
   alternates: {
-    canonical: 'https://personaltraining-zurich.ch',
+    canonical: 'https://personaltrainingbymartin.netlify.app',
     languages: {
-      'de-CH': 'https://personaltraining-zurich.ch',
-      'de': 'https://personaltraining-zurich.ch',
+      'de-CH': 'https://personaltrainingbymartin.netlify.app',
+      'de': 'https://personaltrainingbymartin.netlify.app',
     },
   },
   openGraph: {
     type: 'website',
     locale: 'de_CH',
-    url: 'https://personaltraining-zurich.ch',
+    url: 'https://personaltrainingbymartin.netlify.app',
     siteName: 'Personal Training Zurich – by Martin',
     title: 'Personal Training Zürich | Kostenloses Probetraining | by Martin',
     description: 'Dein Personal Trainer in Zürich. Individuelles 1:1 Training. Erster Termin gratis! Ab CHF 35/h.',

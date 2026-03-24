@@ -7,15 +7,15 @@ import CTASection from '@/components/sections/CTASection'
 export const metadata: Metadata = {
   title: 'Personal Training Angebote Zürich | Probetraining & 1:1 Training',
   description: 'Kostenlose Geräte-Einweisung & Probetraining sowie Personal Training 1:1 für CHF 35/h. Dein Personal Trainer in Zürich – Martin. Jetzt buchen!',
-  alternates: { canonical: 'https://personaltraining-zurich.ch/services' },
+  alternates: { canonical: 'https://personaltrainingbymartin.netlify.app/services' },
 }
 
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://personaltraining-zurich.ch' },
-    { '@type': 'ListItem', position: 2, name: 'Angebote', item: 'https://personaltraining-zurich.ch/services' },
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://personaltrainingbymartin.netlify.app' },
+    { '@type': 'ListItem', position: 2, name: 'Angebote', item: 'https://personaltrainingbymartin.netlify.app/services' },
   ],
 }
 

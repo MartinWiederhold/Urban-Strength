@@ -22,13 +22,13 @@ export const metadata: Metadata = {
     'Personal Training Zürich Preise', 'Geräte-Einweisung Zürich',
   ],
   alternates: {
-    canonical: 'https://personaltraining-zurich.ch',
-    languages: { 'de-CH': 'https://personaltraining-zurich.ch', 'de': 'https://personaltraining-zurich.ch' },
+    canonical: 'https://personaltrainingbymartin.netlify.app',
+    languages: { 'de-CH': 'https://personaltrainingbymartin.netlify.app', 'de': 'https://personaltrainingbymartin.netlify.app' },
   },
   openGraph: {
     type: 'website',
     locale: 'de_CH',
-    url: 'https://personaltraining-zurich.ch',
+    url: 'https://personaltrainingbymartin.netlify.app',
     siteName: 'Personal Training Zurich – by Martin',
     title: 'Personal Training Zürich | Kostenloses Probetraining | by Martin',
     description: 'Dein Personal Trainer in Zürich. Individuelles 1:1 Training. Erster Termin gratis! Ab CHF 35/h.',
@@ -45,12 +45,12 @@ export const metadata: Metadata = {
 const jsonLdLocalBusiness = {
   '@context': 'https://schema.org',
   '@type': 'HealthAndBeautyBusiness',
-  '@id': 'https://personaltraining-zurich.ch/#business',
+  '@id': 'https://personaltrainingbymartin.netlify.app/#business',
   name: 'Personal Training Zurich – by Martin',
   alternateName: ['Personal Training Zürich', 'PT Zurich by Martin'],
   description: 'Professionelles Personal Training in Zürich. Individuelles 1:1 Training für Muskelaufbau, Fettabbau und Fitness. Kostenlose Geräte-Einweisung und Probetraining.',
-  url: 'https://personaltraining-zurich.ch',
-  image: 'https://personaltraining-zurich.ch/og-image.jpg',
+  url: 'https://personaltrainingbymartin.netlify.app',
+  image: 'https://personaltrainingbymartin.netlify.app/og-image.jpg',
   priceRange: 'CHF 0-35',
   currenciesAccepted: 'CHF',
   paymentAccepted: 'Twint',
@@ -88,7 +88,7 @@ const jsonLdPerson = {
   name: 'Martin Wiederhold',
   jobTitle: 'Personal Trainer',
   description: 'Zertifizierter Personal Trainer in Zürich. Spezialisiert auf individuelles 1:1 Training, Muskelaufbau und Fettabbau.',
-  url: 'https://personaltraining-zurich.ch/about',
+  url: 'https://personaltrainingbymartin.netlify.app/about',
   knowsAbout: ['Personal Training','Muskelaufbau','Fettabbau','Fitness','Ernährungsberatung','Krafttraining'],
 }
 

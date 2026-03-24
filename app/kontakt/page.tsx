@@ -8,15 +8,15 @@ import { Button } from '@/components/ui/button'
 export const metadata: Metadata = {
   title: 'Kontakt | Personal Training Zürich – Oberer Heuelsteig 30',
   description: 'Kontaktiere deinen Personal Trainer in Zürich. Adresse: Oberer Heuelsteig 30, 8032 Zürich. Kostenloses Probetraining buchen oder Frage stellen.',
-  alternates: { canonical: 'https://personaltraining-zurich.ch/kontakt' },
+  alternates: { canonical: 'https://personaltrainingbymartin.netlify.app/kontakt' },
 }
 
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://personaltraining-zurich.ch' },
-    { '@type': 'ListItem', position: 2, name: 'Kontakt', item: 'https://personaltraining-zurich.ch/kontakt' },
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://personaltrainingbymartin.netlify.app' },
+    { '@type': 'ListItem', position: 2, name: 'Kontakt', item: 'https://personaltrainingbymartin.netlify.app/kontakt' },
   ],
 }
 

@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     'Personal Training Zürich Preise', 'Personal Training für Anfänger Zürich',
     'Personal Training Zürich Kreis 7', 'Fitness Coaching Zürich', 'Individuelles Training Zürich',
   ],
-  alternates: { canonical: 'https://personaltraining-zurich.ch/personal-training-zuerich' },
+  alternates: { canonical: 'https://personaltrainingbymartin.netlify.app/personal-training-zuerich' },
   robots: { index: true, follow: true },
 }
 
@@ -21,8 +21,8 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://personaltraining-zurich.ch' },
-    { '@type': 'ListItem', position: 2, name: 'Personal Training Zürich', item: 'https://personaltraining-zurich.ch/personal-training-zuerich' },
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://personaltrainingbymartin.netlify.app' },
+    { '@type': 'ListItem', position: 2, name: 'Personal Training Zürich', item: 'https://personaltrainingbymartin.netlify.app/personal-training-zuerich' },
   ],
 }
 

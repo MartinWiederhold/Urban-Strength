@@ -7,15 +7,15 @@ import { Award, Users, Clock, Target, Heart, Dumbbell } from 'lucide-react'
 export const metadata: Metadata = {
   title: 'Über Martin – Dein Personal Trainer in Zürich',
   description: 'Lerne Martin kennen – zertifizierter Personal Trainer in Zürich mit 5+ Jahren Erfahrung. Spezialisiert auf Muskelaufbau, Fettabbau und individuelles 1:1 Training.',
-  alternates: { canonical: 'https://personaltraining-zurich.ch/about' },
+  alternates: { canonical: 'https://personaltrainingbymartin.netlify.app/about' },
 }
 
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://personaltraining-zurich.ch' },
-    { '@type': 'ListItem', position: 2, name: 'Über Martin', item: 'https://personaltraining-zurich.ch/about' },
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://personaltrainingbymartin.netlify.app' },
+    { '@type': 'ListItem', position: 2, name: 'Über Martin', item: 'https://personaltrainingbymartin.netlify.app/about' },
   ],
 }
 
