@@ -22,12 +22,9 @@ const statusColor: Record<string, string> = {
   no_show: 'text-white/40 bg-white/5 border-white/10',
 }
 
-const RATE_PER_HOUR = 35 // CHF
-
 function calcAmount(service: any): number {
   if (!service || service.price === 0) return 0
-  const duration = service.duration_minutes ?? 60
-  return Math.round((duration / 60) * RATE_PER_HOUR * 100) / 100
+  return Number(service.price)
 }
 
 export default function AdminBookingsPage() {

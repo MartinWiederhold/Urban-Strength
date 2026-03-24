@@ -14,7 +14,7 @@ import CTASection from '@/components/sections/CTASection'
 
 export const metadata: Metadata = {
   title: 'Personal Training Zürich | Kostenloses Probetraining | by Martin',
-  description: 'Dein Personal Trainer in Zürich. Individuelles 1:1 Training für Muskelaufbau, Fettabbau & Fitness. Erster Termin gratis! ✓ CHF 35/h ✓ Geräte-Einweisung ✓ Trainingsplan. Jetzt buchen!',
+  description: 'Dein Personal Trainer in Zürich. Individuelles 1:1 Training für Muskelaufbau, Fettabbau & Fitness. Erster Termin gratis! ✓ CHF 75/h ✓ Geräte-Einweisung ✓ Trainingsplan. Jetzt buchen!',
   keywords: [
     'Personal Training Zürich', 'Personal Trainer Zürich', 'Personaltraining Zürich',
     'Fitness Trainer Zürich', '1:1 Training Zürich', 'Probetraining Zürich gratis',
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     url: 'https://personaltrainingbymartin.netlify.app',
     siteName: 'Personal Training Zurich – by Martin',
     title: 'Personal Training Zürich | Kostenloses Probetraining | by Martin',
-    description: 'Dein Personal Trainer in Zürich. Individuelles 1:1 Training. Erster Termin gratis! Ab CHF 35/h.',
+    description: 'Dein Personal Trainer in Zürich. Individuelles 1:1 Training. Erster Termin gratis! Ab CHF 75/h.',
     images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Personal Training Zürich – by Martin' }],
   },
   twitter: { card: 'summary_large_image' },
@@ -51,7 +51,7 @@ const jsonLdLocalBusiness = {
   description: 'Professionelles Personal Training in Zürich. Individuelles 1:1 Training für Muskelaufbau, Fettabbau und Fitness. Kostenlose Geräte-Einweisung und Probetraining.',
   url: 'https://personaltrainingbymartin.netlify.app',
   image: 'https://personaltrainingbymartin.netlify.app/og-image.jpg',
-  priceRange: 'CHF 0-35',
+  priceRange: 'CHF 0-600',
   currenciesAccepted: 'CHF',
   paymentAccepted: 'Twint',
   address: {
@@ -77,7 +77,8 @@ const jsonLdLocalBusiness = {
     name: 'Personal Training Angebote',
     itemListElement: [
       { '@type': 'Offer', name: 'Kostenlose Geräte-Einweisung & Probetraining', price: '0', priceCurrency: 'CHF' },
-      { '@type': 'Offer', name: 'Personal Training 1:1', price: '35', priceCurrency: 'CHF' },
+      { '@type': 'Offer', name: 'Personal Training 1:1', price: '75', priceCurrency: 'CHF' },
+      { '@type': 'Offer', name: 'Quartals-Abo – Personal Training', price: '600', priceCurrency: 'CHF' },
     ],
   },
 }
@@ -99,7 +100,7 @@ const jsonLdFAQ = {
     { '@type': 'Question', name: 'Brauche ich Vorerfahrung für das Personal Training?', acceptedAnswer: { '@type': 'Answer', text: 'Nein, überhaupt nicht. Egal ob du Anfänger bist oder schon Erfahrung hast – ich passe das Training individuell an dein Level an.' } },
     { '@type': 'Question', name: 'Wo findet das Personal Training in Zürich statt?', acceptedAnswer: { '@type': 'Answer', text: 'Das Training findet im Gym am Oberer Heuelsteig 30, 8032 Zürich statt.' } },
     { '@type': 'Question', name: 'Wie läuft das kostenlose Probetraining ab?', acceptedAnswer: { '@type': 'Answer', text: 'Du buchst online einen Termin, wir treffen uns im Gym, ich zeige dir die Geräte, wir besprechen deine Ziele und machen eine erste Trainingseinheit zusammen. Komplett gratis und unverbindlich.' } },
-    { '@type': 'Question', name: 'Was kostet Personal Training in Zürich?', acceptedAnswer: { '@type': 'Answer', text: 'Das Personal Training 1:1 kostet CHF 35 pro Stunde. Der erste Termin – Geräte-Einweisung und Probetraining – ist komplett kostenlos.' } },
+    { '@type': 'Question', name: 'Was kostet Personal Training in Zürich?', acceptedAnswer: { '@type': 'Answer', text: 'Das Personal Training 1:1 kostet CHF 75 pro Stunde. Es gibt auch ein Quartals-Abo (4 Sessions/Monat) für CHF 600 pro Quartal – das spart CHF 300 gegenüber Einzelbuchungen. Der erste Termin ist komplett kostenlos.' } },
     { '@type': 'Question', name: 'Wie bezahle ich das Personal Training?', acceptedAnswer: { '@type': 'Answer', text: 'Die Bezahlung erfolgt bequem per Twint nach dem Training. Keine Vorauszahlung nötig.' } },
     { '@type': 'Question', name: 'Wie oft sollte ich Personal Training in Zürich machen?', acceptedAnswer: { '@type': 'Answer', text: 'Für optimale Resultate empfehle ich 2–3 Einheiten pro Woche. Auch einmal pro Woche bringt schon deutliche Fortschritte.' } },
     { '@type': 'Question', name: 'Kann ich einen Termin absagen oder verschieben?', acceptedAnswer: { '@type': 'Answer', text: 'Ja, über dein persönliches Dashboard kannst du Termine jederzeit verwalten. Bitte sage mindestens 24 Stunden vorher ab.' } },

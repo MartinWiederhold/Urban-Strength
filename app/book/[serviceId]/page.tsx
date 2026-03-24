@@ -19,6 +19,7 @@ import { de } from 'date-fns/locale'
 const SERVICE_SLUGS: Record<string, string> = {
   'probe-training': 'Kostenloser Start',
   'personal-training': 'Personal Training 1:1',
+  'quartals-abo': 'Quartals-Abo',
 }
 
 const GOAL_OPTIONS = [
@@ -398,7 +399,7 @@ export default function BookingPage() {
                       <h3 className="font-semibold text-sm text-muted-foreground uppercase tracking-wide">Angebot</h3>
                       <p className="font-medium">{service?.title}</p>
                       <p className="text-sm text-muted-foreground">
-                        {service?.price === 0 ? 'Kostenlos' : `CHF ${service?.price}`} · {service?.duration_minutes} Minuten
+                        {service?.price === 0 ? 'Kostenlos' : service?.price && service.price >= 100 ? `CHF ${service.price}/Quartal` : `CHF ${service?.price}/h`} · {service?.duration_minutes} Minuten
                       </p>
                     </div>
 
@@ -467,7 +468,8 @@ export default function BookingPage() {
                     <span className="text-2xl font-bold text-primary">
                       {service.price === 0 ? 'Gratis' : `CHF ${service.price}`}
                     </span>
-                    {service.price > 0 && <span className="text-sm text-muted-foreground">/h</span>}
+                    {service.price > 0 && service.price < 100 && <span className="text-sm text-muted-foreground">/h</span>}
+                    {service.price >= 100 && <span className="text-sm text-muted-foreground">/Quartal</span>}
                   </div>
                   <p className="text-sm text-muted-foreground mb-4">{service.duration_minutes} Minuten</p>
                   {selectedSlot && (
