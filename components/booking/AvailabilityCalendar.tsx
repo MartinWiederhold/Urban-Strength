@@ -33,7 +33,12 @@ function getSlotsForDate(
     }
   }
   for (const s of recurring) {
-    if (s.day_of_week === dow && !bookedKeys.has(`${dateStr}-${s.start_time}`)) {
+    if (
+      s.day_of_week === dow &&
+      dateStr >= s.date &&
+      !(s.recurring_end_date && dateStr > s.recurring_end_date) &&
+      !bookedKeys.has(`${dateStr}-${s.start_time}`)
+    ) {
       result.push({ ...s, date: dateStr })
     }
   }
@@ -50,18 +55,21 @@ export default function AvailabilityCalendar({ onSelectSlot, selectedSlot }: Ava
 
   useEffect(() => {
     const load = async () => {
-      const supabase = createClient()
-      const [availRes, bookingsRes] = await Promise.all([
-        supabase.from('availability').select('*').eq('is_available', true),
-        supabase.from('bookings').select('booking_date,start_time').in('status', ['confirmed', 'completed']),
-      ])
-      const all = (availRes.data ?? []) as Availability[]
-      setSpecific(all.filter(s => !s.recurring_weekly))
-      setRecurring(all.filter(s => s.recurring_weekly))
-      const keys = new Set<string>()
-      ;(bookingsRes.data ?? []).forEach((b: any) => keys.add(`${b.booking_date}-${b.start_time}`))
-      setBookedKeys(keys)
-      setIsLoading(false)
+      try {
+        const supabase = createClient()
+        const [availRes, bookingsRes] = await Promise.all([
+          supabase.from('availability').select('*').eq('is_available', true),
+          supabase.from('bookings').select('booking_date,start_time').in('status', ['confirmed', 'completed']),
+        ])
+        const all = (availRes.data ?? []) as Availability[]
+        setSpecific(all.filter(s => !s.recurring_weekly))
+        setRecurring(all.filter(s => s.recurring_weekly))
+        const keys = new Set<string>()
+        ;(bookingsRes.data ?? []).forEach((b: any) => keys.add(`${b.booking_date}-${b.start_time}`))
+        setBookedKeys(keys)
+      } finally {
+        setIsLoading(false)
+      }
     }
     load()
   }, [])
