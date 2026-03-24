@@ -1,3 +1,5 @@
+'use client'
+
 import Link from 'next/link'
 import { Check, ChevronRight } from 'lucide-react'
 
@@ -75,20 +77,12 @@ export default function ServicesSection() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-6xl mx-auto">
-          {services.map((service) => {
-            const isHighlighted = service.id === 'quartals-abo'
-            return (
+          {services.map((service) => (
             <div
               key={service.id}
-              className={`relative rounded-3xl p-8 flex flex-col transition-all duration-500 hover:-translate-y-1 bg-white text-black ${
-                isHighlighted
-                  ? 'ring-2 ring-amber-400/70 shadow-[0_0_48px_-8px_rgba(251,191,36,0.28)] hover:shadow-[0_32px_64px_-16px_hsl(0_0%_0%_/0.7),0_0_48px_-8px_rgba(251,191,36,0.38)]'
-                  : 'hover:shadow-[0_32px_64px_-16px_hsl(0_0%_0%_/0.7)]'
-              }`}
+              className="relative rounded-3xl p-8 flex flex-col transition-all duration-500 hover:-translate-y-1 bg-white text-black hover:shadow-[0_32px_64px_-16px_hsl(0_0%_0%_/0.7)]"
             >
-              <div className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold mb-6 w-fit ${
-                isHighlighted ? 'bg-amber-400 text-black' : 'bg-black text-white'
-              }`}>
+              <div className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold mb-6 w-fit bg-black text-white">
                 {service.badge}
               </div>
 
@@ -125,8 +119,7 @@ export default function ServicesSection() {
                 <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
-            )
-          })}
+          ))}
         </div>
       </div>
     </section>

@@ -28,7 +28,17 @@ export default function MapSection() {
 
       new mapboxgl.Marker({ color: '#FBBF24' })
         .setLngLat([8.57222826678629, 47.36909632806538])
-        .setPopup(new mapboxgl.Popup().setHTML('<strong>Personal Training Zurich – by Martin</strong><br/>Oberer Heuelsteig 30<br/>8032 Zürich, Schweiz'))
+        .setPopup(
+          new mapboxgl.Popup({
+            offset: 20,
+            maxWidth: '300px',
+            className: 'pt-map-popup',
+            closeButton: true,
+          }).setHTML(
+            '<strong>Personal Training Zurich – by Martin</strong>' +
+              '<p>Oberer Heuelsteig 30<br/>8032 Zürich, Schweiz</p>'
+          )
+        )
         .addTo(map)
     }
 
