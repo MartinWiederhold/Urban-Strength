@@ -38,10 +38,10 @@ export default function AboutSection() {
             </div>
 
             <Link
-              href="/about"
+              href="/book/probe-training"
               className="inline-flex h-12 items-center rounded-full border border-white/20 px-8 text-sm font-semibold text-white hover:bg-white/8 hover:border-white/40 transition-all duration-300 gap-2 group"
             >
-              Mehr über Martin erfahren
+              Kostenloses Probetraining buchen
               <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>

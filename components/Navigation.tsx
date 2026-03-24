@@ -10,8 +10,6 @@ import type { Profile } from '@/lib/types'
 const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/services', label: 'Angebote' },
-  { href: '/about', label: 'Über Martin' },
-  { href: '/kontakt', label: 'Kontakt' },
 ]
 
 export default function Navigation() {
@@ -173,12 +171,8 @@ export default function Navigation() {
               )}
             </div>
 
-            {/* Mobile: Kontakt + Hamburger */}
+            {/* Mobile: Hamburger */}
             <div className="flex items-center gap-2 md:hidden">
-              <Link href="/kontakt"
-                className="inline-flex h-10 items-center rounded-full bg-white px-5 text-[14px] font-semibold tracking-tight text-black">
-                Kontakt
-              </Link>
               <button type="button" onClick={() => setIsMobileOpen(p => !p)}
                 className="relative flex h-10 w-10 items-center justify-center"
                 aria-label={isMobileOpen ? 'Menü schliessen' : 'Menü öffnen'}>
@@ -201,10 +195,6 @@ export default function Navigation() {
                 <span className="text-[10px] font-medium tracking-[0.12em] uppercase text-white/40">by Martin</span>
               </button>
               <div className="flex items-center gap-2">
-                <button type="button" onClick={() => navigateFromMobile('/kontakt')}
-                  className="inline-flex h-10 items-center rounded-full bg-white px-5 text-[14px] font-semibold tracking-tight text-black">
-                  Kontakt
-                </button>
                 <button onClick={() => setIsMobileOpen(false)} className="relative flex h-10 w-10 items-center justify-center">
                   <span className="absolute h-[2px] w-6 bg-white translate-y-0 rotate-45 transition-all" />
                   <span className="absolute h-[2px] w-6 bg-white translate-y-0 -rotate-45 transition-all" />

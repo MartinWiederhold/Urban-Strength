@@ -87,7 +87,7 @@ const jsonLdPerson = {
   name: 'Martin Wiederhold',
   jobTitle: 'Personal Trainer',
   description: 'Zertifizierter Personal Trainer in Zürich. Spezialisiert auf individuelles 1:1 Training, Muskelaufbau und Fettabbau.',
-  url: 'https://personaltrainingbymartin.netlify.app/about',
+  url: 'https://personaltrainingbymartin.netlify.app',
   knowsAbout: ['Personal Training','Muskelaufbau','Fettabbau','Fitness','Ernährungsberatung','Krafttraining'],
 }
 

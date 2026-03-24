@@ -39,7 +39,6 @@ export default function Footer() {
                 {[
                   { href: '/', label: 'Home' },
                   { href: '/services', label: 'Angebote' },
-                  { href: '/about', label: 'Über Martin' },
                   { href: '/kontakt', label: 'Kontakt' },
                 ].map((link) => (
                   <li key={link.href}>
