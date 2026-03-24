@@ -66,8 +66,8 @@ const jsonLdLocalBusiness = {
     { '@type': 'State', name: 'Kanton Zürich' },
   ],
   openingHoursSpecification: [
-    { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday'], opens: '07:00', closes: '21:00' },
-    { '@type': 'OpeningHoursSpecification', dayOfWeek: 'Saturday', opens: '08:00', closes: '18:00' },
+    { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday'], opens: '06:00', closes: '23:00' },
+    { '@type': 'OpeningHoursSpecification', dayOfWeek: 'Saturday', opens: '06:00', closes: '22:00' },
   ],
   founder: { '@type': 'Person', name: 'Martin Wiederhold', jobTitle: 'Personal Trainer' },
   hasOfferCatalog: {

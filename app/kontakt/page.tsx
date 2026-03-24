@@ -60,7 +60,7 @@ export default function KontaktPage() {
                   <Clock className="w-6 h-6 text-primary shrink-0 mt-0.5" />
                   <div>
                     <h2 className="font-semibold mb-1">Trainingszeiten</h2>
-                    <p className="text-muted-foreground text-sm">Mo–Fr: 07:00–21:00 Uhr<br />Sa: 08:00–18:00 Uhr</p>
+                    <p className="text-muted-foreground text-sm">Mo–Fr: 06:00–23:00 Uhr<br />Sa: 06:00–22:00 Uhr</p>
                   </div>
                 </div>
                 <a

@@ -31,12 +31,19 @@ export default function MapSection() {
         .setPopup(
           new mapboxgl.Popup({
             offset: 20,
-            maxWidth: '300px',
+            maxWidth: '360px',
             className: 'pt-map-popup',
             closeButton: true,
           }).setHTML(
-            '<strong>Personal Training Zurich – by Martin</strong>' +
-              '<p>Oberer Heuelsteig 30<br/>8032 Zürich, Schweiz</p>'
+            '<div class="pt-map-popup-inner">' +
+              '<div class="pt-map-popup-text">' +
+              '<strong>Personal Training Zurich – by Martin</strong>' +
+              '<p>Oberer Heuelsteig 30<br/>8032 Zürich, Schweiz</p>' +
+              '</div>' +
+              '<div class="pt-map-popup-avatar">' +
+              '<img src="/assets/images/IMG_9928.jpg" alt="Martin – Personal Trainer Zürich" width="80" height="80" loading="lazy" />' +
+              '</div>' +
+              '</div>'
           )
         )
         .addTo(map)
@@ -76,14 +83,14 @@ export default function MapSection() {
               <Clock className="w-5 h-5 text-white/50 mt-0.5 shrink-0" />
               <div>
                 <p className="font-semibold mb-0.5 text-white">Trainingszeiten</p>
-                <p className="text-sm text-white/45">Mo–Fr: 07:00–21:00 Uhr<br />Sa: 08:00–18:00 Uhr</p>
+                <p className="text-sm text-white/45">Mo–Fr: 06:00–23:00 Uhr<br />Sa: 06:00–22:00 Uhr</p>
               </div>
             </div>
             <div className="flex items-start gap-3 p-4 rounded-2xl bg-[#111] border border-white/8">
               <Train className="w-5 h-5 text-white/50 mt-0.5 shrink-0" />
               <div>
                 <p className="font-semibold mb-0.5 text-white">Mit ÖV</p>
-                <p className="text-sm text-white/45">Bus & Tram gut erreichbar</p>
+                <p className="text-sm text-white/45">Bus & Tram bis Klusplatz, danach zu Fuss ca. 10 Min.</p>
               </div>
             </div>
             <div className="flex items-start gap-3 p-4 rounded-2xl bg-[#111] border border-white/8">
