@@ -123,8 +123,8 @@ export default function HomePage() {
       <Navigation />
       <main>
         <HeroSection />
-        <ServicesSection />
         <AboutSection />
+        <ServicesSection />
         <MethodSection />
         <GallerySection />
         <MapSection />
