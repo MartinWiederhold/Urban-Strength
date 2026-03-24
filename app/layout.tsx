@@ -1,7 +1,22 @@
 import type { Metadata } from 'next'
+import { Outfit, Inter } from 'next/font/google'
 import './globals.css'
 import { AuthProvider } from '@/contexts/AuthContext'
 import ScrollToTop from '@/components/ScrollToTop'
+
+const outfit = Outfit({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700'],
+  display: 'swap',
+  variable: '--font-outfit',
+})
+
+const inter = Inter({
+  subsets: ['latin'],
+  weight: ['400', '500', '600'],
+  display: 'swap',
+  variable: '--font-inter',
+})
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://personaltrainingbymartin.netlify.app'),
@@ -46,12 +61,9 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="de-CH">
+    <html lang="de-CH" className={`${outfit.variable} ${inter.variable}`}>
       <head>
         <meta name="google-site-verification" content="PqjATptIERle8deiSP1NeBH7Uf5KaHOBBAwjAL7vaU0" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
         <link href="https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.css" rel="stylesheet" />
       </head>
       <body suppressHydrationWarning>

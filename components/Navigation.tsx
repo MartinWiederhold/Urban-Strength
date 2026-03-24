@@ -23,19 +23,27 @@ export default function Navigation() {
   const mobileNavTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
+    let rafId: number | null = null
     const handleScroll = () => {
-      const currentY = window.scrollY
-      const previousY = lastScrollYRef.current
-      setIsScrolled(currentY > 20)
-      if (currentY <= 8) { setNavVisible(true); lastScrollYRef.current = currentY; return }
-      const delta = currentY - previousY
-      if (delta > 6 && currentY > 84) setNavVisible(false)
-      else if (delta < -6) setNavVisible(true)
-      lastScrollYRef.current = currentY
+      if (rafId !== null) return
+      rafId = requestAnimationFrame(() => {
+        rafId = null
+        const currentY = window.scrollY
+        const previousY = lastScrollYRef.current
+        setIsScrolled(currentY > 20)
+        if (currentY <= 8) { setNavVisible(true); lastScrollYRef.current = currentY; return }
+        const delta = currentY - previousY
+        if (delta > 6 && currentY > 84) setNavVisible(false)
+        else if (delta < -6) setNavVisible(true)
+        lastScrollYRef.current = currentY
+      })
     }
     handleScroll()
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      if (rafId !== null) cancelAnimationFrame(rafId)
+    }
   }, [])
 
   useEffect(() => {

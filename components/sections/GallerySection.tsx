@@ -11,59 +11,48 @@ const galleryImages = [
   {
     file: 'C2DDF947-24DA-4E37-ACFB-8985A7A05132.PNG',
     alt: 'Gym Zürich – Trainingsraum mit Hantelbänken',
-    label: 'Trainingsraum',
   },
   {
     file: 'A2A59CDE-70C5-48D8-8BF3-EBA3D16C8597 2.PNG',
     alt: 'Fitnessstudio Zürich – grosszügige Trainingsfläche',
-    label: 'Trainingsfläche',
   },
   {
     file: 'B7FD7888-31E5-4A23-9BB7-C1BC41086077 2.PNG',
     alt: 'Moderne Fitnessgeräte im Gym',
-    label: 'Fitnessgeräte',
   },
   {
     file: '77FBE617-E6F4-4B95-979F-C221D8D67A8F 2.PNG',
     alt: 'Trainingsumgebung Personal Training Zürich',
-    label: 'Gym Bereich',
   },
   {
     file: '29F71CEA-5BF1-4116-B064-87481458B60C 2.PNG',
     alt: 'Functional Training Bereich Zürich',
-    label: 'Functional Area',
   },
   {
     file: 'F977F28C-4CDE-41D6-985F-0C39988109F2 2.PNG',
     alt: 'Krafttraining und Geräte im Studio',
-    label: 'Kraftbereich',
   },
   {
     file: '70F8BB46-223E-4338-9F90-1ABED8D24F32 2.PNG',
     alt: 'Innenansicht Gym Oberer Heuelsteig Zürich',
-    label: 'Studio',
   },
   {
     file: '93A28A90-D70B-463F-9DE1-3D8698EAC531 4.PNG',
     alt: 'Rack und freie Gewichte im Training',
-    label: 'Freihantelbereich',
   },
   {
     file: 'A7EDE0A0-51C3-42C7-9AA6-F1606A6C9A36 2.PNG',
     alt: 'Equipment für Personal Training Zürich',
-    label: 'Training',
   },
 ].map((item) => ({ ...item, src: ASSET(item.file) }))
 
 function GalleryTile({
   src,
   alt,
-  label,
   onClick,
 }: {
   src: string
   alt: string
-  label: string
   onClick: () => void
 }) {
   return (
@@ -80,9 +69,6 @@ function GalleryTile({
         className="object-cover transition-transform duration-500 group-hover:scale-105"
         sizes="(max-width: 768px) 50vw, 33vw"
       />
-      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent pt-12 pb-3 px-3">
-        <span className="text-xs font-medium text-white/90 drop-shadow-sm">{label}</span>
-      </div>
       <div className="absolute inset-0 bg-white/0 group-hover:bg-white/5 transition-colors pointer-events-none" />
     </button>
   )
@@ -116,7 +102,6 @@ export default function GallerySection() {
               key={image.file}
               src={image.src}
               alt={image.alt}
-              label={image.label}
               onClick={() => setLightboxIndex(i)}
             />
           ))}
@@ -175,9 +160,6 @@ export default function GallerySection() {
               priority
             />
           </div>
-          <p className="absolute bottom-4 left-0 right-0 text-center text-sm text-white/50 pointer-events-none">
-            {galleryImages[lightboxIndex].label}
-          </p>
         </div>
       )}
     </section>

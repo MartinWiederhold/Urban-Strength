@@ -22,13 +22,13 @@ export default function MapSection() {
       map = new mapboxgl.Map({
         container: mapContainer.current!,
         style: 'mapbox://styles/mapbox/dark-v11',
-        center: [8.5555, 47.3580],
+        center: [8.5545, 47.3567],
         zoom: 14,
       })
 
-      new mapboxgl.Marker({ color: '#ffffff' })
-        .setLngLat([8.5555, 47.3580])
-        .setPopup(new mapboxgl.Popup().setHTML('<strong>Personal Training Zurich</strong><br/>Oberer Heuelsteig 30, 8032 Zürich'))
+      new mapboxgl.Marker({ color: '#FBBF24' })
+        .setLngLat([8.5545, 47.3567])
+        .setPopup(new mapboxgl.Popup().setHTML('<strong>Personal Training Zurich – by Martin</strong><br/>Oberer Heuelsteig 30<br/>8032 Zürich, Schweiz'))
         .addTo(map)
     }
 

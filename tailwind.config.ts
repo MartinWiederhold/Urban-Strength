@@ -61,7 +61,7 @@ const config: Config = {
         card: "var(--shadow-card)",
       },
       fontFamily: {
-        sans: ["Outfit", "Inter", "system-ui", "sans-serif"],
+        sans: ["var(--font-outfit)", "var(--font-inter)", "system-ui", "sans-serif"],
       },
       letterSpacing: {
         tighter: "-0.02em",

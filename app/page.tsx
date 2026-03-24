@@ -60,7 +60,7 @@ const jsonLdLocalBusiness = {
     postalCode: '8032',
     addressCountry: 'CH',
   },
-  geo: { '@type': 'GeoCoordinates', latitude: 47.3580, longitude: 8.5555 },
+  geo: { '@type': 'GeoCoordinates', latitude: 47.3567, longitude: 8.5545 },
   areaServed: [
     { '@type': 'City', name: 'Zürich', sameAs: 'https://en.wikipedia.org/wiki/Z%C3%BCrich' },
     { '@type': 'State', name: 'Kanton Zürich' },
