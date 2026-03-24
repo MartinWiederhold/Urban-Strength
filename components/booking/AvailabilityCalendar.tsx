@@ -88,6 +88,9 @@ export default function AvailabilityCalendar({ onSelectSlot, selectedSlot }: Ava
     ? getSlotsForDate(selectedDay, specific, recurring, bookedKeys)
     : []
 
+  const noDataInDB = !isLoading && specific.length === 0 && recurring.length === 0
+  const anyAvailableInMonth = !isLoading && days.some(d => isSameMonth(d, currentMonth) && hasSlots(d))
+
   return (
     <div className="space-y-5">
       {/* Month navigation */}
@@ -151,6 +154,18 @@ export default function AvailabilityCalendar({ onSelectSlot, selectedSlot }: Ava
             )
           })}
         </div>
+      )}
+
+      {/* Empty states */}
+      {noDataInDB && (
+        <p className="text-sm text-center text-muted-foreground py-2">
+          Derzeit keine Termine verfügbar. Bitte kontaktiere uns direkt.
+        </p>
+      )}
+      {!noDataInDB && !anyAvailableInMonth && !isLoading && (
+        <p className="text-sm text-center text-muted-foreground py-2">
+          Kein freier Termin in diesem Monat — bitte zum nächsten navigieren.
+        </p>
       )}
 
       {/* Legend */}
