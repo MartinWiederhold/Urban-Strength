@@ -1,6 +1,5 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import { MapPin, Clock, Car, Train } from 'lucide-react'
 import { useEffect, useRef } from 'react'
 
@@ -43,12 +42,7 @@ export default function MapSection() {
   return (
     <section className="section-padding bg-black" id="standort">
       <div className="container-max">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-          className="text-center mb-12"
+        <div className="animate-slide-up text-center mb-12"
         >
           <h2 className="text-3xl md:text-5xl font-semibold tracking-tight mb-4 text-white">
             Trainingsstandort in Zürich
@@ -56,17 +50,11 @@ export default function MapSection() {
           <p className="text-white/45 text-lg max-w-xl mx-auto">
             Zentral gelegen – einfach erreichbar mit ÖV und Auto.
           </p>
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
           {/* Info */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-            className="space-y-3"
-          >
+          <div className="animate-slide-up space-y-3">
             <div className="flex items-start gap-3 p-4 rounded-2xl bg-[#111] border border-white/8">
               <MapPin className="w-5 h-5 text-white/50 mt-0.5 shrink-0" />
               <div>
@@ -95,21 +83,16 @@ export default function MapSection() {
                 <p className="text-sm text-white/45">Parkplätze in der Nähe verfügbar</p>
               </div>
             </div>
-          </motion.div>
+          </div>
 
           {/* Map */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.55, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="md:col-span-2"
+          <div className="animate-slide-up md:col-span-2"
           >
             <div
               ref={mapContainer}
               className="w-full h-[400px] rounded-3xl overflow-hidden bg-[#111] border border-white/8"
             />
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

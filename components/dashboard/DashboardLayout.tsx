@@ -3,7 +3,6 @@
 import { useEffect } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
 import {
   LayoutDashboard, Calendar, User, MessageCircle,
   ClipboardList, LogOut, Menu, X, PlusCircle,
@@ -142,15 +141,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
       {/* Mobile Sidebar */}
       {mobileOpen && (
-        <motion.div
-          initial={{ x: '-100%' }}
-          animate={{ x: 0 }}
-          exit={{ x: '-100%' }}
-          transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+        <div
           className="md:hidden fixed inset-0 z-50 bg-card flex flex-col w-72 border-r border-border shadow-strong"
         >
           <NavContent />
-        </motion.div>
+        </div>
       )}
       {mobileOpen && (
         <div className="md:hidden fixed inset-0 z-40 bg-black/40" onClick={() => setMobileOpen(false)} />

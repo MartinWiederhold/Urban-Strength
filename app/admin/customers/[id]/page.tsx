@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
-import { motion } from 'framer-motion'
 import { ArrowLeft, Save, Loader2, Plus, Trash2, MessageCircle } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'

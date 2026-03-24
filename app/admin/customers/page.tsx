@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
 import { Search, Users, MessageCircle } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
@@ -49,10 +48,10 @@ export default function AdminCustomersPage() {
 
   return (
     <div>
-      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }} className="mb-8">
+      <div className="animate-slide-up mb-8">
         <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Kunden (CRM)</h1>
         <p className="text-muted-foreground mt-1">Alle Kunden verwalten und einsehen.</p>
-      </motion.div>
+      </div>
 
       {/* Search */}
       <div className="relative mb-6 max-w-sm">

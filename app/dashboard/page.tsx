@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
 import { Calendar, MessageCircle, ClipboardList, ChevronRight, Clock, CheckCircle, XCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/contexts/AuthContext'
@@ -73,24 +72,16 @@ export default function DashboardPage() {
   return (
     <div>
       {/* Header */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-        className="mb-8"
+      <div className="animate-slide-up mb-8"
       >
         <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
           Willkommen, {profile?.full_name?.split(' ')[0] ?? 'Kunde'} 👋
         </h1>
         <p className="text-muted-foreground mt-1">Hier ist deine Übersicht.</p>
-      </motion.div>
+      </div>
 
       {/* Next Booking */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
-        className="mb-6"
+      <div className="animate-slide-up mb-6"
       >
         <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">Nächster Termin</h2>
         {isLoading ? (
@@ -120,14 +111,10 @@ export default function DashboardPage() {
             </Link>
           </div>
         )}
-      </motion.div>
+      </div>
 
       {/* Quick Actions */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-        className="mb-6"
+      <div className="animate-slide-up mb-6"
       >
         <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">Schnellaktionen</h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -148,7 +135,7 @@ export default function DashboardPage() {
             </Link>
           ))}
         </div>
-      </motion.div>
+      </div>
     </div>
   )
 }

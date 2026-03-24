@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
-import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowLeft, ArrowRight, Check, Loader2, Eye, EyeOff, MapPin } from 'lucide-react'
 import Link from 'next/link'
 import Navigation from '@/components/Navigation'
@@ -241,15 +240,10 @@ export default function BookingPage() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-5xl">
             {/* Main Content */}
             <div className="lg:col-span-2">
-              <AnimatePresence mode="wait">
-                {/* STEP 1: Calendar */}
+              {/* STEP 1: Calendar */}
                 {step === 1 && (
-                  <motion.div
+                  <div
                     key="step1"
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -20 }}
-                    transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                     className="bg-card border border-border rounded-2xl p-6"
                   >
                     <h2 className="text-xl font-bold mb-6">Termin auswählen</h2>
@@ -269,17 +263,13 @@ export default function BookingPage() {
                         <ArrowRight className="w-4 h-4" />
                       </Button>
                     </div>
-                  </motion.div>
+                  </div>
                 )}
 
                 {/* STEP 2: Form */}
                 {step === 2 && (
-                  <motion.div
+                  <div
                     key="step2"
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -20 }}
-                    transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                     className="bg-card border border-border rounded-2xl p-6"
                   >
                     <h2 className="text-xl font-bold mb-6">Deine Daten</h2>
@@ -434,17 +424,13 @@ export default function BookingPage() {
                         <ArrowRight className="w-4 h-4" />
                       </Button>
                     </div>
-                  </motion.div>
+                  </div>
                 )}
 
                 {/* STEP 3: Summary */}
                 {step === 3 && (
-                  <motion.div
+                  <div
                     key="step3"
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -20 }}
-                    transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                     className="bg-card border border-border rounded-2xl p-6"
                   >
                     <h2 className="text-xl font-bold mb-6">Zusammenfassung</h2>
@@ -515,9 +501,9 @@ export default function BookingPage() {
                         <Check className="w-4 h-4" />
                       </Button>
                     </div>
-                  </motion.div>
+                  </div>
                 )}
-              </AnimatePresence>
+              
             </div>
 
             {/* Sidebar */}

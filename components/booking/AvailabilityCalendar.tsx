@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
 import { ChevronLeft, ChevronRight, Clock } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import type { Availability } from '@/lib/types'
@@ -164,11 +163,7 @@ export default function AvailabilityCalendar({ onSelectSlot, selectedSlot }: Ava
 
       {/* Time slots */}
       {selectedDay && (
-        <motion.div
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className="border-t border-border pt-5"
+        <div className="animate-slide-up border-t border-border pt-5"
         >
           <p className="text-sm font-semibold mb-4 flex items-center gap-2">
             <Clock className="w-4 h-4 text-emerald-400" />
@@ -200,7 +195,7 @@ export default function AvailabilityCalendar({ onSelectSlot, selectedSlot }: Ava
               })}
             </div>
           )}
-        </motion.div>
+        </div>
       )}
     </div>
   )

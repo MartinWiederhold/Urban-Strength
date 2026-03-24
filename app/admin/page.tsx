@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
 import { Calendar, Users, TrendingUp, Clock, ChevronRight, Star } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import type { Booking } from '@/lib/types'
@@ -64,15 +63,15 @@ export default function AdminOverviewPage() {
 
   return (
     <div>
-      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }} className="mb-8">
+      <div className="animate-slide-up mb-8">
         <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Dashboard Übersicht</h1>
         <p className="text-muted-foreground mt-1">{format(new Date(), 'EEEE, dd. MMMM yyyy', { locale: de })}</p>
-      </motion.div>
+      </div>
 
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         {statCards.map((card, i) => (
-          <motion.div key={card.label} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] }}>
+          <div key={card.label}>
             <Link href={card.href}>
               <div className="bg-card rounded-xl border border-border p-4 hover:border-foreground/20 transition-all duration-200">
                 <div className="flex items-start justify-between mb-3">
@@ -86,12 +85,12 @@ export default function AdminOverviewPage() {
                 </p>
               </div>
             </Link>
-          </motion.div>
+          </div>
         ))}
       </div>
 
       {/* Recent Bookings */}
-      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}>
+      <div>
         <div className="flex items-center justify-between mb-4">
           <h2 className="font-bold text-lg">Neue Buchungen</h2>
           <Link href="/admin/bookings" className="text-sm text-primary hover:underline flex items-center gap-1">
@@ -131,7 +130,7 @@ export default function AdminOverviewPage() {
             </div>
           )}
         </div>
-      </motion.div>
+      </div>
     </div>
   )
 }

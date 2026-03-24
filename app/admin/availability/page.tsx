@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState, useRef, useCallback } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
 import {
   ChevronLeft, ChevronRight, Loader2, Trash2, RefreshCw,
   X, CalendarDays, RotateCcw, LayoutList, Calendar,
@@ -373,11 +372,7 @@ export default function AvailabilityPage() {
   return (
     <div>
       {/* Header */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-        className="flex items-start justify-between mb-8 gap-4 flex-wrap"
-      >
+      <div className="animate-slide-up flex items-start justify-between mb-8 gap-4 flex-wrap">
         <div>
           <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Verfügbarkeit</h1>
           <p className="text-muted-foreground mt-1">
@@ -408,7 +403,7 @@ export default function AvailabilityPage() {
             <LayoutList className="w-3.5 h-3.5" /> Liste
           </button>
         </div>
-      </motion.div>
+      </div>
 
       {/* ── CALENDAR TAB ─────────────────────────────────────────────────── */}
       {activeTab === 'calendar' && (
@@ -431,10 +426,9 @@ export default function AvailabilityPage() {
             </div>
             <div className="flex items-center gap-4 text-xs text-muted-foreground">
               {msg && (
-                <motion.span initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }}
-                  className={`text-sm font-medium ${msg.ok ? 'text-emerald-400' : 'text-destructive'}`}>
+                <span className={`animate-in text-sm font-medium ${msg.ok ? 'text-emerald-400' : 'text-destructive'}`}>
                   {msg.text}
-                </motion.span>
+                </span>
               )}
               {isSaving && <Loader2 className="w-4 h-4 animate-spin" />}
               <span>
@@ -455,10 +449,8 @@ export default function AvailabilityPage() {
           {isLoading ? (
             <div className="h-96 rounded-xl shimmer" />
           ) : (
-            <motion.div
-              initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-              className="bg-card rounded-xl border border-border overflow-hidden"
+            <div
+              className="animate-in bg-card rounded-xl border border-border overflow-hidden"
               style={{ cursor: slotDragPreview ? 'grabbing' : undefined }}
             >
               {/* Day headers */}
@@ -580,7 +572,7 @@ export default function AvailabilityPage() {
                   })}
                 </div>
               </div>
-            </motion.div>
+            </div>
           )}
 
           <p className="text-xs text-muted-foreground mt-3">
@@ -591,7 +583,7 @@ export default function AvailabilityPage() {
 
       {/* ── LIST TAB ─────────────────────────────────────────────────────── */}
       {activeTab === 'list' && (
-        <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
+        <div className="animate-in">
           {/* Day filter */}
           <div className="flex items-center gap-3 mb-5 flex-wrap">
             <Select value={listFilter} onValueChange={setListFilter}>
@@ -629,11 +621,10 @@ export default function AvailabilityPage() {
                   </thead>
                   <tbody className="divide-y divide-border">
                     {filteredListSlots.map((slot, i) => (
-                      <motion.tr
+                      <tr
                         key={slot.id}
-                        initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.25, delay: i * 0.02 }}
-                        className="hover:bg-secondary/30 transition-colors"
+                        className="animate-in hover:bg-secondary/30 transition-colors"
+                        style={{ animationDelay: `${i * 0.02}s` }}
                       >
                         <td className="p-4">
                           <div className="flex items-center gap-2">
@@ -683,29 +674,24 @@ export default function AvailabilityPage() {
                             </button>
                           </div>
                         </td>
-                      </motion.tr>
+                      </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
             )}
           </div>
-        </motion.div>
+        </div>
       )}
 
       {/* ── EDIT MODAL ───────────────────────────────────────────────────── */}
-      <AnimatePresence>
-        {edit && (
-          <motion.div
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4"
+      {edit && (
+          <div
+            className="animate-in fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4"
             onClick={() => setEdit(null)}
           >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 8 }} animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 8 }}
-              transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-              className="bg-card border border-border rounded-2xl p-6 w-full max-w-sm shadow-2xl"
+            <div
+              className="animate-scale-in bg-card border border-border rounded-2xl p-6 w-full max-w-sm shadow-2xl"
               onClick={e => e.stopPropagation()}
             >
               <div className="flex items-start justify-between mb-5">
@@ -765,29 +751,23 @@ export default function AvailabilityPage() {
               </div>
 
               {/* End date (recurring only) */}
-              <AnimatePresence>
-                {edit.recurring && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }}
-                    exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.2 }}
-                    className="overflow-hidden mb-5"
-                  >
-                    <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2">Wiederholen bis (optional)</p>
-                    <input
-                      type="date"
-                      value={edit.endDate}
-                      min={format(addDays(parseISO(edit.slot.date), 7), 'yyyy-MM-dd')}
-                      onChange={e => setEdit(prev => prev ? { ...prev, endDate: e.target.value } : prev)}
-                      className="w-full bg-secondary border border-border rounded-xl px-3 py-2.5 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-ring"
-                    />
-                    <p className="text-xs text-muted-foreground mt-1.5">
-                      {edit.endDate
-                        ? `Letzter Slot: ${format(parseISO(edit.endDate), 'EEE, dd. MMMM yyyy', { locale: de })}`
-                        : 'Kein Enddatum → wiederholt sich unbegrenzt'}
-                    </p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              {edit.recurring && (
+                <div className="animate-in overflow-hidden mb-5">
+                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2">Wiederholen bis (optional)</p>
+                  <input
+                    type="date"
+                    value={edit.endDate}
+                    min={format(addDays(parseISO(edit.slot.date), 7), 'yyyy-MM-dd')}
+                    onChange={e => setEdit(prev => prev ? { ...prev, endDate: e.target.value } : prev)}
+                    className="w-full bg-secondary border border-border rounded-xl px-3 py-2.5 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-ring"
+                  />
+                  <p className="text-xs text-muted-foreground mt-1.5">
+                    {edit.endDate
+                      ? `Letzter Slot: ${format(parseISO(edit.endDate), 'EEE, dd. MMMM yyyy', { locale: de })}`
+                      : 'Kein Enddatum → wiederholt sich unbegrenzt'}
+                  </p>
+                </div>
+              )}
 
               {/* Actions */}
               <div className="flex gap-2">
@@ -806,23 +786,17 @@ export default function AvailabilityPage() {
                   Speichern
                 </Button>
               </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            </div>
+          </div>
+      )}
 
       {/* ── SERIES CONFIRM MODAL ─────────────────────────────────────────── */}
-      <AnimatePresence>
-        {seriesConfirm && (
-          <motion.div
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4"
+      {seriesConfirm && (
+          <div
+            className="animate-in fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4"
           >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 8 }} animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 8 }}
-              transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-              className="bg-card border border-border rounded-2xl p-6 w-full max-w-sm shadow-2xl"
+            <div
+              className="animate-scale-in bg-card border border-border rounded-2xl p-6 w-full max-w-sm shadow-2xl"
             >
               <h3 className="font-bold text-lg mb-2">Serie oder einzelner Slot?</h3>
               <p className="text-sm text-muted-foreground mb-1">
@@ -850,10 +824,9 @@ export default function AvailabilityPage() {
               <Button variant="ghost" size="sm" className="w-full mt-3 text-muted-foreground" onClick={() => setSeriesConfirm(null)}>
                 Abbrechen
               </Button>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            </div>
+          </div>
+      )}
     </div>
   )
 }

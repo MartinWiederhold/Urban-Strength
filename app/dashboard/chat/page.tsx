@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState, useRef } from 'react'
-import { motion } from 'framer-motion'
 import { Send, Loader2, User } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -138,8 +137,7 @@ export default function CustomerChatPage() {
   return (
     <div className="flex flex-col h-[calc(100vh-8rem)] md:h-[calc(100vh-4rem)]">
       {/* Header */}
-      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-        className="flex items-center gap-3 pb-4 border-b border-border mb-4"
+      <div className="animate-slide-up flex items-center gap-3 pb-4 border-b border-border mb-4"
       >
         <div className="relative">
           <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
@@ -151,7 +149,7 @@ export default function CustomerChatPage() {
           <p className="font-semibold">Martin</p>
           <p className="text-xs text-muted-foreground">{adminOnline ? 'Online' : 'Offline'} · Personal Trainer</p>
         </div>
-      </motion.div>
+      </div>
 
       {/* Messages */}
       <div className="flex-1 overflow-y-auto space-y-4 pr-1 scrollbar-hide">

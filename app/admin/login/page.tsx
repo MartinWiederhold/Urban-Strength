@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { motion } from 'framer-motion'
 import { Eye, EyeOff, Loader2, Shield } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 
@@ -56,11 +55,7 @@ export default function AdminLoginPage() {
 
   return (
     <div className="min-h-screen bg-[#080808] flex items-center justify-center p-4">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-        className="w-full max-w-sm"
+      <div className="animate-slide-up w-full max-w-sm"
       >
         {/* Icon */}
         <div className="flex justify-center mb-8">
@@ -137,7 +132,7 @@ export default function AdminLoginPage() {
         <p className="text-center text-xs text-white/20 mt-8">
           Nur für autorisierte Admins
         </p>
-      </motion.div>
+      </div>
     </div>
   )
 }

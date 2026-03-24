@@ -1,6 +1,5 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { Award, Users, Clock, ChevronRight } from 'lucide-react'
 
@@ -16,13 +15,7 @@ export default function AboutSection() {
       <div className="container-max">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           {/* Image */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="relative"
-          >
+          <div className="animate-slide-up relative">
             <div className="aspect-[3/4] rounded-3xl bg-[#111] border border-white/8 overflow-hidden relative">
               <div className="absolute inset-0 flex flex-col items-center justify-center text-white/20 gap-2">
                 <div className="w-20 h-20 rounded-full bg-white/5 flex items-center justify-center">
@@ -35,14 +28,10 @@ export default function AboutSection() {
               <p className="text-2xl font-semibold">5+</p>
               <p className="text-xs text-black/60">Jahre<br/>Erfahrung</p>
             </div>
-          </motion.div>
+          </div>
 
           {/* Content */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          <div className="animate-slide-up"
           >
             <h2 className="text-3xl md:text-5xl font-semibold tracking-tight mb-6 text-white">
               Dein Personal Trainer in Zürich – Martin
@@ -72,7 +61,7 @@ export default function AboutSection() {
               Mehr über Martin erfahren
               <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

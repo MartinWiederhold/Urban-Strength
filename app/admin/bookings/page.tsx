@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
 import { Loader2, CheckCircle2, XCircle } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
@@ -76,14 +75,11 @@ export default function AdminBookingsPage() {
 
   return (
     <div>
-      <motion.div
-        initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-        className="mb-8"
+      <div className="animate-slide-up mb-8"
       >
         <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Buchungen</h1>
         <p className="text-muted-foreground mt-1">Buchungen verwalten, Status und Bezahlung tracken.</p>
-      </motion.div>
+      </div>
 
       {/* Filters */}
       <div className="flex gap-3 mb-6 flex-wrap">
@@ -132,12 +128,7 @@ export default function AdminBookingsPage() {
                   const isFree   = service?.price === 0
 
                   return (
-                    <motion.tr
-                      key={booking.id}
-                      initial={{ opacity: 0, y: 4 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.3, delay: i * 0.03, ease: [0.22, 1, 0.36, 1] }}
-                      className="hover:bg-secondary/30 transition-colors"
+                    <tr key={booking.id} className="hover:bg-secondary/30 transition-colors animate-in" style={{ animationDelay: `${i * 0.03}s` }}
                     >
                       {/* Kunde */}
                       <td className="p-4">
@@ -219,7 +210,7 @@ export default function AdminBookingsPage() {
                           </Link>
                         </div>
                       </td>
-                    </motion.tr>
+                    </tr>
                   )
                 })}
               </tbody>

@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
 import { User, Save, Loader2, Camera } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -74,13 +73,12 @@ export default function ProfilePage() {
 
   return (
     <div>
-      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }} className="mb-8">
+      <div className="animate-slide-up mb-8">
         <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Mein Profil</h1>
         <p className="text-muted-foreground mt-1">Verwalte deine persönlichen Daten.</p>
-      </motion.div>
+      </div>
 
-      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
-        className="bg-card border border-border rounded-2xl p-6 max-w-xl space-y-6"
+      <div className="animate-slide-up bg-card border border-border rounded-2xl p-6 max-w-xl space-y-6"
       >
         {/* Avatar */}
         <div className="flex items-center gap-4">
@@ -133,7 +131,7 @@ export default function ProfilePage() {
           {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
           Speichern
         </Button>
-      </motion.div>
+      </div>
     </div>
   )
 }

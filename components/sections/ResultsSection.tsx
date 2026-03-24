@@ -1,6 +1,5 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 
 const results = [
@@ -31,12 +30,7 @@ export default function ResultsSection() {
   return (
     <section className="section-padding bg-black" id="resultate">
       <div className="container-max">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-          className="text-center mb-14"
+        <div className="animate-slide-up text-center mb-14"
         >
           <h2 className="text-3xl md:text-5xl font-semibold tracking-tight mb-4 text-white">
             Echte Resultate meiner Kunden in Zürich
@@ -44,17 +38,11 @@ export default function ResultsSection() {
           <p className="text-white/45 text-lg max-w-xl mx-auto">
             Keine Hochglanz-Versprechen, echte Ergebnisse. Das können auch deine Resultate sein.
           </p>
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {results.map((result, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.55, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-              className="rounded-3xl bg-[#111] border border-white/8 p-6 hover:border-white/16 hover:-translate-y-1 transition-all duration-300"
+            <div className="animate-slide-up rounded-3xl bg-[#111] border border-white/8 p-6 hover:border-white/16 hover:-translate-y-1 transition-all duration-300"
             >
               {/* Before/After */}
               <div className="flex gap-2 mb-5">
@@ -83,7 +71,7 @@ export default function ResultsSection() {
               <p className="text-sm text-white/50 leading-relaxed italic">
                 &ldquo;{result.quote}&rdquo;
               </p>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

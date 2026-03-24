@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
 import { Calendar, Clock, MapPin, X, Loader2, AlertCircle } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
@@ -99,10 +98,10 @@ export default function BookingsPage() {
 
   return (
     <div>
-      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }} className="mb-8">
+      <div className="animate-slide-up mb-8">
         <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Meine Buchungen</h1>
         <p className="text-muted-foreground mt-1">Verwalte deine Trainings-Termine.</p>
-      </motion.div>
+      </div>
 
       {/* Filter */}
       <div className="flex gap-2 mb-6">
@@ -135,11 +134,8 @@ export default function BookingsPage() {
             const isPast = startOfDay(new Date(booking.booking_date)) < today
             const isCancellable = booking.status === 'confirmed' && !isPast
             return (
-              <motion.div
+              <div
                 key={booking.id}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.35, delay: i * 0.05, ease: [0.22, 1, 0.36, 1] }}
                 className="rounded-2xl border border-border bg-card p-5"
               >
                 <div className="flex items-start justify-between gap-4 flex-wrap">
@@ -178,7 +174,7 @@ export default function BookingsPage() {
                     </Button>
                   )}
                 </div>
-              </motion.div>
+              </div>
             )
           })}
         </div>

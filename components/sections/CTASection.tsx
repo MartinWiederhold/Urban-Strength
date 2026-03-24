@@ -1,6 +1,5 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { Mail, MapPin } from 'lucide-react'
 
@@ -8,12 +7,7 @@ export default function CTASection() {
   return (
     <section className="section-padding bg-black">
       <div className="container-max">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-          className="rounded-3xl bg-white text-black p-10 md:p-16 text-center"
+        <div className="animate-slide-up rounded-3xl bg-white text-black p-10 md:p-16 text-center"
         >
           <div className="inline-block rounded-full border border-black/10 bg-black/5 px-4 py-1.5 text-[10px] uppercase tracking-[0.22em] text-black/60 mb-6 md:px-5 md:py-2 md:text-xs">
             Erster Termin komplett gratis
@@ -55,7 +49,7 @@ export default function CTASection() {
               </a>
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   )

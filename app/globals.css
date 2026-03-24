@@ -86,20 +86,28 @@
     to   { opacity: 1; }
   }
   @keyframes slideUp {
-    from { opacity: 0; transform: translateY(18px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes slideDown {
-    from { opacity: 0; transform: translateY(-12px); }
+    from { opacity: 0; transform: translateY(16px); }
     to   { opacity: 1; transform: translateY(0); }
   }
   @keyframes scaleIn {
-    from { opacity: 0; transform: scale(0.95); }
+    from { opacity: 0; transform: scale(0.96); }
     to   { opacity: 1; transform: scale(1); }
   }
   @keyframes countUp {
     from { opacity: 0; transform: translateY(6px); }
     to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes slideInLeft {
+    from { opacity: 0; transform: translateX(-16px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  @keyframes slideFromTop {
+    from { transform: translateY(-100%); }
+    to   { transform: translateY(0); }
+  }
+  @keyframes slideFromLeft {
+    from { transform: translateX(-100%); }
+    to   { transform: translateX(0); }
   }
   @keyframes shimmer {
     0%   { background-position: -200% 0; }
@@ -108,10 +116,13 @@
 }
 
 @layer utilities {
-  .animate-in      { animation: fadeIn  0.4s cubic-bezier(0.22, 1, 0.36, 1) both; }
-  .animate-slide-up { animation: slideUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) both; }
-  .animate-scale-in { animation: scaleIn 0.3s cubic-bezier(0.22, 1, 0.36, 1) both; }
-  .animate-count-up { animation: countUp 0.4s cubic-bezier(0.22, 1, 0.36, 1) both; }
+  .animate-in        { animation: fadeIn       0.35s cubic-bezier(0.22, 1, 0.36, 1) both; }
+  .animate-slide-up  { animation: slideUp      0.4s  cubic-bezier(0.22, 1, 0.36, 1) both; }
+  .animate-scale-in  { animation: scaleIn      0.3s  cubic-bezier(0.22, 1, 0.36, 1) both; }
+  .animate-count-up  { animation: countUp      0.4s  cubic-bezier(0.22, 1, 0.36, 1) both; }
+  .animate-slide-left { animation: slideInLeft 0.4s  cubic-bezier(0.22, 1, 0.36, 1) both; }
+  .animate-from-top  { animation: slideFromTop  0.32s cubic-bezier(0.22, 1, 0.36, 1) both; }
+  .animate-from-left { animation: slideFromLeft 0.28s cubic-bezier(0.22, 1, 0.36, 1) both; }
 
   .card-hover {
     @apply transition-all duration-300;

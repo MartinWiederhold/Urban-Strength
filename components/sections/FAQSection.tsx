@@ -1,6 +1,5 @@
 'use client'
 
-import { motion, AnimatePresence } from 'framer-motion'
 import { useState } from 'react'
 import { ChevronDown } from 'lucide-react'
 
@@ -39,12 +38,7 @@ function FAQItem({ faq, index }: { faq: typeof faqs[0]; index: number }) {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 15 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.1 }}
-      transition={{ duration: 0.45, delay: index * 0.06, ease: [0.22, 1, 0.36, 1] }}
-      className="border-b border-white/8 last:border-0"
+    <div className="animate-slide-up border-b border-white/8 last:border-0"
     >
       <button
         onClick={() => setIsOpen(!isOpen)}
@@ -56,20 +50,16 @@ function FAQItem({ faq, index }: { faq: typeof faqs[0]; index: number }) {
           className={`w-5 h-5 text-white/30 shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-180 text-white/60' : ''}`}
         />
       </button>
-      <AnimatePresence initial={false}>
+      
         {isOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+          <div
             className="overflow-hidden"
           >
             <p className="text-white/50 pb-5 leading-relaxed">{faq.answer}</p>
-          </motion.div>
+          </div>
         )}
-      </AnimatePresence>
-    </motion.div>
+      
+    </div>
   )
 }
 
@@ -77,12 +67,7 @@ export default function FAQSection() {
   return (
     <section className="section-padding bg-[#080808]" id="faq">
       <div className="container-max">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-          className="text-center mb-12"
+        <div className="animate-slide-up text-center mb-12"
         >
           <h2 className="text-3xl md:text-5xl font-semibold tracking-tight mb-4 text-white">
             Häufige Fragen zum Personal Training in Zürich
@@ -90,7 +75,7 @@ export default function FAQSection() {
           <p className="text-white/45 text-lg max-w-xl mx-auto">
             Hast du noch weitere Fragen? Schreib mir einfach.
           </p>
-        </motion.div>
+        </div>
 
         <div className="max-w-3xl mx-auto">
           {faqs.map((faq, i) => (

@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   PieChart, Pie, Cell, LineChart, Line, Legend,
@@ -172,22 +171,17 @@ export default function AnalyticsPage() {
 
   return (
     <div>
-      <motion.div
-        initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-        className="mb-8"
+      <div className="animate-slide-up mb-8"
       >
         <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Analytics</h1>
         <p className="text-muted-foreground mt-1">Buchungen, Kunden und Umsatz im Überblick.</p>
-      </motion.div>
+      </div>
 
       {/* KPI cards */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
         {kpiCards.map((card, i) => (
-          <motion.div
+          <div
             key={card.label}
-            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: i * 0.05, ease: [0.22, 1, 0.36, 1] }}
             className="bg-card rounded-xl border border-border p-4 hover:border-foreground/20 transition-all duration-200 card-hover"
           >
             <div className="flex items-start justify-between mb-3">
@@ -207,7 +201,7 @@ export default function AnalyticsPage() {
                   />
               }
             </p>
-          </motion.div>
+          </div>
         ))}
       </div>
 

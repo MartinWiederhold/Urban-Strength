@@ -1,6 +1,5 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { Check, ChevronRight } from 'lucide-react'
 
@@ -49,12 +48,7 @@ export default function ServicesSection() {
   return (
     <section className="section-padding bg-black" id="angebote">
       <div className="container-max">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-          className="text-center mb-16"
+        <div className="animate-slide-up text-center mb-16"
         >
           <h2 className="text-3xl md:text-5xl font-semibold tracking-tight mb-4 text-white">
             Mein Angebot – Personal Training in Zürich
@@ -62,16 +56,11 @@ export default function ServicesSection() {
           <p className="text-white/45 text-lg max-w-xl mx-auto">
             Zwei klare Angebote, kein Kleingedrucktes. Starte einfach mit dem kostenlosen Termin.
           </p>
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-4xl mx-auto">
           {services.map((service, i) => (
-            <motion.div
-              key={service.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.55, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
+            <div
               className={`relative rounded-3xl p-8 md:p-10 flex flex-col transition-all duration-500 hover:-translate-y-1 ${
                 service.highlight
                   ? 'bg-white text-black hover:shadow-[0_32px_64px_-16px_hsl(0_0%_0%_/0.7)]'
@@ -141,7 +130,7 @@ export default function ServicesSection() {
                 {service.cta}
                 <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

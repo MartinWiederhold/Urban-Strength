@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import { motion } from 'framer-motion'
 import { CheckCircle, Calendar, MapPin, MessageCircle } from 'lucide-react'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
@@ -13,20 +12,14 @@ export default function BookingSuccessPage() {
       <Navigation />
       <main className="min-h-screen bg-background pt-20 flex items-center">
         <div className="container-max px-4 md:px-10 py-16 w-full">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          <div
             className="max-w-lg mx-auto text-center"
           >
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.2, duration: 0.5, type: 'spring', stiffness: 200 }}
+            <div
               className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6"
             >
               <CheckCircle className="w-10 h-10 text-primary" />
-            </motion.div>
+            </div>
 
             <h1 className="text-3xl md:text-4xl font-semibold tracking-tight mb-3">
               Buchung bestätigt!
@@ -71,7 +64,7 @@ export default function BookingSuccessPage() {
                 </Button>
               </Link>
             </div>
-          </motion.div>
+          </div>
         </div>
       </main>
       <Footer />

@@ -1,6 +1,5 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import { useState } from 'react'
 import { X, ChevronLeft, ChevronRight, ImageIcon } from 'lucide-react'
 
@@ -39,12 +38,7 @@ export default function GallerySection() {
   return (
     <section className="section-padding bg-[#080808]" id="galerie">
       <div className="container-max">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-          className="text-center mb-12"
+        <div className="animate-slide-up text-center mb-12"
         >
           <h2 className="text-3xl md:text-5xl font-semibold tracking-tight mb-4 text-white">
             Trainingsumgebung in Zürich
@@ -52,33 +46,26 @@ export default function GallerySection() {
           <p className="text-white/45 text-lg max-w-xl mx-auto">
             Modernes Equipment in zentraler Lage – perfekte Bedingungen für dein Training.
           </p>
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           {images.map((image, i) => (
-            <motion.div
+            <div
               key={i}
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true, amount: 0.1 }}
-              transition={{ duration: 0.5, delay: i * 0.07, ease: [0.22, 1, 0.36, 1] }}
             >
               <PlaceholderImage
                 alt={image.alt}
                 label={image.label}
                 onClick={() => setLightboxIndex(i)}
               />
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>
 
       {/* Lightbox */}
       {lightboxIndex !== null && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
+        <div
           className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4"
           onClick={() => setLightboxIndex(null)}
         >
@@ -112,7 +99,7 @@ export default function GallerySection() {
           >
             <ChevronRight className="w-8 h-8" />
           </button>
-        </motion.div>
+        </div>
       )}
     </section>
   )

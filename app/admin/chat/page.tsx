@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
 import { MessageCircle, Users } from 'lucide-react'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
@@ -51,10 +50,10 @@ export default function AdminChatListPage() {
 
   return (
     <div>
-      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }} className="mb-8">
+      <div className="animate-slide-up mb-8">
         <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Chat</h1>
         <p className="text-muted-foreground mt-1">Nachrichten mit Kunden.</p>
-      </motion.div>
+      </div>
 
       <div className="bg-card rounded-xl border border-border overflow-hidden max-w-xl">
         {isLoading ? (

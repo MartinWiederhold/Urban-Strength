@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
 import { Calendar, Check, ArrowLeft, ArrowRight, Loader2, MapPin } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/contexts/AuthContext'
@@ -77,15 +76,11 @@ export default function DashboardBookPage() {
 
   return (
     <div>
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-        className="mb-8"
+      <div className="animate-slide-up mb-8"
       >
         <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Termin buchen</h1>
         <p className="text-muted-foreground mt-1">Wähle ein Angebot und einen freien Termin aus.</p>
-      </motion.div>
+      </div>
 
       {/* Progress */}
       <div className="flex items-center gap-2 mb-8 max-w-xs">
@@ -104,15 +99,10 @@ export default function DashboardBookPage() {
         ))}
       </div>
 
-      <AnimatePresence mode="wait">
-        {/* STEP 1 */}
+      {/* STEP 1 */}
         {step === 1 && (
-          <motion.div
+          <div
             key="step1"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
             className="grid grid-cols-1 lg:grid-cols-3 gap-6"
           >
             <div className="lg:col-span-2 space-y-5">
@@ -189,17 +179,13 @@ export default function DashboardBookPage() {
                 </Button>
               </div>
             </div>
-          </motion.div>
+          </div>
         )}
 
         {/* STEP 2 */}
         {step === 2 && (
-          <motion.div
+          <div
             key="step2"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
             className="max-w-lg"
           >
             <div className="bg-card rounded-xl border border-border p-6 space-y-4">
@@ -250,9 +236,9 @@ export default function DashboardBookPage() {
                 </Button>
               </div>
             </div>
-          </motion.div>
+          </div>
         )}
-      </AnimatePresence>
+      
     </div>
   )
 }

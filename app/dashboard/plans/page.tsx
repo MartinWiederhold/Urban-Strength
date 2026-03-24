@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
 import { ClipboardList, ChevronDown, ChevronUp, Dumbbell, Apple, FileText } from 'lucide-react'
 import { useAuth } from '@/contexts/AuthContext'
 import { createClient } from '@/lib/supabase/client'
@@ -39,10 +38,7 @@ function PlanCard({ plan }: { plan: TrainingPlan }) {
       </button>
 
       {isOpen && (
-        <motion.div
-          initial={{ height: 0, opacity: 0 }}
-          animate={{ height: 'auto', opacity: 1 }}
-          transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+        <div
           className="overflow-hidden"
         >
           <div className="px-5 pb-5 border-t border-border pt-4">
@@ -69,7 +65,7 @@ function PlanCard({ plan }: { plan: TrainingPlan }) {
               <p className="text-sm text-muted-foreground">Keine Inhalte vorhanden.</p>
             )}
           </div>
-        </motion.div>
+        </div>
       )}
     </div>
   )
@@ -98,10 +94,10 @@ export default function PlansPage() {
 
   return (
     <div>
-      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }} className="mb-8">
+      <div className="animate-slide-up mb-8">
         <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Meine Pläne</h1>
         <p className="text-muted-foreground mt-1">Trainingspläne und Ernährungspläne von Martin.</p>
-      </motion.div>
+      </div>
 
       {isLoading ? (
         <div className="space-y-3">{[1,2].map(i => <div key={i} className="h-20 rounded-2xl bg-muted animate-pulse" />)}</div>
@@ -114,9 +110,9 @@ export default function PlansPage() {
       ) : (
         <div className="space-y-3">
           {plans.map((plan, i) => (
-            <motion.div key={plan.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] }}>
+            <div key={plan.id}>
               <PlanCard plan={plan} />
-            </motion.div>
+            </div>
           ))}
         </div>
       )}

@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
 import { Eye, EyeOff, Loader2, ArrowLeft } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -57,11 +56,7 @@ export default function ResetPasswordPage() {
           Zurück zum Login
         </Link>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="bg-card border border-border rounded-2xl p-8 shadow-card"
+        <div className="animate-slide-up bg-card border border-border rounded-2xl p-8 shadow-card"
         >
           <div className="mb-8">
             <p className="text-lg font-bold tracking-tight">Personal Training Zurich</p>
@@ -123,7 +118,7 @@ export default function ResetPasswordPage() {
               </Button>
             </form>
           )}
-        </motion.div>
+        </div>
       </div>
     </div>
   )

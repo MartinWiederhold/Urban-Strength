@@ -3,8 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronDown, User, LogOut, LayoutDashboard, Shield } from 'lucide-react'
+import { User, LogOut, LayoutDashboard, Shield } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import type { Profile } from '@/lib/types'
 
@@ -76,18 +75,21 @@ export default function Navigation() {
   const navigateFromMobile = (href: string) => {
     setIsMobileOpen(false)
     if (mobileNavTimeoutRef.current) clearTimeout(mobileNavTimeoutRef.current)
-    mobileNavTimeoutRef.current = setTimeout(() => { window.location.href = href }, 620)
+    mobileNavTimeoutRef.current = setTimeout(() => { window.location.href = href }, 320)
   }
 
   return (
     <>
-      <motion.header
-        initial={false}
-        animate={{ opacity: navVisible ? 1 : 0, y: navVisible ? 0 : -8 }}
-        transition={{ duration: 0.2, ease: 'linear' }}
+      <header
+        style={{
+          opacity: navVisible ? 1 : 0,
+          transform: navVisible ? 'none' : 'translateY(-8px)',
+          transition: 'opacity 0.2s linear, transform 0.2s linear',
+          pointerEvents: navVisible ? 'auto' : 'none',
+        }}
         className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${
-          navVisible ? 'pointer-events-auto' : 'pointer-events-none'
-        } ${isScrolled ? 'bg-black border-b border-white/[0.08]' : 'bg-black border-b border-white/[0.04]'}`}
+          isScrolled ? 'bg-black border-b border-white/[0.08]' : 'bg-black border-b border-white/[0.04]'
+        }`}
       >
         <div className="max-w-[1440px] mx-auto px-4 md:px-8">
           <div className="relative flex items-center justify-between" style={{ height: '4.2rem' }}>
@@ -131,33 +133,25 @@ export default function Navigation() {
                   >
                     <User className="w-4 h-4" />
                   </button>
-                  <AnimatePresence>
-                    {isUserMenuOpen && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 8 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 8 }}
-                        transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                        className="absolute right-0 top-full mt-2 min-w-[180px] bg-[#111] rounded-xl border border-white/10 py-2 z-50 shadow-[0_16px_48px_-8px_hsl(0_0%_0%_/0.8)]"
-                      >
-                        {profile.role === 'admin' && (
-                          <Link href="/admin" onClick={() => setIsUserMenuOpen(false)}
-                            className="flex items-center gap-2 px-4 py-2.5 text-sm text-white/70 hover:text-white hover:bg-white/5 transition-all">
-                            <Shield className="w-4 h-4" /> Admin Dashboard
-                          </Link>
-                        )}
-                        <Link href="/dashboard" onClick={() => setIsUserMenuOpen(false)}
+                  {isUserMenuOpen && (
+                    <div className="animate-slide-up absolute right-0 top-full mt-2 min-w-[180px] bg-[#111] rounded-xl border border-white/10 py-2 z-50 shadow-[0_16px_48px_-8px_hsl(0_0%_0%_/0.8)]">
+                      {profile.role === 'admin' && (
+                        <Link href="/admin" onClick={() => setIsUserMenuOpen(false)}
                           className="flex items-center gap-2 px-4 py-2.5 text-sm text-white/70 hover:text-white hover:bg-white/5 transition-all">
-                          <LayoutDashboard className="w-4 h-4" /> Mein Dashboard
+                          <Shield className="w-4 h-4" /> Admin Dashboard
                         </Link>
-                        <div className="border-t border-white/8 my-1" />
-                        <button onClick={handleSignOut}
-                          className="flex items-center gap-2 px-4 py-2.5 text-sm text-red-400 hover:bg-white/5 transition-all w-full text-left">
-                          <LogOut className="w-4 h-4" /> Ausloggen
-                        </button>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                      )}
+                      <Link href="/dashboard" onClick={() => setIsUserMenuOpen(false)}
+                        className="flex items-center gap-2 px-4 py-2.5 text-sm text-white/70 hover:text-white hover:bg-white/5 transition-all">
+                        <LayoutDashboard className="w-4 h-4" /> Mein Dashboard
+                      </Link>
+                      <div className="border-t border-white/8 my-1" />
+                      <button onClick={handleSignOut}
+                        className="flex items-center gap-2 px-4 py-2.5 text-sm text-red-400 hover:bg-white/5 transition-all w-full text-left">
+                        <LogOut className="w-4 h-4" /> Ausloggen
+                      </button>
+                    </div>
+                  )}
                 </div>
               ) : (
                 <>
@@ -189,67 +183,59 @@ export default function Navigation() {
 
           </div>
         </div>
-      </motion.header>
+      </header>
 
       {/* Mobile Fullscreen Menu */}
-      <AnimatePresence>
-        {isMobileOpen && (
-          <motion.div
-            initial={{ y: '-100%' }}
-            animate={{ y: 0 }}
-            exit={{ y: '-100%' }}
-            transition={{ duration: 0.72, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-0 z-[80] bg-black md:hidden overscroll-none"
-          >
-            <div className="flex h-full flex-col px-4 pb-8 pt-5">
-              <div className="flex items-center justify-between" style={{ height: '4.2rem' }}>
-                <button type="button" onClick={() => navigateFromMobile('/')} className="flex flex-col">
-                  <span className="text-[1.1rem] font-semibold uppercase tracking-tight text-white">Personal Training Zurich</span>
-                  <span className="text-[10px] font-medium tracking-[0.12em] uppercase text-white/40">by Martin</span>
+      {isMobileOpen && (
+        <div className="animate-from-top fixed inset-0 z-[80] bg-black md:hidden overscroll-none">
+          <div className="flex h-full flex-col px-4 pb-8 pt-5">
+            <div className="flex items-center justify-between" style={{ height: '4.2rem' }}>
+              <button type="button" onClick={() => navigateFromMobile('/')} className="flex flex-col">
+                <span className="text-[1.1rem] font-semibold uppercase tracking-tight text-white">Personal Training Zurich</span>
+                <span className="text-[10px] font-medium tracking-[0.12em] uppercase text-white/40">by Martin</span>
+              </button>
+              <div className="flex items-center gap-2">
+                <button type="button" onClick={() => navigateFromMobile('/kontakt')}
+                  className="inline-flex h-10 items-center rounded-full bg-white px-5 text-[14px] font-semibold tracking-tight text-black">
+                  Kontakt
                 </button>
-                <div className="flex items-center gap-2">
-                  <button type="button" onClick={() => navigateFromMobile('/kontakt')}
-                    className="inline-flex h-10 items-center rounded-full bg-white px-5 text-[14px] font-semibold tracking-tight text-black">
-                    Kontakt
-                  </button>
-                  <button onClick={() => setIsMobileOpen(false)} className="relative flex h-10 w-10 items-center justify-center">
-                    <span className="absolute h-[2px] w-6 bg-white translate-y-0 rotate-45 transition-all" />
-                    <span className="absolute h-[2px] w-6 bg-white translate-y-0 -rotate-45 transition-all" />
-                  </button>
-                </div>
+                <button onClick={() => setIsMobileOpen(false)} className="relative flex h-10 w-10 items-center justify-center">
+                  <span className="absolute h-[2px] w-6 bg-white translate-y-0 rotate-45 transition-all" />
+                  <span className="absolute h-[2px] w-6 bg-white translate-y-0 -rotate-45 transition-all" />
+                </button>
               </div>
-
-              <nav className="mt-12 flex flex-col space-y-4">
-                {navLinks.map((link) => (
-                  <button key={link.href} type="button" onClick={() => navigateFromMobile(link.href)}
-                    className="text-left text-[2.05rem] font-semibold leading-tight text-white/85 hover:text-white transition-colors">
-                    {link.label}
-                  </button>
-                ))}
-                {profile ? (
-                  <>
-                    <button type="button" onClick={() => navigateFromMobile(profile.role === 'admin' ? '/admin' : '/dashboard')}
-                      className="text-left text-[2.05rem] font-semibold leading-tight text-white/85">
-                      Dashboard
-                    </button>
-                    <button onClick={() => { handleSignOut(); setIsMobileOpen(false) }}
-                      className="text-left text-[2.05rem] font-semibold leading-tight text-white/40">
-                      Ausloggen
-                    </button>
-                  </>
-                ) : (
-                  <button type="button" onClick={() => navigateFromMobile('/login')}
-                    className="text-left text-[2.05rem] font-semibold leading-tight text-white/85">
-                    Einloggen
-                  </button>
-                )}
-              </nav>
-
-              <div className="mt-auto border-t border-white/8 pt-6" />
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+
+            <nav className="mt-12 flex flex-col space-y-4">
+              {navLinks.map((link) => (
+                <button key={link.href} type="button" onClick={() => navigateFromMobile(link.href)}
+                  className="text-left text-[2.05rem] font-semibold leading-tight text-white/85 hover:text-white transition-colors">
+                  {link.label}
+                </button>
+              ))}
+              {profile ? (
+                <>
+                  <button type="button" onClick={() => navigateFromMobile(profile.role === 'admin' ? '/admin' : '/dashboard')}
+                    className="text-left text-[2.05rem] font-semibold leading-tight text-white/85">
+                    Dashboard
+                  </button>
+                  <button onClick={() => { handleSignOut(); setIsMobileOpen(false) }}
+                    className="text-left text-[2.05rem] font-semibold leading-tight text-white/40">
+                    Ausloggen
+                  </button>
+                </>
+              ) : (
+                <button type="button" onClick={() => navigateFromMobile('/login')}
+                  className="text-left text-[2.05rem] font-semibold leading-tight text-white/85">
+                  Einloggen
+                </button>
+              )}
+            </nav>
+
+            <div className="mt-auto border-t border-white/8 pt-6" />
+          </div>
+        </div>
+      )}
     </>
   )
 }

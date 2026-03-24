@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
 import {
   LayoutDashboard, Calendar, Users, Clock,
   MessageCircle, BarChart2, LogOut, ChevronRight,
@@ -145,15 +144,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
       {mobileOpen && (
         <>
-          <motion.div
-            initial={{ x: '-100%' }}
-            animate={{ x: 0 }}
-            exit={{ x: '-100%' }}
-            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+          <div
             className="md:hidden fixed inset-y-0 left-0 z-50 w-72 bg-card border-r border-border flex flex-col shadow-strong"
           >
             <NavContent />
-          </motion.div>
+          </div>
           <div className="md:hidden fixed inset-0 z-40 bg-black/60" onClick={() => setMobileOpen(false)} />
         </>
       )}

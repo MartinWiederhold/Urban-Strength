@@ -1,6 +1,5 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { CalendarCheck, ClipboardList, Trophy } from 'lucide-react'
 
@@ -29,12 +28,7 @@ export default function MethodSection() {
   return (
     <section className="section-padding bg-black">
       <div className="container-max">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-          className="text-center mb-16"
+        <div className="animate-slide-up text-center mb-16"
         >
           <h2 className="text-3xl md:text-5xl font-semibold tracking-tight mb-4 text-white">
             In 3 Schritten zum Ziel
@@ -42,17 +36,11 @@ export default function MethodSection() {
           <p className="text-white/45 text-lg max-w-xl mx-auto">
             So einfach funktioniert das Personal Training mit mir in Zürich.
           </p>
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-14">
           {steps.map((step, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.55, delay: i * 0.15, ease: [0.22, 1, 0.36, 1] }}
-              className="relative"
+            <div className="animate-slide-up relative"
             >
               {/* Connector */}
               {i < steps.length - 1 && (
@@ -69,16 +57,11 @@ export default function MethodSection() {
                 <h3 className="text-xl font-semibold mb-3 text-white">{step.title}</h3>
                 <p className="text-white/50 leading-relaxed">{step.description}</p>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.55, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-          className="text-center"
+        <div className="animate-slide-up text-center"
         >
           <Link
             href="/book/probe-training"
@@ -86,7 +69,7 @@ export default function MethodSection() {
           >
             Jetzt Schritt 1 starten – Kostenlos
           </Link>
-        </motion.div>
+        </div>
       </div>
     </section>
   )

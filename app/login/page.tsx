@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
 import { Eye, EyeOff, ArrowLeft, Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -72,11 +71,7 @@ export default function LoginPage() {
           Zurück zur Startseite
         </Link>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="bg-card border border-border rounded-2xl p-8 shadow-card"
+        <div className="animate-slide-up bg-card border border-border rounded-2xl p-8 shadow-card"
         >
           {/* Logo */}
           <div className="mb-8">
@@ -197,7 +192,7 @@ export default function LoginPage() {
               </div>
             </>
           )}
-        </motion.div>
+        </div>
 
         <p className="text-center text-xs text-muted-foreground mt-6">
           Noch kein Konto?{' '}
