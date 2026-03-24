@@ -52,21 +52,41 @@ export default function AvailabilityCalendar({ onSelectSlot, selectedSlot }: Ava
   const [bookedKeys, setBookedKeys] = useState<Set<string>>(new Set())
   const [selectedDay, setSelectedDay] = useState<Date | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const [fetchError, setFetchError] = useState<string | null>(null)
 
   useEffect(() => {
     const load = async () => {
       try {
         const supabase = createClient()
-        const [availRes, bookingsRes] = await Promise.all([
-          supabase.from('availability').select('*').eq('is_available', true),
-          supabase.from('bookings').select('booking_date,start_time').in('status', ['confirmed', 'completed']),
-        ])
+
+        // Fetch availability independently so a bookings error can't mask it
+        const availRes = await supabase
+          .from('availability')
+          .select('*')
+          .eq('is_available', true)
+
+        if (availRes.error) {
+          console.error('Availability fetch error:', availRes.error)
+          setFetchError(`Fehler beim Laden: ${availRes.error.message}`)
+          return
+        }
+
         const all = (availRes.data ?? []) as Availability[]
         setSpecific(all.filter(s => !s.recurring_weekly))
         setRecurring(all.filter(s => s.recurring_weekly))
+
+        // Bookings query may return empty for anonymous users (RLS) — that's OK
+        const bookingsRes = await supabase
+          .from('bookings')
+          .select('booking_date,start_time')
+          .in('status', ['confirmed', 'completed'])
+
         const keys = new Set<string>()
         ;(bookingsRes.data ?? []).forEach((b: any) => keys.add(`${b.booking_date}-${b.start_time}`))
         setBookedKeys(keys)
+      } catch (err) {
+        console.error('Calendar load error:', err)
+        setFetchError('Termine konnten nicht geladen werden. Bitte Seite neu laden.')
       } finally {
         setIsLoading(false)
       }
@@ -88,8 +108,8 @@ export default function AvailabilityCalendar({ onSelectSlot, selectedSlot }: Ava
     ? getSlotsForDate(selectedDay, specific, recurring, bookedKeys)
     : []
 
-  const noDataInDB = !isLoading && specific.length === 0 && recurring.length === 0
-  const anyAvailableInMonth = !isLoading && days.some(d => isSameMonth(d, currentMonth) && hasSlots(d))
+  const noDataInDB = !isLoading && !fetchError && specific.length === 0 && recurring.length === 0
+  const anyAvailableInMonth = !isLoading && !fetchError && days.some(d => isSameMonth(d, currentMonth) && hasSlots(d))
 
   return (
     <div className="space-y-5">
@@ -121,10 +141,17 @@ export default function AvailabilityCalendar({ onSelectSlot, selectedSlot }: Ava
         ))}
       </div>
 
+      {/* Error state */}
+      {fetchError && (
+        <div className="p-4 rounded-xl bg-destructive/10 text-destructive text-sm text-center">
+          {fetchError}
+        </div>
+      )}
+
       {/* Calendar grid */}
       {isLoading ? (
         <div className="h-52 rounded-xl bg-secondary animate-pulse" />
-      ) : (
+      ) : fetchError ? null : (
         <div className="grid grid-cols-7 gap-1">
           {days.map(day => {
             const inMonth = isSameMonth(day, currentMonth)
