@@ -7,7 +7,7 @@ import { Check, MapPin, ChevronRight } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'Personal Training Zürich | Nr. 1 für individuelles Fitness Training',
-  description: 'Personal Training Zürich von Martin. Individuelles 1:1 Training für Muskelaufbau, Fettabbau & mehr Fitness. Erster Termin gratis! Ab CHF 75/h. Oberer Heuelsteig 30, 8032 Zürich.',
+  description: 'Personal Training Zürich von Martin. Individuelles 1:1 Training für Muskelaufbau, Fettabbau & mehr Fitness. Erster Termin gratis! Ab CHF 85/h. Oberer Heuelsteig 30, 8032 Zürich.',
   keywords: [
     'Personal Training Zürich', 'Personaltrainer Zürich', 'Personal Trainer Zürich kostenlos',
     'Personal Training Zürich Preise', 'Personal Training für Anfänger Zürich',
@@ -82,7 +82,7 @@ export default function PersonalTrainingZuerichPage() {
 
             <h2 className="text-3xl font-semibold tracking-tight mb-6">Personal Training Zürich – Preise und Angebote</h2>
             <p className="text-muted-foreground leading-relaxed mb-4">
-              Das <strong>Personal Training in Zürich</strong> kostet CHF 75 pro Stunde. Es gibt drei Angebote:
+              Das <strong>Personal Training in Zürich</strong> kostet CHF 85 pro Stunde. Es gibt drei Angebote:
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
               <div className="p-6 rounded-xl bg-secondary">
@@ -92,7 +92,7 @@ export default function PersonalTrainingZuerichPage() {
               </div>
               <div className="p-6 rounded-xl bg-[hsl(0,0%,11%)] text-white">
                 <p className="font-bold text-lg mb-1 text-white">Personal Training 1:1</p>
-                <p className="text-2xl font-bold text-primary mb-2">CHF 75/h</p>
+                <p className="text-2xl font-bold text-primary mb-2">CHF 85/h</p>
                 <p className="text-sm text-white/60">Individuelles Training (60 Min.) – bezahlt per Twint nach dem Training.</p>
               </div>
               <div className="p-6 rounded-xl bg-[hsl(0,0%,11%)] text-white">
@@ -115,7 +115,7 @@ export default function PersonalTrainingZuerichPage() {
             {[
               { q: 'Ist Personal Training in Zürich für Anfänger geeignet?', a: 'Absolut! Gerade Anfänger profitieren enorm vom Personal Training, da du von Anfang an die richtigen Techniken lernst und ein auf dich zugeschnittenes Programm bekommst.' },
               { q: 'Wie finde ich einen guten Personal Trainer in Zürich?', a: 'Wichtig sind Erfahrung, Qualifikation, persönliche Chemie und ein klares Konzept. Mit dem kostenlosen Probetraining kannst du mich und meinen Ansatz risikofrei kennenlernen.' },
-              { q: 'Günstiges Personal Training in Zürich – gibt es das?', a: 'Mit CHF 75 pro Stunde biete ich Personal Training in Zürich zu einem fairen Preis an. Wer regelmässig trainiert, spart mit dem Quartals-Abo (CHF 600/Quartal) CHF 300 gegenüber Einzelbuchungen. Dazu kommt der erste Termin komplett kostenlos.' },
+              { q: 'Günstiges Personal Training in Zürich – gibt es das?', a: 'Mit CHF 85 pro Stunde biete ich Personal Training in Zürich zu einem fairen Preis an. Wer regelmässig trainiert, spart mit dem Quartals-Abo (CHF 600/Quartal) CHF 420 gegenüber Einzelbuchungen (12 × 85 = 1020). Dazu kommt der erste Termin komplett kostenlos.' },
             ].map((faq, i) => (
               <div key={i} className="mb-5 p-5 rounded-xl bg-secondary">
                 <h3 className="font-semibold mb-2">{faq.q}</h3>

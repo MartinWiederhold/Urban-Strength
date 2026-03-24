@@ -1,5 +1,5 @@
 -- Preis Personal Training 1:1 aktualisieren
-UPDATE services SET price = 75.00 WHERE title LIKE '%Personal Training 1:1%';
+UPDATE services SET price = 85.00 WHERE title LIKE '%Personal Training 1:1%';
 
 -- Neues Quartals-Abo einfügen
 INSERT INTO services (title, description, price, duration_minutes, features, is_active, sort_order)

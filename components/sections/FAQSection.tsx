@@ -18,7 +18,7 @@ const faqs = [
   },
   {
     question: 'Was kostet Personal Training in Zürich?',
-    answer: 'Das Personal Training 1:1 kostet CHF 75 pro Stunde. Es gibt auch ein Quartals-Abo (4 Sessions/Monat) für CHF 600 pro Quartal – das spart CHF 300 gegenüber Einzelbuchungen. Dein erster Termin ist komplett kostenlos.',
+    answer: 'Das Personal Training 1:1 kostet CHF 85 pro Stunde. Es gibt auch ein Quartals-Abo (4 Sessions/Monat) für CHF 600 pro Quartal – das spart CHF 420 gegenüber Einzelbuchungen (12 × 85 = 1020). Dein erster Termin ist komplett kostenlos.',
   },
   {
     question: 'Wie bezahle ich?',

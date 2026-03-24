@@ -26,7 +26,7 @@ const services = [
     id: 'personal-training',
     badge: 'Beliebtestes Angebot',
     title: 'Personal Training 1:1',
-    price: 'CHF 75',
+    price: 'CHF 85',
     priceNote: 'pro Stunde',
     duration: '60 Minuten',
     description: 'Individuelles Training, das auf dich zugeschnitten ist. Maximale Resultate durch persönliche Betreuung und einen Plan, der wirklich funktioniert.',
@@ -56,10 +56,10 @@ const services = [
       'Ernährungstipps inklusive',
       'Fortschritts-Tracking',
       'Priorität bei Terminvergabe',
-      'CHF 300 Ersparnis gegenüber Einzelbuchungen',
+      'CHF 420 Ersparnis gegenüber Einzelbuchungen (12 × 85 = 1020)',
     ],
     cta: 'Jetzt Termin buchen',
-    paymentNote: 'CHF 300 günstiger als 12 × CHF 75 Einzelbuchungen',
+    paymentNote: 'CHF 420 günstiger als 12 × CHF 85 Einzelbuchungen',
   },
 ]
 
