@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { Calendar, Users, TrendingUp, Clock, ChevronRight, Star } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import type { Booking } from '@/lib/types'
+import { getBookingAgeLabel, getBookingCustomerDisplayName } from '@/lib/booking-display'
 import { format } from 'date-fns'
 import { de } from 'date-fns/locale'
 import { AnimatedNumber } from '@/components/ui/animated-number'
@@ -120,14 +121,22 @@ export default function AdminOverviewPage() {
             <div className="p-8 text-center text-muted-foreground text-sm">Noch keine Buchungen.</div>
           ) : (
             <div className="divide-y divide-border">
-              {recentBookings.map((booking) => (
+              {recentBookings.map((booking) => {
+                const customerName = getBookingCustomerDisplayName(booking)
+                const ageLabel = getBookingAgeLabel(booking)
+                return (
                 <div key={booking.id} className="flex items-center justify-between p-4 gap-4 hover:bg-secondary/50 transition-colors">
                   <div className="flex items-center gap-3 min-w-0">
                     <div className="w-9 h-9 rounded-full bg-secondary flex items-center justify-center shrink-0">
                       <Users className="w-4 h-4 text-muted-foreground" />
                     </div>
                     <div className="min-w-0">
-                      <p className="font-medium text-sm truncate">{(booking as any).profiles?.full_name ?? 'Unbekannt'}</p>
+                      <p className="font-medium text-sm truncate">
+                        {customerName}
+                        {ageLabel && (
+                          <span className="text-muted-foreground font-normal"> · {ageLabel}</span>
+                        )}
+                      </p>
                       <p className="text-xs text-muted-foreground truncate">
                         {(booking as any).services?.title ?? '–'} · {format(new Date(booking.booking_date), 'dd. MMM', { locale: de })} {booking.start_time.slice(0,5)} Uhr
                       </p>
@@ -142,7 +151,8 @@ export default function AdminOverviewPage() {
                     </Link>
                   </div>
                 </div>
-              ))}
+                )
+              })}
             </div>
           )}
         </div>

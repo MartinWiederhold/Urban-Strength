@@ -21,15 +21,15 @@ const navItems = [
 ]
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const { profile, isLoading, signOut } = useAuth()
+  const { profile, user, isLoading, signOut } = useAuth()
   const router = useRouter()
   const pathname = usePathname()
   const [mobileOpen, setMobileOpen] = useState(false)
   const [timedOut, setTimedOut] = useState(false)
 
   useEffect(() => {
-    if (!isLoading && !profile) router.push('/login')
-  }, [isLoading, profile, router])
+    if (!isLoading && !user) router.push('/login')
+  }, [isLoading, user, router])
 
   useEffect(() => {
     const t = setTimeout(() => setTimedOut(true), 8000)
@@ -41,6 +41,14 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       window.location.href = '/login'
       return null
     }
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+      </div>
+    )
+  }
+
+  if (!user) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
@@ -77,8 +85,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             )}
           </div>
           <div className="min-w-0">
-            <p className="text-xs font-semibold text-foreground truncate">{profile?.full_name ?? 'Kein Name'}</p>
-            <p className="text-[10px] text-muted-foreground truncate">{profile?.email}</p>
+            <p className="text-xs font-semibold text-foreground truncate">
+              {profile?.full_name ?? user?.email?.split('@')[0] ?? 'Kunde'}
+            </p>
+            <p className="text-[10px] text-muted-foreground truncate">{profile?.email ?? user?.email}</p>
           </div>
         </div>
       </div>

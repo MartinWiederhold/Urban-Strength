@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react'
+import { createContext, useContext, useCallback, useEffect, useMemo, useState, ReactNode } from 'react'
 import { User, Session } from '@supabase/supabase-js'
 import { createClient } from '@/lib/supabase/client'
 import type { Profile } from '@/lib/types'
@@ -21,17 +21,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [session, setSession] = useState<Session | null>(null)
   const [profile, setProfile] = useState<Profile | null>(null)
+  /** Nur Session-Auflösung (getSession) – nicht blockierend auf profiles-Fetch */
   const [isLoading, setIsLoading] = useState(true)
-  const supabase = createClient()
+  const supabase = useMemo(() => createClient(), [])
 
-  const fetchProfile = async (userId: string) => {
+  const fetchProfile = useCallback(async (userId: string) => {
     const { data } = await supabase
       .from('profiles')
       .select('id, email, full_name, phone, avatar_url, role, customer_status, notes, customer_tags, fitness_goals, health_notes, created_at, updated_at')
       .eq('id', userId)
       .single()
     setProfile(data)
-  }
+  }, [supabase])
 
   const refreshProfile = async () => {
     if (user) await fetchProfile(user.id)
@@ -39,30 +40,39 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const getSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession()
-      setSession(session)
-      setUser(session?.user ?? null)
-      if (session?.user) await fetchProfile(session.user.id)
-      setIsLoading(false)
+      let nextSession: Session | null = null
+      try {
+        const { data } = await supabase.auth.getSession()
+        nextSession = data.session
+        setSession(nextSession)
+        setUser(nextSession?.user ?? null)
+      } finally {
+        setIsLoading(false)
+      }
+      if (nextSession?.user) {
+        void fetchProfile(nextSession.user.id)
+      } else {
+        setProfile(null)
+      }
     }
 
     getSession()
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (_event, session) => {
-        setSession(session)
-        setUser(session?.user ?? null)
-        if (session?.user) {
-          await fetchProfile(session.user.id)
+      (_event, nextSession) => {
+        setSession(nextSession)
+        setUser(nextSession?.user ?? null)
+        setIsLoading(false)
+        if (nextSession?.user) {
+          void fetchProfile(nextSession.user.id)
         } else {
           setProfile(null)
         }
-        setIsLoading(false)
       }
     )
 
     return () => subscription.unsubscribe()
-  }, [])
+  }, [supabase, fetchProfile])
 
   const signOut = async () => {
     await supabase.auth.signOut()

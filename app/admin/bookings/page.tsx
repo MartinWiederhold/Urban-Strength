@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { createClient } from '@/lib/supabase/client'
 import type { Booking } from '@/lib/types'
+import { getBookingAgeLabel, getBookingCustomerDisplayName } from '@/lib/booking-display'
 import { format } from 'date-fns'
 import { de } from 'date-fns/locale'
 
@@ -155,9 +156,8 @@ export default function AdminBookingsPage() {
                   const amount   = booking.paid_amount ?? calcAmount(service)
                   const isFree   = service?.price === 0
 
-                  const displayName = profile?.full_name
-                    ?? (booking.first_name ? `${booking.first_name} ${booking.last_name ?? ''}`.trim() : null)
-                    ?? 'Unbekannt'
+                  const displayName = getBookingCustomerDisplayName(booking as Booking)
+                  const ageLabel = getBookingAgeLabel(booking)
                   const displayEmail = profile?.email ?? booking.customer_email ?? '–'
                   const isAnon = !booking.customer_id
 
@@ -166,8 +166,13 @@ export default function AdminBookingsPage() {
                     >
                       {/* Kunde */}
                       <td className="p-4">
-                        <div className="flex items-center gap-1.5">
-                          <p className="font-medium">{displayName}</p>
+                        <div className="flex items-center gap-1.5 flex-wrap">
+                          <p className="font-medium">
+                            {displayName}
+                            {ageLabel && (
+                              <span className="text-muted-foreground font-normal"> · {ageLabel}</span>
+                            )}
+                          </p>
                           {isNew && (
                             <span className="text-xs bg-amber-400/10 text-amber-400 border border-amber-400/20 px-1.5 py-0.5 rounded-full font-semibold">Neu</span>
                           )}

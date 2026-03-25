@@ -20,7 +20,7 @@ const navItems = [
 ]
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  const { profile, isLoading, signOut } = useAuth()
+  const { profile, user, isLoading, signOut } = useAuth()
   const router = useRouter()
   const pathname = usePathname()
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -29,11 +29,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   useEffect(() => {
     if (isLoginPage) return
-    if (!isLoading) {
-      if (!profile) router.push('/admin/login')
-      else if (profile.role !== 'admin') router.push('/dashboard')
-    }
-  }, [isLoading, profile, router, isLoginPage])
+    if (!isLoading && !user) router.push('/admin/login')
+  }, [isLoading, user, router, isLoginPage])
+
+  useEffect(() => {
+    if (isLoginPage) return
+    if (!isLoading && user && profile && profile.role !== 'admin') router.push('/dashboard')
+  }, [isLoading, user, profile, router, isLoginPage])
 
   useEffect(() => {
     if (isLoginPage) return
@@ -45,11 +47,27 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     return <>{children}</>
   }
 
-  if (isLoading || !profile || profile.role !== 'admin') {
+  if (isLoading) {
     if (timedOut) {
       window.location.href = '/admin/login'
       return null
     }
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+      </div>
+    )
+  }
+
+  if (!user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+      </div>
+    )
+  }
+
+  if (profile && profile.role !== 'admin') {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
@@ -82,8 +100,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <Shield className="w-3.5 h-3.5 text-muted-foreground" />
           </div>
           <div className="min-w-0">
-            <p className="text-xs font-semibold text-foreground truncate">{profile.full_name ?? 'Admin'}</p>
-            <p className="text-[10px] text-muted-foreground truncate">{profile.email}</p>
+            <p className="text-xs font-semibold text-foreground truncate">
+              {profile?.full_name ?? user?.email?.split('@')[0] ?? 'Admin'}
+            </p>
+            <p className="text-[10px] text-muted-foreground truncate">{profile?.email ?? user?.email}</p>
           </div>
         </div>
       </div>
