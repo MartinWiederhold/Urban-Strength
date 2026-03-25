@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL ?? 'wiederhold.martin@web.de'
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL ?? 'personaltrainingbymartin@gmail.com'
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'
-const FROM_EMAIL = 'noreply@personaltraining-zurich.ch'
-const FROM_NAME = 'Personal Training Zurich'
+const FROM_EMAIL = 'personaltrainingbymartin@gmail.com'
+const FROM_NAME = 'Personal Training Zurich – by Martin'
+
+const WA_LINK = 'https://wa.me/41774857535'
+const WA_NUMBER = '+41 77 485 75 35'
+const ADDRESS = 'Oberer Heuelsteig 30, 8032 Zürich'
 
 function baseTemplate(content: string) {
   return `
@@ -16,7 +20,7 @@ function baseTemplate(content: string) {
         ${content}
       </div>
       <p style="text-align: center; color: #aaa; font-size: 12px; margin-top: 20px;">
-        Personal Training Zurich – by Martin · Oberer Heuelsteig 30, 8032 Zürich
+        Personal Training Zurich – by Martin · ${ADDRESS}
       </p>
     </div>
   `
@@ -51,6 +55,15 @@ function ctaButton(href: string, label: string) {
   `
 }
 
+function waBlock() {
+  return `
+    <div style="background: #f0f7f3; border: 1px solid #c5dfd0; border-radius: 12px; padding: 16px; margin-top: 20px;">
+      <p style="color: #4a7c59; font-weight: 600; margin: 0 0 4px;">💬 Fragen? WhatsApp</p>
+      <a href="${WA_LINK}" style="color: #4a7c59; font-size: 14px; text-decoration: none;">${WA_NUMBER}</a>
+    </div>
+  `
+}
+
 async function sendMail(to: string, subject: string, html: string) {
   const apiKey = process.env.SENDGRID_API_KEY
   if (!apiKey) throw new Error('SENDGRID_API_KEY nicht konfiguriert.')
@@ -79,7 +92,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const { type, to, name, service, date, time, message, customerEmail, phone, age, experience, goals } = body
 
-    // ── Kunden-E-Mails ─────────────────────────────────────────────────────────
+    // ── Kunden-E-Mails (Buchungsformular) ───────────────────────────────────────
 
     if (type === 'booking_confirmation') {
       const html = baseTemplate(`
@@ -89,9 +102,9 @@ export async function POST(request: NextRequest) {
         ${bookingTable(service, date, time)}
         <div style="background: #f0f7f3; border: 1px solid #c5dfd0; border-radius: 12px; padding: 16px;">
           <p style="color: #4a7c59; font-weight: 600; margin: 0 0 4px;">📍 Trainingsstandort</p>
-          <p style="color: #666; margin: 0; font-size: 14px;">Oberer Heuelsteig 30, 8032 Zürich</p>
+          <p style="color: #666; margin: 0; font-size: 14px;">${ADDRESS}</p>
         </div>
-        ${ctaButton(`${APP_URL}/dashboard`, 'Zum Dashboard')}
+        ${waBlock()}
       `)
       await sendMail(to, 'Buchungsbestätigung – Personal Training Zürich', html)
     }
@@ -103,8 +116,67 @@ export async function POST(request: NextRequest) {
         ${bookingTable(service, date, time)}
         <p style="color: #666; font-size: 14px;">Du kannst jederzeit einen neuen Termin buchen.</p>
         ${ctaButton(`${APP_URL}/book/probe-training`, 'Neuen Termin buchen')}
+        ${waBlock()}
       `)
       await sendMail(to, 'Buchung storniert – Personal Training Zürich', html)
+    }
+
+    // ── Status-Wechsel durch Admin → Kunden-E-Mails ─────────────────────────────
+
+    else if (type === 'status_confirmed_customer') {
+      const html = baseTemplate(`
+        <h2 style="color: #1c1c1c; font-size: 20px; font-weight: 700; margin: 0 0 8px;">✓ Dein Termin ist bestätigt!</h2>
+        <p style="color: #666; margin: 0 0 4px;">Hallo ${name},</p>
+        <p style="color: #666; margin: 0 0 16px;">dein Termin bei Personal Training Zurich ist bestätigt. Ich freue mich auf unser Training!</p>
+        ${bookingTable(service, date, time)}
+        <div style="background: #f0f7f3; border: 1px solid #c5dfd0; border-radius: 12px; padding: 16px; margin-top: 0;">
+          <p style="color: #4a7c59; font-weight: 600; margin: 0 0 4px;">📍 Trainingsstandort</p>
+          <p style="color: #666; margin: 0; font-size: 14px;">${ADDRESS}</p>
+        </div>
+        ${waBlock()}
+      `)
+      await sendMail(to, 'Dein Termin bei Personal Training Zurich ist bestätigt ✓', html)
+    }
+
+    else if (type === 'status_completed_customer') {
+      const html = baseTemplate(`
+        <h2 style="color: #1c1c1c; font-size: 20px; font-weight: 700; margin: 0 0 8px;">Danke für dein Training! 💪</h2>
+        <p style="color: #666; margin: 0 0 4px;">Hallo ${name},</p>
+        <p style="color: #666; margin: 0 0 16px;">danke für dein heutiges Training – du hast das super gemacht! Ich hoffe, du bist zufrieden und freue mich schon auf dein nächstes Training.</p>
+        <div style="background: #f7f6f3; border-radius: 12px; padding: 20px; margin: 20px 0;">
+          <p style="color: #1c1c1c; font-weight: 600; margin: 0 0 8px;">Bereit für die nächste Einheit?</p>
+          <p style="color: #666; font-size: 14px; margin: 0;">Buche jetzt deinen nächsten Termin und bleib am Ball!</p>
+        </div>
+        ${ctaButton(`${APP_URL}/book/personal-training`, 'Nächsten Termin buchen')}
+        ${waBlock()}
+      `)
+      await sendMail(to, 'Danke für dein Training! 💪', html)
+    }
+
+    else if (type === 'status_cancelled_customer') {
+      const html = baseTemplate(`
+        <h2 style="color: #1c1c1c; font-size: 20px; font-weight: 700; margin: 0 0 8px;">Dein Termin wurde abgesagt</h2>
+        <p style="color: #666; margin: 0 0 4px;">Hallo ${name},</p>
+        <p style="color: #666; margin: 0 0 16px;">leider muss ich deinen folgenden Termin absagen. Es tut mir leid für die Unannehmlichkeiten.</p>
+        ${bookingTable(service, date, time)}
+        <p style="color: #666; font-size: 14px; margin: 16px 0 0;">Du kannst gerne einen neuen Termin buchen – ich freue mich, dich bald zu sehen!</p>
+        ${ctaButton(`${APP_URL}/book/probe-training`, 'Neuen Termin buchen')}
+        ${waBlock()}
+      `)
+      await sendMail(to, 'Dein Termin wurde leider abgesagt', html)
+    }
+
+    else if (type === 'status_rescheduled_customer') {
+      const html = baseTemplate(`
+        <h2 style="color: #1c1c1c; font-size: 20px; font-weight: 700; margin: 0 0 8px;">Dein Termin wurde verschoben</h2>
+        <p style="color: #666; margin: 0 0 4px;">Hallo ${name},</p>
+        <p style="color: #666; margin: 0 0 16px;">dein folgender Termin muss leider verschoben werden:</p>
+        ${bookingTable(service, date, time)}
+        <p style="color: #666; font-size: 14px; margin: 16px 0 0;">Bitte buche dir einen neuen Wunschtermin – ich bin für dich da!</p>
+        ${ctaButton(`${APP_URL}/book/probe-training`, 'Neuen Termin buchen')}
+        ${waBlock()}
+      `)
+      await sendMail(to, 'Dein Termin wurde verschoben', html)
     }
 
     // ── Admin-Benachrichtigungen ────────────────────────────────────────────────

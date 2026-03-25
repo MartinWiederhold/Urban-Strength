@@ -42,8 +42,8 @@ export default function CTASection() {
             <div className="hidden sm:block w-px h-3 bg-black/10" />
             <div className="flex items-center gap-1.5">
               <Mail className="w-3.5 h-3.5 text-black/30 shrink-0" />
-              <a href="mailto:wiederhold.martin@web.de" className="hover:text-black/65 transition-colors">
-                wiederhold.martin@web.de
+              <a href="mailto:personaltrainingbymartin@gmail.com" className="hover:text-black/65 transition-colors">
+                personaltrainingbymartin@gmail.com
               </a>
             </div>
           </div>

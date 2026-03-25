@@ -79,6 +79,40 @@ export default function AdminBookingsPage() {
     const { error } = await supabase.from('bookings').update({ status: newStatus }).eq('id', bookingId)
     if (!error) {
       setBookings(prev => prev.map(b => b.id === bookingId ? { ...b, status: newStatus } : b))
+
+      // Send customer email for every status change except no_show
+      if (newStatus !== 'no_show') {
+        const booking = bookings.find(b => b.id === bookingId)
+        if (booking) {
+          const profile  = (booking as any).profiles
+          const service  = (booking as any).services
+          const customerEmail = booking.customer_email ?? profile?.email
+          const firstName = booking.first_name ?? profile?.full_name?.split(' ')[0] ?? 'du'
+
+          const emailTypeMap: Partial<Record<Booking['status'], string>> = {
+            confirmed:   'status_confirmed_customer',
+            completed:   'status_completed_customer',
+            cancelled:   'status_cancelled_customer',
+            rescheduled: 'status_rescheduled_customer',
+          }
+          const emailType = emailTypeMap[newStatus]
+
+          if (emailType && customerEmail) {
+            fetch('/api/send-email', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                type: emailType,
+                to: customerEmail,
+                name: firstName,
+                service: service?.title ?? 'Personal Training',
+                date: booking.booking_date,
+                time: booking.start_time,
+              }),
+            }).catch(err => console.error('[Bookings] status email error:', err))
+          }
+        }
+      }
     }
     setUpdatingId(null)
   }
