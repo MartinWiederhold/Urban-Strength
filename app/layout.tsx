@@ -21,7 +21,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL('https://personaltrainingbymartin.netlify.app'),
   title: 'Personal Training Zürich | Kostenloses Probetraining | by Martin',
-  description: 'Dein Personal Trainer in Zürich. Individuelles 1:1 Training für Muskelaufbau, Fettabbau & Fitness. Erster Termin gratis! ✓ CHF 35/h ✓ Geräte-Einweisung ✓ Trainingsplan. Jetzt buchen!',
+  description: 'Dein Personal Trainer in Zürich. Individuelles 1:1 Training für Muskelaufbau, Fettabbau & Fitness. Erster Termin gratis! ✓ CHF 85/h ✓ Geräte-Einweisung ✓ Trainingsplan. Jetzt buchen!',
   keywords: [
     'Personal Training Zürich', 'Personal Trainer Zürich', 'Personaltraining Zürich',
     'Fitness Trainer Zürich', '1:1 Training Zürich', 'Probetraining Zürich gratis',
@@ -44,8 +44,13 @@ export const metadata: Metadata = {
     images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Personal Training Zürich – by Martin' }],
   },
   icons: {
-    icon: '/faviconXmartin.png',
-    apple: '/faviconXmartin.png',
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/faviconXmartin.png', sizes: '32x32', type: 'image/png' },
+    ],
+    apple: { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    shortcut: '/favicon.ico',
   },
   twitter: { card: 'summary_large_image' },
   robots: {

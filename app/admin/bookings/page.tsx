@@ -30,21 +30,34 @@ function calcAmount(service: any): number {
 export default function AdminBookingsPage() {
   const [bookings, setBookings]     = useState<Booking[]>([])
   const [isLoading, setIsLoading]   = useState(true)
+  const [loadError, setLoadError]   = useState<string | null>(null)
   const [statusFilter, setStatusFilter] = useState<string>('all')
   const [updatingId, setUpdatingId] = useState<string | null>(null)
   const [togglingId, setTogglingId] = useState<string | null>(null)
 
   const fetchBookings = async () => {
-    const supabase = createClient()
-    let query = supabase
-      .from('bookings')
-      .select('*, profiles(full_name, email, phone, customer_status), services(title, price, duration_minutes)')
-      .order('booking_date', { ascending: false })
-      .order('start_time',   { ascending: false })
-    if (statusFilter !== 'all') query = query.eq('status', statusFilter)
-    const { data } = await query
-    setBookings((data as Booking[]) ?? [])
-    setIsLoading(false)
+    try {
+      const supabase = createClient()
+      let query = supabase
+        .from('bookings')
+        .select('*, profiles(full_name, email, phone, customer_status), services(title, price, duration_minutes)')
+        .order('booking_date', { ascending: false })
+        .order('start_time',   { ascending: false })
+      if (statusFilter !== 'all') query = query.eq('status', statusFilter)
+      const { data, error } = await query
+      if (error) {
+        console.error('[Admin Bookings] fetch error:', error)
+        setLoadError(`Fehler: ${error.message}`)
+      } else {
+        setLoadError(null)
+        setBookings((data as Booking[]) ?? [])
+      }
+    } catch (err) {
+      console.error('[Admin Bookings] unexpected error:', err)
+      setLoadError('Verbindungsfehler. Prüfe die Supabase-Verbindung.')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   useEffect(() => { fetchBookings() }, [statusFilter])
@@ -93,6 +106,12 @@ export default function AdminBookingsPage() {
           </SelectContent>
         </Select>
       </div>
+
+      {loadError && (
+        <div className="mb-4 p-4 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive text-sm">
+          ⚠ {loadError}
+        </div>
+      )}
 
       {/* Table */}
       <div className="bg-card rounded-xl border border-border overflow-hidden">

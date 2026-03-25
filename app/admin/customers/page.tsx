@@ -23,18 +23,30 @@ const statusColor: Record<string, string> = {
 export default function AdminCustomersPage() {
   const [customers, setCustomers] = useState<Profile[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const [loadError, setLoadError] = useState<string | null>(null)
   const [search, setSearch] = useState('')
 
   useEffect(() => {
     const load = async () => {
-      const supabase = createClient()
-      const { data } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('role', 'customer')
-        .order('created_at', { ascending: false })
-      setCustomers((data as Profile[]) ?? [])
-      setIsLoading(false)
+      try {
+        const supabase = createClient()
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('role', 'customer')
+          .order('created_at', { ascending: false })
+        if (error) {
+          console.error('[Admin Customers] fetch error:', error)
+          setLoadError(`Fehler: ${error.message}`)
+        } else {
+          setCustomers((data as Profile[]) ?? [])
+        }
+      } catch (err) {
+        console.error('[Admin Customers] unexpected error:', err)
+        setLoadError('Verbindungsfehler. Prüfe die Supabase-Verbindung.')
+      } finally {
+        setIsLoading(false)
+      }
     }
     load()
   }, [])
@@ -58,6 +70,12 @@ export default function AdminCustomersPage() {
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
         <Input value={search} onChange={e => setSearch(e.target.value)} placeholder="Name, E-Mail oder Telefon..." className="pl-9" />
       </div>
+
+      {loadError && (
+        <div className="mb-4 p-4 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive text-sm">
+          ⚠ {loadError}
+        </div>
+      )}
 
       {/* Stats Row */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">

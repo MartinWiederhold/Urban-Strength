@@ -25,31 +25,42 @@ export default function AdminOverviewPage() {
   const [stats, setStats] = useState({ totalBookings: 0, todayBookings: 0, totalCustomers: 0, newCustomers: 0 })
   const [recentBookings, setRecentBookings] = useState<Booking[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const [loadError, setLoadError] = useState<string | null>(null)
 
   useEffect(() => {
     const load = async () => {
-      const supabase = createClient()
-      const today = format(new Date(), 'yyyy-MM-dd')
+      try {
+        const supabase = createClient()
+        const today = format(new Date(), 'yyyy-MM-dd')
 
-      const [totalB, todayB, totalC, newC, recent] = await Promise.all([
-        supabase.from('bookings').select('id', { count: 'exact' }),
-        supabase.from('bookings').select('id', { count: 'exact' }).eq('booking_date', today),
-        supabase.from('profiles').select('id', { count: 'exact' }).eq('role', 'customer'),
-        supabase.from('profiles').select('id', { count: 'exact' }).eq('role', 'customer').eq('customer_status', 'new'),
-        supabase.from('bookings')
-          .select('*, profiles(full_name, email), services(title)')
-          .order('created_at', { ascending: false })
-          .limit(5),
-      ])
+        const [totalB, todayB, totalC, newC, recent] = await Promise.all([
+          supabase.from('bookings').select('id', { count: 'exact' }),
+          supabase.from('bookings').select('id', { count: 'exact' }).eq('booking_date', today),
+          supabase.from('profiles').select('id', { count: 'exact' }).eq('role', 'customer'),
+          supabase.from('profiles').select('id', { count: 'exact' }).eq('role', 'customer').eq('customer_status', 'new'),
+          supabase.from('bookings')
+            .select('*, profiles(full_name, email), services(title)')
+            .order('created_at', { ascending: false })
+            .limit(5),
+        ])
 
-      setStats({
-        totalBookings: totalB.count ?? 0,
-        todayBookings: todayB.count ?? 0,
-        totalCustomers: totalC.count ?? 0,
-        newCustomers: newC.count ?? 0,
-      })
-      setRecentBookings((recent.data as Booking[]) ?? [])
-      setIsLoading(false)
+        if (totalB.error) console.error('[Admin] bookings count error:', totalB.error)
+        if (totalC.error) console.error('[Admin] profiles count error:', totalC.error)
+        if (recent.error) console.error('[Admin] recent bookings error:', recent.error)
+
+        setStats({
+          totalBookings: totalB.count ?? 0,
+          todayBookings: todayB.count ?? 0,
+          totalCustomers: totalC.count ?? 0,
+          newCustomers: newC.count ?? 0,
+        })
+        setRecentBookings((recent.data as Booking[]) ?? [])
+      } catch (err) {
+        console.error('[Admin] Overview load error:', err)
+        setLoadError('Daten konnten nicht geladen werden. Prüfe die Supabase-Verbindung.')
+      } finally {
+        setIsLoading(false)
+      }
     }
     load()
   }, [])
@@ -63,6 +74,11 @@ export default function AdminOverviewPage() {
 
   return (
     <div>
+      {loadError && (
+        <div className="mb-6 p-4 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive text-sm">
+          ⚠ {loadError}
+        </div>
+      )}
       <div className="animate-slide-up mb-8">
         <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Dashboard Übersicht</h1>
         <p className="text-muted-foreground mt-1">{format(new Date(), 'EEEE, dd. MMMM yyyy', { locale: de })}</p>

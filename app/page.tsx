@@ -29,9 +29,12 @@ export const metadata: Metadata = {
     siteName: 'Personal Training Zurich – by Martin',
     title: 'Personal Training Zürich | Kostenloses Probetraining | by Martin',
     description: 'Dein Personal Trainer in Zürich. Individuelles 1:1 Training. Erster Termin gratis! Ab CHF 85/h.',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Personal Training Zürich – by Martin' }],
+    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Martin – Personal Trainer in Zürich' }],
   },
-  twitter: { card: 'summary_large_image' },
+  twitter: {
+    card: 'summary_large_image',
+    images: ['/og-image.jpg'],
+  },
   robots: {
     index: true, follow: true,
     googleBot: { index: true, follow: true, 'max-video-preview': -1, 'max-image-preview': 'large', 'max-snippet': -1 },
@@ -90,6 +93,16 @@ const jsonLdPerson = {
   knowsAbout: ['Personal Training','Muskelaufbau','Fettabbau','Fitness','Ernährungsberatung','Krafttraining'],
 }
 
+const jsonLdImage = {
+  '@context': 'https://schema.org',
+  '@type': 'ImageObject',
+  url: 'https://personaltrainingbymartin.netlify.app/og-image.jpg',
+  width: 1200,
+  height: 630,
+  name: 'Martin – Personal Trainer in Zürich',
+  description: 'Personal Training Zürich – Martin Wiederhold, zertifizierter Personal Trainer',
+}
+
 const jsonLdFAQ = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
@@ -100,7 +113,6 @@ const jsonLdFAQ = {
     { '@type': 'Question', name: 'Was kostet Personal Training in Zürich?', acceptedAnswer: { '@type': 'Answer', text: 'Das Personal Training 1:1 kostet CHF 85 pro Stunde. Es gibt auch ein Quartals-Abo (4 Sessions/Monat) für CHF 600 pro Quartal – das spart CHF 420 gegenüber Einzelbuchungen (12 × 85 = 1020). Der erste Termin ist komplett kostenlos.' } },
     { '@type': 'Question', name: 'Wie bezahle ich das Personal Training?', acceptedAnswer: { '@type': 'Answer', text: 'Die Bezahlung erfolgt bequem per Twint nach dem Training. Keine Vorauszahlung nötig.' } },
     { '@type': 'Question', name: 'Wie oft sollte ich Personal Training in Zürich machen?', acceptedAnswer: { '@type': 'Answer', text: 'Für optimale Resultate empfehle ich 2–3 Einheiten pro Woche. Auch einmal pro Woche bringt schon deutliche Fortschritte.' } },
-    { '@type': 'Question', name: 'Kann ich einen Termin absagen oder verschieben?', acceptedAnswer: { '@type': 'Answer', text: 'Ja, über dein persönliches Dashboard kannst du Termine jederzeit verwalten. Bitte sage mindestens 24 Stunden vorher ab.' } },
   ],
 }
 
@@ -114,6 +126,10 @@ export default function HomePage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdPerson) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdImage) }}
       />
       <script
         type="application/ld+json"

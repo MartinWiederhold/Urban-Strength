@@ -12,7 +12,7 @@ const SHOW_DESKTOP_PROFILE_MENU = false
 
 const navLinks = [
   { href: '/', label: 'Home' },
-  { href: '/services', label: 'Angebote' },
+  { href: '/#angebote', label: 'Angebote' },
 ]
 
 export default function Navigation() {
@@ -121,8 +121,9 @@ export default function Navigation() {
                   <Link
                     key={link.href}
                     href={link.href}
+                    onClick={link.href === '/#angebote' ? goToLandingAngebote : undefined}
                     className={`rounded-full px-4 py-2 text-[12px] font-semibold uppercase tracking-[0.11em] transition-all duration-200 ${
-                      pathname === link.href
+                      (link.href === '/#angebote' ? pathname === '/' : pathname === link.href)
                         ? 'bg-white text-black'
                         : 'text-white/60 hover:text-white'
                     }`}
@@ -210,7 +211,18 @@ export default function Navigation() {
 
             <nav className="mt-12 flex flex-col space-y-4">
               {navLinks.map((link) => (
-                <button key={link.href} type="button" onClick={() => navigateFromMobile(link.href)}
+                <button key={link.href} type="button" onClick={() => {
+                  if (link.href === '/#angebote') {
+                    setIsMobileOpen(false)
+                    if (pathname === '/') {
+                      setTimeout(() => document.getElementById('angebote')?.scrollIntoView({ behavior: 'smooth' }), 320)
+                    } else {
+                      window.location.href = '/#angebote'
+                    }
+                  } else {
+                    navigateFromMobile(link.href)
+                  }
+                }}
                   className="text-left text-[2.05rem] font-semibold leading-tight text-white/85 hover:text-white transition-colors">
                   {link.label}
                 </button>

@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { CheckCircle, Calendar, MapPin, MessageCircle, Phone, UserPlus } from 'lucide-react'
+import { CheckCircle, Calendar, MapPin, MessageCircle, UserPlus } from 'lucide-react'
+import Image from 'next/image'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
 import { Button } from '@/components/ui/button'
@@ -47,8 +48,8 @@ export default function BookingSuccessPage() {
           <div className="max-w-lg mx-auto">
             {/* Header */}
             <div className="text-center mb-8">
-              <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6">
-                <CheckCircle className="w-10 h-10 text-primary" />
+              <div className="w-20 h-20 rounded-full bg-green-500/20 flex items-center justify-center mx-auto mb-6">
+                <CheckCircle className="w-10 h-10 text-green-500" />
               </div>
               <h1 className="text-3xl md:text-4xl font-semibold tracking-tight mb-3">
                 Deine Buchung ist bestätigt ✓
@@ -103,8 +104,8 @@ export default function BookingSuccessPage() {
 
             {/* Martin profile + WhatsApp CTA */}
             <div className="bg-card border border-border rounded-2xl p-6 mb-6 flex flex-col sm:flex-row items-center gap-5 text-center sm:text-left">
-              <div className="w-20 h-20 rounded-full bg-secondary border border-border flex-shrink-0 flex items-center justify-center overflow-hidden">
-                <Phone className="w-8 h-8 text-muted-foreground" />
+              <div className="w-20 h-20 rounded-full bg-secondary border border-border flex-shrink-0 overflow-hidden relative">
+                <Image src="/assets/images/IMG_9928.jpg" alt="Martin – Personal Trainer" fill className="object-cover object-center" sizes="80px" />
               </div>
               <div className="flex-1">
                 <p className="font-semibold text-base mb-0.5">Martin Wiederhold</p>
