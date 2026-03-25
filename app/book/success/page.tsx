@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { CheckCircle, Calendar, MapPin, MessageCircle, UserPlus } from 'lucide-react'
+import { CheckCircle, Calendar, MapPin, MessageCircle } from 'lucide-react'
 import Image from 'next/image'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
@@ -121,24 +121,6 @@ export default function BookingSuccessPage() {
                   </svg>
                   +41 77 485 75 35
                 </a>
-              </div>
-            </div>
-
-            {/* Register CTA */}
-            <div className="bg-secondary rounded-2xl p-5 mb-6 flex items-start gap-4">
-              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                <UserPlus className="w-5 h-5 text-primary" />
-              </div>
-              <div>
-                <p className="font-semibold text-sm mb-1">Konto erstellen & mehr Vorteile</p>
-                <p className="text-sm text-muted-foreground mb-3">
-                  Mit einem Konto kannst du deine Buchungen verwalten, Trainingspläne einsehen und direkt mit Martin chatten.
-                </p>
-                <Link href="/register/client">
-                  <Button variant="outline" size="sm">
-                    Konto erstellen
-                  </Button>
-                </Link>
               </div>
             </div>
 
