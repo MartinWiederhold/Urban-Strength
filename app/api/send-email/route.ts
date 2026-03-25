@@ -96,17 +96,17 @@ export async function POST(request: NextRequest) {
 
     if (type === 'booking_confirmation') {
       const html = baseTemplate(`
-        <h2 style="color: #1c1c1c; font-size: 20px; font-weight: 700; margin: 0 0 8px;">✓ Deine Buchung ist bestätigt!</h2>
+        <h2 style="color: #1c1c1c; font-size: 20px; font-weight: 700; margin: 0 0 8px;">Deine Buchungsanfrage ist eingegangen!</h2>
         <p style="color: #666; margin: 0 0 4px;">Hallo ${name},</p>
-        <p style="color: #666; margin: 0 0 16px;">dein Termin für das Personal Training ist gebucht. Ich freue mich auf dich!</p>
+        <p style="color: #666; margin: 0 0 16px;">vielen Dank für deine Buchung! Ich habe deine Anfrage erhalten und melde mich in Kürze bei dir zur Terminbestätigung.</p>
         ${bookingTable(service, date, time)}
-        <div style="background: #f0f7f3; border: 1px solid #c5dfd0; border-radius: 12px; padding: 16px;">
-          <p style="color: #4a7c59; font-weight: 600; margin: 0 0 4px;">📍 Trainingsstandort</p>
-          <p style="color: #666; margin: 0; font-size: 14px;">${ADDRESS}</p>
+        <div style="background: #fff8e6; border: 1px solid #f0d080; border-radius: 12px; padding: 16px;">
+          <p style="color: #a07800; font-weight: 600; margin: 0 0 4px;">⏳ Nächster Schritt</p>
+          <p style="color: #666; margin: 0; font-size: 14px;">Sobald ich deinen Termin bestätigt habe, erhältst du eine weitere E-Mail von mir.</p>
         </div>
         ${waBlock()}
       `)
-      await sendMail(to, 'Buchungsbestätigung – Personal Training Zürich', html)
+      await sendMail(to, 'Deine Buchungsanfrage ist eingegangen – Personal Training Zürich', html)
     }
 
     else if (type === 'booking_cancelled_customer') {

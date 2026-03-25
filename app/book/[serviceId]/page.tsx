@@ -144,7 +144,7 @@ export default function BookingPage() {
         booking_date: selectedSlot.date,
         start_time: selectedSlot.start_time,
         end_time: selectedSlot.end_time,
-        status: 'confirmed',
+        status: 'booked',
         age: formData.age ? parseInt(formData.age) : null,
         fitness_level: formData.experience || null,
         goals: goalsStr,

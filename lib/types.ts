@@ -48,7 +48,7 @@ export interface Booking {
   booking_date: string
   start_time: string
   end_time: string
-  status: 'confirmed' | 'cancelled' | 'completed' | 'rescheduled' | 'no_show'
+  status: 'booked' | 'confirmed' | 'cancelled' | 'completed' | 'rescheduled' | 'no_show'
   age: number | null
   gender: string | null
   fitness_level: string | null

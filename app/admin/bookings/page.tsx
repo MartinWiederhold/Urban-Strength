@@ -12,10 +12,11 @@ import { format } from 'date-fns'
 import { de } from 'date-fns/locale'
 
 const statusLabel: Record<string, string> = {
-  confirmed: 'Bestätigt', cancelled: 'Storniert', completed: 'Abgeschlossen',
-  rescheduled: 'Verschoben', no_show: 'Nicht erschienen',
+  booked: 'Gebucht', confirmed: 'Bestätigt', cancelled: 'Storniert',
+  completed: 'Abgeschlossen', rescheduled: 'Verschoben', no_show: 'Nicht erschienen',
 }
 const statusColor: Record<string, string> = {
+  booked:    'text-blue-400 bg-blue-400/10 border-blue-400/20',
   confirmed: 'text-emerald-400 bg-emerald-400/10 border-emerald-400/20',
   cancelled: 'text-red-400 bg-red-400/10 border-red-400/20',
   completed: 'text-emerald-400 bg-emerald-400/10 border-emerald-400/20',
@@ -146,9 +147,11 @@ export default function AdminBookingsPage() {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">Alle Status</SelectItem>
+            <SelectItem value="booked">Gebucht</SelectItem>
             <SelectItem value="confirmed">Bestätigt</SelectItem>
             <SelectItem value="completed">Abgeschlossen</SelectItem>
             <SelectItem value="cancelled">Storniert</SelectItem>
+            <SelectItem value="rescheduled">Verschoben</SelectItem>
             <SelectItem value="no_show">Nicht erschienen</SelectItem>
           </SelectContent>
         </Select>
@@ -274,6 +277,7 @@ export default function AdminBookingsPage() {
                                 <SelectValue />
                               </SelectTrigger>
                               <SelectContent>
+                                <SelectItem value="booked">Gebucht</SelectItem>
                                 <SelectItem value="confirmed">Bestätigt</SelectItem>
                                 <SelectItem value="completed">Abgeschlossen</SelectItem>
                                 <SelectItem value="cancelled">Storniert</SelectItem>
