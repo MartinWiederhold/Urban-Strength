@@ -60,6 +60,8 @@ const services = [
     ],
     cta: 'Jetzt Termin buchen',
     paymentNote: 'CHF 420 günstiger als 12 × CHF 85 Einzelbuchungen',
+    /** Hervorhebung wie gelber Map-Pin (#FBBF24 = MapSection-Marker) */
+    highlight: true,
   },
 ]
 
@@ -76,14 +78,24 @@ export default function ServicesSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-6xl mx-auto">
-          {services.map((service) => (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-6xl mx-auto md:items-stretch">
+          {services.map((service) => {
+            const featured = 'highlight' in service && service.highlight
+            return (
             <div
               key={service.id}
               id={service.id}
-              className="relative scroll-mt-[5.5rem] md:scroll-mt-[6rem] rounded-3xl p-8 flex flex-col transition-all duration-500 hover:-translate-y-1 bg-white text-black hover:shadow-[0_32px_64px_-16px_hsl(0_0%_0%_/0.7)]"
+              className={`relative scroll-mt-[5.5rem] md:scroll-mt-[6rem] rounded-3xl p-8 flex flex-col transition-all duration-500 bg-white text-black ${
+                featured
+                  ? 'z-[1] ring-2 ring-amber-400 ring-offset-2 ring-offset-black shadow-[0_20px_50px_-12px_rgba(251,191,36,0.45)] hover:-translate-y-1 hover:shadow-[0_28px_56px_-10px_rgba(251,191,36,0.55)] md:scale-[1.02] md:z-[2]'
+                  : 'hover:-translate-y-1 hover:shadow-[0_32px_64px_-16px_hsl(0_0%_0%_/0.7)]'
+              }`}
             >
-              <div className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold mb-6 w-fit bg-black text-white">
+              <div
+                className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold mb-6 w-fit ${
+                  featured ? 'bg-amber-400 text-black' : 'bg-black text-white'
+                }`}
+              >
                 {service.badge}
               </div>
 
@@ -102,7 +114,7 @@ export default function ServicesSection() {
               <ul className="space-y-2.5 mb-8 flex-1">
                 {service.features.map((feature, j) => (
                   <li key={j} className="flex items-start gap-2.5">
-                    <Check className="w-4 h-4 mt-0.5 shrink-0 text-black" />
+                    <Check className={`w-4 h-4 mt-0.5 shrink-0 ${featured ? 'text-amber-600' : 'text-black'}`} />
                     <span className="text-sm text-black/75">{feature}</span>
                   </li>
                 ))}
@@ -114,13 +126,18 @@ export default function ServicesSection() {
 
               <Link
                 href={`/book/${service.id}`}
-                className="inline-flex h-12 items-center justify-center rounded-full px-8 text-sm font-semibold transition-all duration-300 group gap-2 bg-black text-white hover:bg-black/80 hover:scale-[1.02]"
+                className={`inline-flex h-12 items-center justify-center rounded-full px-8 text-sm font-semibold transition-all duration-300 group gap-2 hover:scale-[1.02] ${
+                  featured
+                    ? 'bg-amber-400 text-black hover:bg-amber-300'
+                    : 'bg-black text-white hover:bg-black/80'
+                }`}
               >
                 {service.cta}
                 <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
-          ))}
+            )
+          })}
         </div>
       </div>
     </section>

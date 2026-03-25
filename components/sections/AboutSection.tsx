@@ -55,7 +55,7 @@ export default function AboutSection() {
                   src="/assets/images/IMG_9928.jpg"
                   alt="Martin – Personal Trainer in Zürich"
                   fill
-                  className="object-cover object-center"
+                  className="object-cover object-[50%_18%]"
                   sizes="(max-width: 768px) 256px, 288px"
                   priority
                 />
