@@ -56,9 +56,11 @@ export default function AdminBookingsPage() {
       } else {
         setLoadError(null)
         const rows = (data as Booking[]) ?? []
-        setBookings(prev => pageNum === 0 ? rows : [...prev, ...rows])
-        setHasMore(rows.length === PAGE_SIZE + 1)
-        if (rows.length === PAGE_SIZE + 1) rows.pop()
+        const hasMoreItems = rows.length === PAGE_SIZE + 1
+        // Slice before setState — never mutate after passing to React
+        const displayRows = hasMoreItems ? rows.slice(0, PAGE_SIZE) : rows
+        setHasMore(hasMoreItems)
+        setBookings(prev => pageNum === 0 ? displayRows : [...prev, ...displayRows])
       }
     } catch (err) {
       console.error('[Admin Bookings] unexpected error:', err)
@@ -70,7 +72,7 @@ export default function AdminBookingsPage() {
 
   useEffect(() => { setPage(0); fetchBookings(0, statusFilter) }, [statusFilter])
 
-  const updateStatus = async (bookingId: string, newStatus: string) => {
+  const updateStatus = async (bookingId: string, newStatus: Booking['status']) => {
     setUpdatingId(bookingId)
     const supabase = createClient()
     const { error } = await supabase.from('bookings').update({ status: newStatus }).eq('id', bookingId)
@@ -228,7 +230,7 @@ export default function AdminBookingsPage() {
                           {updatingId === booking.id ? (
                             <Loader2 className="w-4 h-4 animate-spin text-muted-foreground" />
                           ) : (
-                            <Select onValueChange={(v) => updateStatus(booking.id, v)} value={booking.status}>
+                            <Select onValueChange={(v) => updateStatus(booking.id, v as Booking['status'])} value={booking.status}>
                               <SelectTrigger className="h-8 text-xs w-36">
                                 <SelectValue />
                               </SelectTrigger>

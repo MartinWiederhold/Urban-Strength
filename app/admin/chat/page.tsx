@@ -18,7 +18,7 @@ export default function AdminChatListPage() {
 
       // 3 queries total instead of 2N+1
       const [profilesRes, adminRes] = await Promise.all([
-        supabase.from('profiles').select('*').eq('role', 'customer').order('created_at', { ascending: false }),
+        supabase.from('profiles').select('id, full_name, email, customer_status, created_at, role').eq('role', 'customer').order('created_at', { ascending: false }),
         supabase.from('profiles').select('id').eq('role', 'admin').single(),
       ])
 
@@ -28,11 +28,13 @@ export default function AdminChatListPage() {
       if (!profiles?.length) { setIsLoading(false); return }
 
       // Fetch all relevant messages in one round-trip
+      // Limit to recent messages for the list overview — full thread loaded per-chat
       const { data: messages } = await supabase
         .from('chat_messages')
-        .select('*')
+        .select('id, sender_id, receiver_id, message, is_read, created_at')
         .or(`sender_id.eq.${adminId},receiver_id.eq.${adminId}`)
         .order('created_at', { ascending: false })
+        .limit(500)
 
       const allMessages = (messages ?? []) as ChatMessage[]
 

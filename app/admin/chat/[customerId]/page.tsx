@@ -26,12 +26,12 @@ export default function AdminChatPage() {
   useEffect(() => {
     if (!adminProfile) return
     const init = async () => {
-      const { data: cust } = await supabase.from('profiles').select('*').eq('id', customerId).single()
+      const { data: cust } = await supabase.from('profiles').select('id, full_name, email, phone, avatar_url, role, notes, customer_status, customer_tags, fitness_goals, health_notes, created_at, updated_at').eq('id', customerId).single()
       setCustomer(cust)
 
       const { data: msgs } = await supabase
         .from('chat_messages')
-        .select('*')
+        .select('id, sender_id, receiver_id, message, is_read, created_at')
         .or(`and(sender_id.eq.${customerId},receiver_id.eq.${adminProfile.id}),and(sender_id.eq.${adminProfile.id},receiver_id.eq.${customerId})`)
         .order('created_at', { ascending: true })
       setMessages((msgs as ChatMessage[]) ?? [])
