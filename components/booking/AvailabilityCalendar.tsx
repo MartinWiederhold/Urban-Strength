@@ -59,19 +59,28 @@ export default function AvailabilityCalendar({ onSelectSlot, selectedSlot }: Ava
       try {
         const supabase = createClient()
 
+        console.log('[Calendar] Starting availability fetch...')
+
         // Fetch availability independently so a bookings error can't mask it
         const availRes = await supabase
           .from('availability')
           .select('*')
           .eq('is_available', true)
 
+        console.log('[Calendar] availability response:', {
+          data: availRes.data,
+          error: availRes.error,
+          count: availRes.data?.length ?? 0,
+        })
+
         if (availRes.error) {
-          console.error('Availability fetch error:', availRes.error)
+          console.error('[Calendar] Availability fetch error:', availRes.error)
           setFetchError(`Fehler beim Laden: ${availRes.error.message}`)
           return
         }
 
         const all = (availRes.data ?? []) as Availability[]
+        console.log('[Calendar] rows total:', all.length, '| specific:', all.filter(s => !s.recurring_weekly).length, '| recurring:', all.filter(s => s.recurring_weekly).length)
         setSpecific(all.filter(s => !s.recurring_weekly))
         setRecurring(all.filter(s => s.recurring_weekly))
 
@@ -81,14 +90,21 @@ export default function AvailabilityCalendar({ onSelectSlot, selectedSlot }: Ava
           .select('booking_date,start_time')
           .in('status', ['confirmed', 'completed'])
 
+        console.log('[Calendar] bookings response:', {
+          data: bookingsRes.data,
+          error: bookingsRes.error,
+          count: bookingsRes.data?.length ?? 0,
+        })
+
         const keys = new Set<string>()
         ;(bookingsRes.data ?? []).forEach((b: any) => keys.add(`${b.booking_date}-${b.start_time}`))
         setBookedKeys(keys)
       } catch (err) {
-        console.error('Calendar load error:', err)
+        console.error('[Calendar] load error:', err)
         setFetchError('Termine konnten nicht geladen werden. Bitte Seite neu laden.')
       } finally {
         setIsLoading(false)
+        console.log('[Calendar] loading complete')
       }
     }
     load()
@@ -148,32 +164,33 @@ export default function AvailabilityCalendar({ onSelectSlot, selectedSlot }: Ava
         </div>
       )}
 
-      {/* Calendar grid */}
-      {isLoading ? (
-        <div className="h-52 rounded-xl bg-secondary animate-pulse" />
-      ) : fetchError ? null : (
+      {/* Calendar grid — always rendered so day numbers are visible immediately */}
+      {!fetchError && (
         <div className="grid grid-cols-7 gap-1">
           {days.map(day => {
             const inMonth = isSameMonth(day, currentMonth)
-            const avail = hasSlots(day)
             const past = isBefore(day, today)
+            const avail = !isLoading && hasSlots(day)
             const sel = !!(selectedDay && isSameDay(day, selectedDay))
             const tod = isToday(day)
+            // While loading: pulse in-month future days so user sees skeleton numbers
+            const pulsing = isLoading && inMonth && !past
 
             return (
               <button
                 key={day.toISOString()}
-                disabled={!inMonth || past || !avail}
+                disabled={!inMonth || past || !avail || isLoading}
                 onClick={() => { if (avail && inMonth && !past) setSelectedDay(day) }}
                 className={[
                   'relative flex flex-col items-center py-2.5 rounded-xl text-sm font-medium transition-all duration-150',
                   !inMonth ? 'opacity-0 pointer-events-none' : '',
-                  inMonth && (past || !avail) ? 'text-muted-foreground/30 cursor-default' : '',
+                  pulsing ? 'animate-pulse text-muted-foreground/40' : '',
+                  !pulsing && inMonth && (past || !avail) ? 'text-muted-foreground/30 cursor-default' : '',
                   sel ? 'bg-emerald-400 text-black' : '',
                   !sel && avail && !past ? 'hover:bg-emerald-400/15 cursor-pointer' : '',
                 ].join(' ')}
               >
-                <span className={tod && !sel ? 'text-primary font-bold' : ''}>{format(day, 'd')}</span>
+                <span className={tod && !sel && !pulsing ? 'text-primary font-bold' : ''}>{format(day, 'd')}</span>
                 {avail && !past && inMonth && (
                   <span className={`w-1.5 h-1.5 rounded-full mt-0.5 ${sel ? 'bg-black/40' : 'bg-emerald-400'}`} />
                 )}
