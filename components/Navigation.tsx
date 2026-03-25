@@ -138,26 +138,6 @@ export default function Navigation() {
         {PHONE_DISPLAY}
       </button>
 
-      {/* Copy button */}
-      <div className="relative">
-        <button
-          type="button"
-          onClick={copyPhone}
-          aria-label="Nummer kopieren"
-          className="flex items-center justify-center w-8 h-8 rounded-full hover:bg-white/8 transition-colors"
-        >
-          {copied
-            ? <Check className="w-[15px] h-[15px] text-green-400" />
-            : <Copy className="w-[15px] h-[15px] text-white/40 hover:text-white/70 transition-colors" />
-          }
-        </button>
-        {copied && (
-          <span className="pointer-events-none absolute -bottom-7 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-white/10 border border-white/15 backdrop-blur-sm px-2.5 py-1 text-[11px] font-medium text-white">
-            Nummer kopiert ✓
-          </span>
-        )}
-      </div>
-
       {/* Popup dropdown */}
       {isPhoneOpen && (
         <div className="animate-slide-up absolute left-1/2 -translate-x-1/2 top-[calc(100%+10px)] z-50 min-w-[210px] rounded-2xl border border-white/10 bg-[#111] py-1.5 shadow-[0_16px_48px_-8px_hsl(0_0%_0%_/0.85)]">
@@ -182,6 +162,18 @@ export default function Navigation() {
             <Phone className="w-5 h-5 text-white/40 shrink-0" />
             Anrufen
           </a>
+          <div className="mx-4 h-px bg-white/8" />
+          <button
+            type="button"
+            onClick={() => { copyPhone(); setIsPhoneOpen(false) }}
+            className="flex items-center gap-3 px-4 py-3 text-sm text-white/75 hover:text-white hover:bg-white/5 transition-all rounded-xl mx-1 w-[calc(100%-0.5rem)]"
+          >
+            {copied
+              ? <Check className="w-5 h-5 text-green-400 shrink-0" />
+              : <Copy className="w-5 h-5 text-white/40 shrink-0" />
+            }
+            {copied ? 'Nummer kopiert ✓' : 'Nummer kopieren'}
+          </button>
         </div>
       )}
     </div>
