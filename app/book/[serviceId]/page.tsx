@@ -170,37 +170,50 @@ export default function BookingPage() {
       }
       sessionStorage.setItem('booking_success', JSON.stringify(bookingInfo))
 
-      // Fire & forget emails
-      fetch('/api/send-email', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          type: 'booking_confirmation',
-          to: formData.email,
-          name: bookingInfo.name,
-          service: service.title,
-          date: selectedSlot.date,
-          time: selectedSlot.start_time,
-        }),
-      }).catch(() => {})
+      // Send emails — awaited so errors are visible in logs.
+      // Booking is already saved; email failure must never block the user.
+      const sendEmail = async (payload: Record<string, unknown>) => {
+        try {
+          console.log('[Booking] sending email type:', payload.type)
+          const res = await fetch('/api/send-email', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          })
+          const json = await res.json().catch(() => ({}))
+          if (!res.ok) {
+            console.error('[Booking] email failed:', payload.type, res.status, json)
+          } else {
+            console.log('[Booking] email sent ok:', payload.type)
+          }
+        } catch (err) {
+          console.error('[Booking] email network error:', payload.type, err)
+        }
+      }
 
-      fetch('/api/send-email', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          type: 'new_booking_admin',
-          to: formData.email,
-          customerEmail: formData.email,
-          name: bookingInfo.name,
-          service: service.title,
-          date: selectedSlot.date,
-          time: selectedSlot.start_time,
-          phone: formData.phone,
-          age: formData.age || null,
-          experience: formData.experience || null,
-          goals: goalsStr,
-        }),
-      }).catch(() => {})
+      // Customer confirmation
+      sendEmail({
+        type: 'booking_confirmation',
+        to: formData.email,
+        name: bookingInfo.name,
+        service: service.title,
+        date: selectedSlot.date,
+        time: selectedSlot.start_time,
+      })
+
+      // Admin notification — all booking details
+      sendEmail({
+        type: 'new_booking_admin',
+        customerEmail: formData.email,
+        name: bookingInfo.name,
+        service: service.title,
+        date: selectedSlot.date,
+        time: selectedSlot.start_time,
+        phone: formData.phone,
+        age: formData.age || null,
+        experience: formData.experience || null,
+        goals: goalsStr,
+      })
 
       router.push('/book/success')
     } catch {

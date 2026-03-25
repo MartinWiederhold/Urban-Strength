@@ -66,30 +66,41 @@ function waBlock() {
 
 async function sendMail(to: string, subject: string, html: string) {
   const apiKey = process.env.SENDGRID_API_KEY
+  console.log('[sendMail] to:', to, '| subject:', subject)
+  console.log('[sendMail] FROM_EMAIL:', FROM_EMAIL, '| ADMIN_EMAIL:', ADMIN_EMAIL)
+  console.log('[sendMail] SENDGRID_API_KEY present:', !!apiKey, apiKey ? `(starts: ${apiKey.slice(0, 8)}...)` : '(MISSING)')
+
   if (!apiKey) throw new Error('SENDGRID_API_KEY nicht konfiguriert.')
 
+  const payload = {
+    personalizations: [{ to: [{ email: to }] }],
+    from: { email: FROM_EMAIL, name: FROM_NAME },
+    subject,
+    content: [{ type: 'text/html', value: html }],
+  }
+
+  console.log('[sendMail] calling SendGrid...')
   const res = await fetch('https://api.sendgrid.com/v3/mail/send', {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${apiKey}`,
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({
-      personalizations: [{ to: [{ email: to }] }],
-      from: { email: FROM_EMAIL, name: FROM_NAME },
-      subject,
-      content: [{ type: 'text/html', value: html }],
-    }),
+    body: JSON.stringify(payload),
   })
+
+  const responseText = await res.text()
+  console.log('[sendMail] SendGrid response:', res.status, responseText || '(empty)')
+
   if (!res.ok) {
-    const body = await res.text()
-    throw new Error(`SendGrid Fehler: ${res.status} ${body}`)
+    throw new Error(`SendGrid Fehler ${res.status}: ${responseText}`)
   }
 }
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
+    console.log('[send-email] received type:', body.type, '| to:', body.to ?? body.customerEmail)
     const { type, to, name, service, date, time, message, customerEmail, phone, age, experience, goals } = body
 
     // ── Kunden-E-Mails (Buchungsformular) ───────────────────────────────────────
@@ -182,22 +193,26 @@ export async function POST(request: NextRequest) {
     // ── Admin-Benachrichtigungen ────────────────────────────────────────────────
 
     else if (type === 'new_booking_admin') {
+      console.log('[send-email] new_booking_admin → sending to ADMIN_EMAIL:', ADMIN_EMAIL)
       const extraRows = [
+        customerEmail ? `<tr><td style="color:#999;font-size:12px;text-transform:uppercase;padding:6px 0;">E-Mail</td><td style="font-weight:600;color:#1c1c1c;text-align:right;">${customerEmail}</td></tr>` : '',
         phone ? `<tr><td style="color:#999;font-size:12px;text-transform:uppercase;padding:6px 0;">Telefon</td><td style="font-weight:600;color:#1c1c1c;text-align:right;">${phone}</td></tr>` : '',
         age ? `<tr><td style="color:#999;font-size:12px;text-transform:uppercase;padding:6px 0;">Alter</td><td style="font-weight:600;color:#1c1c1c;text-align:right;">${age}</td></tr>` : '',
         experience ? `<tr><td style="color:#999;font-size:12px;text-transform:uppercase;padding:6px 0;">Erfahrung</td><td style="font-weight:600;color:#1c1c1c;text-align:right;">${experience}</td></tr>` : '',
         goals ? `<tr><td style="color:#999;font-size:12px;text-transform:uppercase;padding:6px 0;">Ziele</td><td style="font-weight:600;color:#1c1c1c;text-align:right;">${goals}</td></tr>` : '',
       ].join('')
       const html = baseTemplate(`
-        <h2 style="color: #1c1c1c; font-size: 20px; font-weight: 700; margin: 0 0 8px;">🆕 Neue Buchung eingegangen</h2>
+        <h2 style="color: #1c1c1c; font-size: 20px; font-weight: 700; margin: 0 0 8px;">🎉 Neue Buchung eingegangen</h2>
         <p style="color: #666; margin: 0 0 16px;">
-          <strong>${name}</strong> (${customerEmail ?? to}) hat einen neuen Termin gebucht.
+          <strong>${name}</strong> hat einen neuen Termin gebucht.
         </p>
         ${bookingTable(service, date, time)}
-        ${extraRows ? `<div style="background:#f7f6f3;border-radius:12px;padding:20px;margin:12px 0;"><table style="width:100%;border-collapse:collapse;">${extraRows}</table></div>` : ''}
+        <div style="background:#f7f6f3;border-radius:12px;padding:20px;margin:12px 0;">
+          <table style="width:100%;border-collapse:collapse;">${extraRows}</table>
+        </div>
         ${ctaButton(`${APP_URL}/admin/bookings`, 'Im Admin Dashboard ansehen')}
       `)
-      await sendMail(ADMIN_EMAIL, `🆕 Neue Buchung: ${name} – ${service}`, html)
+      await sendMail(ADMIN_EMAIL, `🎉 Neue Buchung: ${name} – ${service}`, html)
     }
 
     else if (type === 'booking_cancelled_admin') {
