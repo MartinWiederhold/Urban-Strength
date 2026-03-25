@@ -316,7 +316,7 @@ export default function BookingPage() {
                             className={[
                               'px-3 py-1.5 rounded-full text-sm font-medium border transition-all',
                               selectedGoals.includes(goal)
-                                ? 'bg-primary text-white border-primary'
+                                ? 'bg-primary text-primary-foreground border-primary'
                                 : 'bg-secondary text-foreground border-border hover:border-primary/50',
                             ].join(' ')}
                           >
