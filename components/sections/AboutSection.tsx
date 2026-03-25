@@ -25,7 +25,7 @@ export default function AboutSection() {
               Ich helfe dir, deine Fitnessziele zu erreichen, egal ob Muskelaufbau, Fettabbau oder einfach mehr Energie im Alltag. Seit über 10 Jahren trainiere ich selbst regelmässig im Gym und habe dabei gelernt, was wirklich funktioniert, ohne unnötigen Schnickschnack oder komplizierte Pläne. Mein Ansatz ist simpel, individuell, praxisnah und nachhaltig. Kein Standardprogramm, sondern ein Training, das zu dir, deinem Alltag und deinem Tempo passt. Ich trainiere im Gym am Oberen Heuelsteig 30 in Zürich und begleite dich Schritt für Schritt auf deinem Weg zu mehr Fitness.
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+            <div className="hidden sm:grid sm:grid-cols-3 gap-4 mb-8">
               {highlights.map((item, i) => (
                 <div key={i} className="flex justify-center">
                   <div className="text-center p-4 rounded-2xl bg-[#111] border border-white/8 flex flex-col items-center justify-center min-h-[8rem] sm:min-h-[9rem] w-full max-w-[17.5rem] sm:max-w-[15.5rem]">
@@ -39,7 +39,7 @@ export default function AboutSection() {
               ))}
             </div>
 
-            <div className="flex justify-center">
+            <div className="flex justify-start sm:justify-center">
               <Link
                 href="/book/probe-training"
                 className="inline-flex h-12 items-center rounded-full border border-white/20 px-8 text-sm font-semibold text-white hover:bg-white/8 hover:border-white/40 transition-all duration-300 gap-2 group"
@@ -65,7 +65,7 @@ export default function AboutSection() {
                 />
               </div>
 
-              <div className="absolute -bottom-3 -right-3 min-w-[9.25rem] overflow-hidden rounded-2xl border border-white/12 bg-gradient-to-br from-zinc-950 via-black to-zinc-900 px-4 py-3 shadow-[0_4px_28px_rgba(0,0,0,0.75),0_0_0_1px_rgba(255,255,255,0.05),inset_0_1px_0_rgba(255,255,255,0.1)]">
+              <div className="absolute -bottom-3 -right-3 w-fit min-w-0 max-w-[calc(100vw-2rem)] sm:max-w-none sm:min-w-[9.25rem] sm:w-auto overflow-hidden rounded-2xl border border-white/12 bg-gradient-to-br from-zinc-950 via-black to-zinc-900 px-3 py-2.5 sm:px-4 sm:py-3 shadow-[0_4px_28px_rgba(0,0,0,0.75),0_0_0_1px_rgba(255,255,255,0.05),inset_0_1px_0_rgba(255,255,255,0.1)]">
                 <div className="pointer-events-none absolute inset-x-3 top-0 h-px bg-gradient-to-r from-transparent via-white/35 to-transparent" aria-hidden />
                 <div className="pointer-events-none absolute -right-6 -top-6 h-16 w-16 rounded-full bg-white/[0.06] blur-2xl" aria-hidden />
                 <p className="relative text-2xl font-bold leading-none tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-white via-zinc-100 to-zinc-400 [filter:drop-shadow(0_0_12px_rgba(255,255,255,0.12))] sm:hidden">
