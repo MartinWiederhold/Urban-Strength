@@ -41,7 +41,7 @@ export default function MapSection() {
               '<p>Oberer Heuelsteig 30<br/>8032 Zürich, Schweiz</p>' +
               '</div>' +
               '<div class="pt-map-popup-avatar">' +
-              '<img src="/assets/images/IMG_9928.jpg" alt="Martin – Personal Trainer Zürich" width="80" height="80" loading="lazy" />' +
+              '<img src="/assets/images/IMG_99828.jpg" alt="Martin – Personal Trainer Zürich" width="80" height="80" loading="lazy" />' +
               '</div>' +
               '</div>'
           )

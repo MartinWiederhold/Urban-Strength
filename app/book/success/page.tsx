@@ -105,7 +105,7 @@ export default function BookingSuccessPage() {
             {/* Martin profile + WhatsApp CTA */}
             <div className="bg-card border border-border rounded-2xl p-6 mb-6 flex flex-col sm:flex-row items-center gap-5 text-center sm:text-left">
               <div className="w-20 h-20 rounded-full bg-secondary border border-border flex-shrink-0 overflow-hidden relative">
-                <Image src="/assets/images/IMG_9928.jpg" alt="Martin – Personal Trainer" fill className="object-cover object-center" sizes="80px" />
+                <Image src="/assets/images/IMG_99828.jpg" alt="Martin – Personal Trainer" fill className="object-cover object-center" sizes="80px" />
               </div>
               <div className="flex-1">
                 <p className="font-semibold text-base mb-0.5">Martin Wiederhold</p>

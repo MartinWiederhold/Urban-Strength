@@ -53,7 +53,7 @@ export default function AboutSection() {
                 className="relative w-64 h-64 md:w-72 md:h-72 rounded-full bg-[#181818] border-2 border-white/10 overflow-hidden shadow-[0_24px_64px_-12px_hsl(0_0%_0%_/0.9),0_0_0_1px_hsl(0_0%_100%_/0.06)]"
               >
                 <Image
-                  src="/assets/images/IMG_9928.jpg"
+                  src="/assets/images/IMG_99828.jpg"
                   alt="Martin – Personal Trainer in Zürich"
                   fill
                   className="object-cover object-[50%_18%]"
@@ -62,9 +62,15 @@ export default function AboutSection() {
                 />
               </div>
 
-              <div className="absolute -bottom-3 -right-3 bg-white text-black rounded-2xl px-4 py-3 shadow-[0_16px_48px_-8px_hsl(0_0%_0%_/0.8)]">
-                <p className="text-xl font-semibold leading-none">10+</p>
-                <p className="text-xs text-black/60 mt-0.5">Jahre<br />Trainingserfahrung</p>
+              <div className="absolute -bottom-3 -right-3 min-w-[9.25rem] overflow-hidden rounded-2xl border border-white/12 bg-gradient-to-br from-zinc-950 via-black to-zinc-900 px-4 py-3 shadow-[0_4px_28px_rgba(0,0,0,0.75),0_0_0_1px_rgba(255,255,255,0.05),inset_0_1px_0_rgba(255,255,255,0.1)]">
+                <div className="pointer-events-none absolute inset-x-3 top-0 h-px bg-gradient-to-r from-transparent via-white/35 to-transparent" aria-hidden />
+                <div className="pointer-events-none absolute -right-6 -top-6 h-16 w-16 rounded-full bg-white/[0.06] blur-2xl" aria-hidden />
+                <p className="relative text-2xl font-bold leading-none tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-white via-zinc-100 to-zinc-400 [filter:drop-shadow(0_0_12px_rgba(255,255,255,0.12))]">
+                  10+
+                </p>
+                <p className="relative mt-1.5 whitespace-nowrap text-[11px] font-medium leading-tight tracking-wide text-zinc-400">
+                  Jahre Trainingserfahrung
+                </p>
               </div>
             </div>
           </div>
