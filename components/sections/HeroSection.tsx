@@ -69,18 +69,17 @@ export default function HeroSection() {
             Dein erster Termin ist gratis.
           </p>
 
-          {/* CTAs */}
-          <div className="animate-slide-up mt-10 flex flex-col sm:flex-row gap-3 justify-center"
+          <div className="animate-slide-up mt-10 flex flex-col sm:flex-row gap-3 justify-center items-center sm:items-stretch"
           >
             <Link
               href="/book/probe-training"
-              className="inline-flex h-14 items-center justify-center rounded-full bg-primary px-10 text-[15px] font-semibold text-black hover:bg-white/90 hover:shadow-[0_16px_48px_-8px_hsl(0_0%_0%_/0.25)] hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 w-full sm:w-auto"
+              className="inline-flex min-h-12 sm:min-h-14 h-auto py-3 sm:py-0 items-center justify-center rounded-full bg-primary px-5 sm:px-10 text-sm sm:text-[15px] font-semibold text-black text-center leading-snug hover:bg-white/90 hover:shadow-[0_16px_48px_-8px_hsl(0_0%_0%_/0.25)] hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 w-[min(100%,19rem)] sm:w-auto"
             >
               Kostenloses Probetraining buchen
             </Link>
             <Link
               href="/#angebote"
-              className="inline-flex h-14 items-center justify-center rounded-full border border-white/30 bg-white/8 px-10 text-[15px] font-semibold text-white hover:bg-white/15 backdrop-blur-sm transition-all duration-300 w-full sm:w-auto"
+              className="inline-flex h-12 sm:h-14 shrink-0 items-center justify-center rounded-full border border-white/30 bg-white/8 px-5 sm:px-10 text-sm sm:text-[15px] font-semibold text-white hover:bg-white/15 backdrop-blur-sm transition-all duration-300 w-[min(100%,19rem)] sm:w-auto"
               onClick={(e) => {
                 if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return
                 e.preventDefault()
