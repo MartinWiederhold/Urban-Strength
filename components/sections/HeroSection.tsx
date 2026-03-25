@@ -79,8 +79,14 @@ export default function HeroSection() {
               Kostenloses Probetraining buchen
             </Link>
             <Link
-              href="/services"
+              href="/#angebote"
               className="inline-flex h-14 items-center justify-center rounded-full border border-white/30 bg-white/8 px-10 text-[15px] font-semibold text-white hover:bg-white/15 backdrop-blur-sm transition-all duration-300 w-full sm:w-auto"
+              onClick={(e) => {
+                if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return
+                e.preventDefault()
+                document.getElementById('angebote')?.scrollIntoView({ behavior: 'smooth' })
+                window.history.pushState(null, '', '/#angebote')
+              }}
             >
               Angebote ansehen
             </Link>

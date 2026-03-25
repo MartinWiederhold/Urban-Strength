@@ -2,12 +2,12 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { Award, Users, Clock, ChevronRight } from 'lucide-react'
+import { Award, Target, Sparkles, ChevronRight } from 'lucide-react'
 
-const stats = [
-  { icon: Award, value: '12+', label: 'Jahre Erfahrung' },
-  { icon: Users, value: '100+', label: 'Kunden trainiert' },
-  { icon: Clock, value: '1000+', label: 'Trainingsstunden' },
+const highlights = [
+  { icon: Award, title: '10+ Erfahrung', subtitle: 'Alles selbst gelernt' },
+  { icon: Target, title: 'Fokus auf Ergebnisse', subtitle: 'Was wirklich funktioniert' },
+  { icon: Sparkles, title: 'Kein Standardprogramm', subtitle: 'Individuell für dich' },
 ]
 
 export default function AboutSection() {
@@ -16,23 +16,24 @@ export default function AboutSection() {
       <div className="container-max">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
 
-          <div className="animate-slide-up md:order-1 order-2">
-            <h2 className="text-3xl md:text-5xl font-semibold tracking-tight mb-6 text-white">
-              Dein Personal Trainer in Zürich – Martin
-            </h2>
-            <p className="text-white/55 leading-relaxed mb-4">
-              Als zertifizierter Personal Trainer helfe ich dir, deine Fitnessziele zu erreichen – egal ob Muskelaufbau, Fettabbau oder allgemeine Fitness. Mein Ansatz ist einfach: individuell, effizient und nachhaltig.
-            </p>
+          <div className="animate-slide-up md:order-1 order-2 min-w-0">
+            <div className="min-w-0 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden -mx-1 px-1">
+              <h2 className="text-2xl sm:text-3xl md:text-5xl font-semibold tracking-tight mb-6 text-white whitespace-nowrap w-max max-w-none">
+                Dein Personal Trainer in Zürich – Martin
+              </h2>
+            </div>
             <p className="text-white/55 leading-relaxed mb-8">
-              Ich trainiere im Gym am Oberer Heuelsteig 30 in Zürich. Mit mir bekommst du keine Standard-Programme – sondern ein Training, das wirklich zu dir und deinen Zielen passt.
+              Ich helfe dir, deine Fitnessziele zu erreichen, egal ob Muskelaufbau, Fettabbau oder einfach mehr Energie im Alltag. Seit über 10 Jahren trainiere ich selbst regelmässig im Gym und habe dabei gelernt, was wirklich funktioniert, ohne unnötigen Schnickschnack oder komplizierte Pläne. Mein Ansatz ist simpel, individuell, praxisnah und nachhaltig. Kein Standardprogramm, sondern ein Training, das zu dir, deinem Alltag und deinem Tempo passt. Ich trainiere im Gym am Oberen Heuelsteig 30 in Zürich und begleite dich Schritt für Schritt auf deinem Weg zu mehr Fitness.
             </p>
 
-            <div className="grid grid-cols-3 gap-4 mb-8">
-              {stats.map((stat, i) => (
-                <div key={i} className="text-center p-4 rounded-2xl bg-[#111] border border-white/8">
-                  <stat.icon className="w-5 h-5 text-white/50 mx-auto mb-2" />
-                  <p className="text-2xl font-semibold text-white tracking-tight">{stat.value}</p>
-                  <p className="text-xs text-white/40">{stat.label}</p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+              {highlights.map((item, i) => (
+                <div key={i} className="text-center p-4 rounded-2xl bg-[#111] border border-white/8 flex flex-col items-center justify-center min-h-[7.5rem] sm:min-h-[8.5rem]">
+                  <item.icon className="w-5 h-5 text-white/50 mx-auto mb-2 shrink-0" />
+                  <p className="text-sm font-semibold text-white tracking-tight leading-snug mb-1.5">
+                    {item.title}
+                  </p>
+                  <p className="text-xs text-white/40 leading-snug">{item.subtitle}</p>
                 </div>
               ))}
             </div>
@@ -62,8 +63,8 @@ export default function AboutSection() {
               </div>
 
               <div className="absolute -bottom-3 -right-3 bg-white text-black rounded-2xl px-4 py-3 shadow-[0_16px_48px_-8px_hsl(0_0%_0%_/0.8)]">
-                <p className="text-xl font-semibold leading-none">12+</p>
-                <p className="text-xs text-black/60 mt-0.5">Jahre<br />Erfahrung</p>
+                <p className="text-xl font-semibold leading-none">10+</p>
+                <p className="text-xs text-black/60 mt-0.5">Jahre<br />Trainingserfahrung</p>
               </div>
             </div>
           </div>
