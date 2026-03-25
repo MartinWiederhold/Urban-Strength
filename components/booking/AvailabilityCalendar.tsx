@@ -186,7 +186,7 @@ export default function AvailabilityCalendar({ onSelectSlot, selectedSlot }: Ava
       {/* Empty states */}
       {noDataInDB && (
         <p className="text-sm text-center text-muted-foreground py-2">
-          Derzeit keine Termine verfügbar. Bitte kontaktiere uns direkt.
+          Derzeit keine Termine verfügbar. Bitte kontaktiere mich direkt.
         </p>
       )}
       {!noDataInDB && !anyAvailableInMonth && !isLoading && (

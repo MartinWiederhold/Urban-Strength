@@ -14,7 +14,7 @@ const faqs = [
   },
   {
     question: 'Wie läuft das kostenlose Probetraining ab?',
-    answer: 'Du buchst online einen Termin, wir treffen uns im Gym, ich zeige dir die Geräte, wir besprechen deine Ziele und machen eine erste Trainingseinheit zusammen. Komplett gratis und unverbindlich.',
+    answer: 'Du buchst online einen Termin, kommst ins Gym, ich zeige dir die Geräte, bespreche deine Ziele mit dir und wir machen eine erste Trainingseinheit zusammen. Komplett gratis und unverbindlich.',
   },
   {
     question: 'Was kostet Personal Training in Zürich?',

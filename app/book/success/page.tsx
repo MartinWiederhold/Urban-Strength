@@ -55,8 +55,8 @@ export default function BookingSuccessPage() {
               </h1>
               <p className="text-muted-foreground text-lg">
                 {booking
-                  ? `Hallo ${booking.name.split(' ')[0]}, wir freuen uns auf dich!`
-                  : 'Dein Termin ist gebucht. Wir freuen uns auf dich!'}
+                  ? `Hallo ${booking.name.split(' ')[0]}, ich freue mich auf dich!`
+                  : 'Dein Termin ist gebucht. Ich freue mich auf dich!'}
               </p>
             </div>
 

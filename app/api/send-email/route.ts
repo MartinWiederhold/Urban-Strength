@@ -85,7 +85,7 @@ export async function POST(request: NextRequest) {
       const html = baseTemplate(`
         <h2 style="color: #1c1c1c; font-size: 20px; font-weight: 700; margin: 0 0 8px;">✓ Deine Buchung ist bestätigt!</h2>
         <p style="color: #666; margin: 0 0 4px;">Hallo ${name},</p>
-        <p style="color: #666; margin: 0 0 16px;">dein Termin für das Personal Training ist gebucht. Wir freuen uns auf dich!</p>
+        <p style="color: #666; margin: 0 0 16px;">dein Termin für das Personal Training ist gebucht. Ich freue mich auf dich!</p>
         ${bookingTable(service, date, time)}
         <div style="background: #f0f7f3; border: 1px solid #c5dfd0; border-radius: 12px; padding: 16px;">
           <p style="color: #4a7c59; font-weight: 600; margin: 0 0 4px;">📍 Trainingsstandort</p>

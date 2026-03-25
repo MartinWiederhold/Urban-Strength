@@ -10,11 +10,11 @@ export default function DatenschutzPage() {
           <h1 className="text-4xl font-semibold tracking-tight mb-8">Datenschutzerklärung</h1>
           <div className="prose text-muted-foreground space-y-4">
             <h2 className="text-xl font-semibold text-foreground">Datenschutz</h2>
-            <p>Der Schutz deiner persönlichen Daten ist uns wichtig. Diese Datenschutzerklärung beschreibt, wie wir mit deinen Daten umgehen.</p>
+            <p>Der Schutz deiner persönlichen Daten ist mir wichtig. Diese Datenschutzerklärung beschreibt, wie ich mit deinen Daten umgehe.</p>
             <h2 className="text-xl font-semibold text-foreground">Verantwortliche Stelle</h2>
             <p>Personal Training Zurich – by Martin<br />Martin Wiederhold<br />Oberer Heuelsteig 30, 8032 Zürich</p>
             <h2 className="text-xl font-semibold text-foreground">Erhebung von Daten</h2>
-            <p>Wir erheben nur die Daten, die für die Buchung von Trainingsterminen und die Kommunikation mit dir notwendig sind. Deine Daten werden nicht an Dritte weitergegeben.</p>
+            <p>Ich erhebe nur die Daten, die für die Buchung von Trainingsterminen und die Kommunikation mit dir notwendig sind. Deine Daten werden nicht an Dritte weitergegeben.</p>
           </div>
         </div>
       </main>

@@ -183,7 +183,7 @@ export default function RegisterClientPage() {
               </div>
 
               <div>
-                <Label htmlFor="howFoundUs">Wie hast du uns gefunden?</Label>
+                <Label htmlFor="howFoundUs">Wie hast du mich gefunden?</Label>
                 <Select value={formData.howFoundUs} onValueChange={v => updateForm('howFoundUs', v)}>
                   <SelectTrigger className="mt-1">
                     <SelectValue placeholder="Auswählen" />
