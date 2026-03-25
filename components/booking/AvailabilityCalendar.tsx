@@ -173,8 +173,6 @@ export default function AvailabilityCalendar({ onSelectSlot, selectedSlot }: Ava
             const avail = !isLoading && hasSlots(day)
             const sel = !!(selectedDay && isSameDay(day, selectedDay))
             const tod = isToday(day)
-            // While loading: pulse in-month future days so user sees skeleton numbers
-            const pulsing = isLoading && inMonth && !past
 
             return (
               <button
@@ -184,13 +182,12 @@ export default function AvailabilityCalendar({ onSelectSlot, selectedSlot }: Ava
                 className={[
                   'relative flex flex-col items-center py-2.5 rounded-xl text-sm font-medium transition-all duration-150',
                   !inMonth ? 'opacity-0 pointer-events-none' : '',
-                  pulsing ? 'animate-pulse text-muted-foreground/40' : '',
-                  !pulsing && inMonth && (past || !avail) ? 'text-muted-foreground/30 cursor-default' : '',
+                  inMonth && (past || !avail) ? 'text-muted-foreground/30 cursor-default' : '',
                   sel ? 'bg-emerald-400 text-black' : '',
                   !sel && avail && !past ? 'hover:bg-emerald-400/15 cursor-pointer' : '',
                 ].join(' ')}
               >
-                <span className={tod && !sel && !pulsing ? 'text-primary font-bold' : ''}>{format(day, 'd')}</span>
+                <span className={tod && !sel ? 'text-primary font-bold' : ''}>{format(day, 'd')}</span>
                 {avail && !past && inMonth && (
                   <span className={`w-1.5 h-1.5 rounded-full mt-0.5 ${sel ? 'bg-black/40' : 'bg-emerald-400'}`} />
                 )}
