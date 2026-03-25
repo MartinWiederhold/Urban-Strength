@@ -3,6 +3,7 @@ import { Outfit, Inter } from 'next/font/google'
 import './globals.css'
 import { AuthProvider } from '@/contexts/AuthContext'
 import ScrollToTop from '@/components/ScrollToTop'
+import { WebVitals } from '@/components/WebVitals'
 
 const outfit = Outfit({
   subsets: ['latin'],
@@ -73,6 +74,7 @@ export default function RootLayout({
       </head>
       <body suppressHydrationWarning>
         <AuthProvider>
+          <WebVitals />
           {children}
           <ScrollToTop />
         </AuthProvider>

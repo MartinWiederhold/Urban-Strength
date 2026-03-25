@@ -87,3 +87,25 @@ export interface TrainingPlan {
   created_at: string
   updated_at: string
 }
+
+// ── Analytics types ────────────────────────────────────────────────────────
+
+export interface AnalyticsStats {
+  totalRevenue: number
+  paidRevenue: number
+  totalBookings: number
+  totalCustomers: number
+  paidCount: number
+  unpaidCount: number
+  avgRevenue: number
+  conversionRate: number
+}
+
+export interface AnalyticsChartData {
+  monthlyData: Array<{ month: string; bookings: number; revenue: number }>
+  weeklyData:  Array<{ week: string; revenue: number }>
+  statusData:  Array<{ name: string; value: number }>
+  sourceData:  Array<{ name: string; value: number }>
+  serviceRevData: Array<{ name: string; revenue: number; count: number }>
+  paymentData: Array<{ name: string; value: number }>
+}

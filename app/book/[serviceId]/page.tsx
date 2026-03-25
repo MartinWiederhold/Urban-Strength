@@ -6,7 +6,38 @@ import { ArrowLeft, ArrowRight, Check, Loader2, MapPin } from 'lucide-react'
 import Link from 'next/link'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
-import AvailabilityCalendar from '@/components/booking/AvailabilityCalendar'
+import dynamic from 'next/dynamic'
+
+// Lazy-load: AvailabilityCalendar is ~40 kB of client logic + date-fns.
+// Shown only in Step 1 — deferring keeps First Load JS lighter for all steps.
+const AvailabilityCalendar = dynamic(
+  () => import('@/components/booking/AvailabilityCalendar'),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="space-y-4">
+        <div className="flex items-center justify-between mb-2">
+          <div className="h-8 w-8 bg-secondary rounded-lg animate-pulse" />
+          <div className="h-5 w-36 bg-secondary rounded animate-pulse" />
+          <div className="h-8 w-8 bg-secondary rounded-lg animate-pulse" />
+        </div>
+        <div className="grid grid-cols-7 gap-1 mb-2">
+          {['Mo','Di','Mi','Do','Fr','Sa','So'].map(d => (
+            <div key={d} className="text-center text-xs text-muted-foreground py-1">{d}</div>
+          ))}
+          {Array.from({ length: 35 }).map((_, i) => (
+            <div key={i} className="h-9 rounded-lg bg-secondary/60 animate-pulse" />
+          ))}
+        </div>
+        <div className="space-y-2 pt-2">
+          {[1, 2, 3].map(i => (
+            <div key={i} className="h-12 rounded-xl bg-secondary animate-pulse" />
+          ))}
+        </div>
+      </div>
+    ),
+  }
+)
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -191,7 +222,7 @@ export default function BookingPage() {
       <main className="min-h-screen bg-background pt-20">
         <div className="container-max px-4 md:px-10 py-12">
           {/* Back */}
-          <Link href="/services" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-8 transition-colors">
+          <Link href="/#angebote" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-8 transition-colors">
             <ArrowLeft className="w-4 h-4" />
             Zurück zu den Angeboten
           </Link>

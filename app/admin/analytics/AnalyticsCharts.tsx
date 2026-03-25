@@ -4,7 +4,7 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   PieChart, Pie, Cell, LineChart, Line,
 } from 'recharts'
-import type { ChartData } from './page'
+import type { AnalyticsChartData } from '@/lib/types'
 
 const COLORS = ['hsl(0,0%,90%)', 'hsl(0,0%,60%)', 'hsl(0,0%,40%)', 'hsl(0,0%,25%)', 'hsl(0,84%,60%)']
 const GREEN  = '#29C46A'
@@ -20,7 +20,7 @@ const chartStyle = {
   },
 }
 
-export default function AnalyticsCharts({ data }: { data: ChartData }) {
+export default function AnalyticsCharts({ data }: { data: AnalyticsChartData }) {
   const { monthlyData, weeklyData, statusData, sourceData, serviceRevData, paymentData } = data
 
   return (
