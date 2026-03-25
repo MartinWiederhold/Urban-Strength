@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
 import { MapPin, Mail, Clock } from 'lucide-react'
@@ -80,14 +81,23 @@ export default function KontaktPage() {
               </div>
 
               {/* CTA */}
-              <div className="rounded-2xl bg-[hsl(0,0%,11%)] text-white p-8 flex flex-col justify-center">
+              <div className="rounded-2xl bg-[hsl(0,0%,11%)] text-white p-8 flex flex-col justify-center items-center text-center">
+                <div className="relative mb-6 h-36 w-36 shrink-0 overflow-hidden rounded-full border-2 border-white/15 bg-[#181818] shadow-[0_16px_40px_-12px_rgba(0,0,0,0.65)] md:h-44 md:w-44">
+                  <Image
+                    src="/assets/images/IMG_99828.jpg"
+                    alt="Martin – Personal Trainer in Zürich"
+                    fill
+                    className="object-cover object-[50%_18%]"
+                    sizes="(max-width: 768px) 144px, 176px"
+                  />
+                </div>
                 <h2 className="text-2xl font-bold tracking-tight mb-3">
                   Direkt buchen – kostenlos
                 </h2>
                 <p className="text-white/60 mb-6 leading-relaxed">
                   Der schnellste Weg: Buch einfach deinen kostenlosen Probetraining-Termin online. Komplett unverbindlich.
                 </p>
-                <Link href="/book/probe-training">
+                <Link href="/book/probe-training" className="w-full">
                   <Button variant="hero" size="lg" className="w-full">
                     Kostenloses Probetraining buchen
                   </Button>
