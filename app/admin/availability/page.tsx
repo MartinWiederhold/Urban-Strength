@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef, useCallback } from 'react'
 import {
   ChevronLeft, ChevronRight, Loader2, Trash2, RefreshCw,
-  X, CalendarDays, RotateCcw, LayoutList, Calendar,
+  X, CalendarDays, RotateCcw, LayoutList, Calendar, CalendarRange,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
@@ -46,8 +46,12 @@ interface SlotDragPreview {
   targetDayIndex: number; top: number; height: number; slot: Availability
 }
 interface EditState {
-  slot: Availability; recurring: boolean; endDate: string
-  startTime: string; endTime: string
+  slot: Availability
+  recurringMode: 'once' | 'weekly' | 'custom'
+  selectedDays: number[]   // day_of_week (0=So … 6=Sa); for 'custom' mode
+  endDate: string
+  startTime: string
+  endTime: string
 }
 interface SeriesConfirm {
   slot: Availability; newDate: string; newStartTime: string; newEndTime: string
@@ -117,42 +121,67 @@ export default function AvailabilityPage() {
   // ── Edit / Save ──────────────────────────────────────────────────────────
   const openEdit = (slot: Availability) => setEdit({
     slot,
-    recurring:  slot.recurring_weekly,
-    endDate:    slot.recurring_end_date ?? '',
-    startTime:  slot.start_time.slice(0, 5),
-    endTime:    slot.end_time.slice(0, 5),
+    recurringMode: slot.recurring_weekly ? 'weekly' : 'once',
+    selectedDays:  [getDay(parseISO(slot.date))],
+    endDate:       slot.recurring_end_date ?? '',
+    startTime:     slot.start_time.slice(0, 5),
+    endTime:       slot.end_time.slice(0, 5),
   })
 
   const handleSave = async () => {
     if (!edit) return
     setIsSaving(true)
     const supabase = createClient()
-    const dow = getDay(parseISO(edit.slot.date))
+    const slotDate = parseISO(edit.slot.date)
+    const slotDow  = getDay(slotDate)
+    const endDate  = edit.endDate || null
 
-    let { error } = await supabase.from('availability').update({
-      recurring_weekly:   edit.recurring,
-      day_of_week:        edit.recurring ? dow : null,
-      recurring_end_date: edit.recurring && edit.endDate ? edit.endDate : null,
-      start_time:         edit.startTime,
-      end_time:           edit.endTime,
-    }).eq('id', edit.slot.id)
-
-    if (error) {
-      const fb = await supabase.from('availability').update({
-        recurring_weekly: edit.recurring,
-        day_of_week:      edit.recurring ? dow : null,
-        start_time:       edit.startTime,
-        end_time:         edit.endTime,
+    if (edit.recurringMode === 'custom') {
+      // Update existing slot + insert new slots for additional days
+      const ops = edit.selectedDays.map(dow => {
+        if (dow === slotDow) {
+          return supabase.from('availability').update({
+            recurring_weekly: true, day_of_week: dow,
+            recurring_end_date: endDate,
+            start_time: edit.startTime, end_time: edit.endTime,
+          }).eq('id', edit.slot.id)
+        }
+        // Find next occurrence of this dow after the anchor date
+        let diff = dow - slotDow
+        if (diff <= 0) diff += 7
+        const newDate = format(addDays(slotDate, diff), 'yyyy-MM-dd')
+        return supabase.from('availability').insert({
+          date: newDate, is_available: true,
+          recurring_weekly: true, day_of_week: dow,
+          recurring_end_date: endDate,
+          start_time: edit.startTime, end_time: edit.endTime,
+        })
+      })
+      const results = await Promise.all(ops)
+      const failed  = results.find(r => r.error)
+      if (failed?.error) {
+        setMsg({ text: 'Fehler: ' + failed.error.message, ok: false })
+        setTimeout(() => setMsg(null), 5000)
+        setIsSaving(false)
+        return
+      }
+    } else {
+      const isWeekly = edit.recurringMode === 'weekly'
+      const { error } = await supabase.from('availability').update({
+        recurring_weekly:   isWeekly,
+        day_of_week:        isWeekly ? slotDow : null,
+        recurring_end_date: isWeekly ? endDate : null,
+        start_time:         edit.startTime,
+        end_time:           edit.endTime,
       }).eq('id', edit.slot.id)
-      error = fb.error
+      if (error) {
+        setMsg({ text: 'Fehler: ' + error.message, ok: false })
+        setTimeout(() => setMsg(null), 5000)
+        setIsSaving(false)
+        return
+      }
     }
 
-    if (error) {
-      setMsg({ text: 'Fehler: ' + error.message, ok: false })
-      setTimeout(() => setMsg(null), 5000)
-      setIsSaving(false)
-      return
-    }
     setMsg({ text: 'Gespeichert!', ok: true })
     setTimeout(() => setMsg(null), 3000)
     setEdit(null)
@@ -315,7 +344,14 @@ export default function AvailabilityPage() {
     if (!activated || !preview) {
       // Just a click → open edit modal
       const s = init.slot
-      setEdit({ slot: s, recurring: s.recurring_weekly, endDate: s.recurring_end_date ?? '', startTime: s.start_time.slice(0,5), endTime: s.end_time.slice(0,5) })
+      setEdit({
+        slot: s,
+        recurringMode: s.recurring_weekly ? 'weekly' : 'once',
+        selectedDays:  [getDay(parseISO(s.date))],
+        endDate:       s.recurring_end_date ?? '',
+        startTime:     s.start_time.slice(0, 5),
+        endTime:       s.end_time.slice(0, 5),
+      })
       return
     }
 
@@ -736,28 +772,94 @@ export default function AvailabilityPage() {
                 </div>
               </div>
 
-              {/* Recurring toggle */}
-              <div className="mb-5">
+              {/* Recurring mode */}
+              <div className="mb-4">
                 <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2">Wiederholung</p>
-                <div className="grid grid-cols-2 gap-2 p-1 bg-secondary/50 rounded-xl">
+                <div className="flex flex-col gap-1.5">
                   <button
-                    onClick={() => setEdit(prev => prev ? { ...prev, recurring: false, endDate: '' } : prev)}
-                    className={['flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg text-sm font-medium transition-all', !edit.recurring ? 'bg-card text-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground'].join(' ')}
+                    onClick={() => setEdit(prev => prev ? { ...prev, recurringMode: 'once', endDate: '' } : prev)}
+                    className={[
+                      'flex items-center gap-2 py-2.5 px-3 rounded-xl text-sm font-medium transition-all border text-left',
+                      edit.recurringMode === 'once'
+                        ? 'bg-card text-foreground border-border shadow-sm'
+                        : 'text-muted-foreground hover:text-foreground border-transparent hover:border-border',
+                    ].join(' ')}
                   >
-                    <CalendarDays className="w-3.5 h-3.5" /> Einmalig
+                    <CalendarDays className="w-3.5 h-3.5 shrink-0" />
+                    Nur dieser {format(parseISO(edit.slot.date), 'EEEE', { locale: de })} ({format(parseISO(edit.slot.date), 'dd.MM.', { locale: de })})
                   </button>
                   <button
-                    onClick={() => setEdit(prev => prev ? { ...prev, recurring: true } : prev)}
-                    className={['flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg text-sm font-medium transition-all', edit.recurring ? 'bg-[#29C46A]/10 text-[#29C46A] shadow-sm border border-[#29C46A]/20' : 'text-muted-foreground hover:text-foreground'].join(' ')}
+                    onClick={() => setEdit(prev => prev ? { ...prev, recurringMode: 'weekly', selectedDays: [getDay(parseISO(prev.slot.date))] } : prev)}
+                    className={[
+                      'flex items-center gap-2 py-2.5 px-3 rounded-xl text-sm font-medium transition-all border text-left',
+                      edit.recurringMode === 'weekly'
+                        ? 'bg-[#29C46A]/10 text-[#29C46A] border-[#29C46A]/20'
+                        : 'text-muted-foreground hover:text-foreground border-transparent hover:border-border',
+                    ].join(' ')}
                   >
-                    <RotateCcw className="w-3.5 h-3.5" /> Jeden {DOW_LABELS[getDay(parseISO(edit.slot.date))]}
+                    <RotateCcw className="w-3.5 h-3.5 shrink-0" />
+                    Jeden {DOW_LABELS[getDay(parseISO(edit.slot.date))]}
+                  </button>
+                  <button
+                    onClick={() => setEdit(prev => prev ? { ...prev, recurringMode: 'custom' } : prev)}
+                    className={[
+                      'flex items-center gap-2 py-2.5 px-3 rounded-xl text-sm font-medium transition-all border text-left',
+                      edit.recurringMode === 'custom'
+                        ? 'bg-blue-400/10 text-blue-400 border-blue-400/20'
+                        : 'text-muted-foreground hover:text-foreground border-transparent hover:border-border',
+                    ].join(' ')}
+                  >
+                    <CalendarRange className="w-3.5 h-3.5 shrink-0" />
+                    Bestimmte Wochentage auswählen
                   </button>
                 </div>
               </div>
 
-              {/* End date (recurring only) */}
-              {edit.recurring && (
-                <div className="animate-in overflow-hidden mb-5">
+              {/* Day picker (custom mode) */}
+              {edit.recurringMode === 'custom' && (
+                <div className="mb-4 animate-in">
+                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2">Wochentage</p>
+                  <div className="flex gap-1.5">
+                    {([1,2,3,4,5,6,0] as const).map(dow => {
+                      const labels = ['So','Mo','Di','Mi','Do','Fr','Sa']
+                      const isAnchor   = dow === getDay(parseISO(edit.slot.date))
+                      const isSelected = edit.selectedDays.includes(dow)
+                      return (
+                        <button
+                          key={dow}
+                          disabled={isAnchor}
+                          onClick={() => setEdit(prev => {
+                            if (!prev) return prev
+                            const days = isSelected
+                              ? prev.selectedDays.filter(d => d !== dow)
+                              : [...prev.selectedDays, dow]
+                            return { ...prev, selectedDays: days }
+                          })}
+                          className={[
+                            'flex-1 h-9 rounded-lg text-xs font-semibold transition-all',
+                            isAnchor
+                              ? 'bg-[#29C46A] text-white cursor-default'
+                              : isSelected
+                                ? 'bg-blue-400/20 text-blue-400 border border-blue-400/40'
+                                : 'bg-secondary text-muted-foreground border border-border hover:border-primary/40',
+                          ].join(' ')}
+                        >
+                          {labels[dow]}
+                        </button>
+                      )
+                    })}
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-2">
+                    {edit.selectedDays.length <= 1
+                      ? 'Weitere Tage antippen zum Hinzufügen'
+                      : `${edit.selectedDays.length} Tage — für jeden wird ein wöchentlicher Slot erstellt`}
+                  </p>
+                </div>
+              )}
+
+              {/* End date (weekly + custom) */}
+              {edit.recurringMode !== 'once' && (
+                <div className="mb-5 animate-in">
                   <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2">Wiederholen bis (optional)</p>
                   <input
                     type="date"
