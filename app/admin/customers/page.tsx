@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { Search, Users, MessageCircle } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
@@ -32,7 +32,7 @@ export default function AdminCustomersPage() {
         const supabase = createClient()
         const { data, error } = await supabase
           .from('profiles')
-          .select('*')
+          .select('id, full_name, email, phone, customer_status, created_at, role')
           .eq('role', 'customer')
           .order('created_at', { ascending: false })
         if (error) {
@@ -51,12 +51,20 @@ export default function AdminCustomersPage() {
     load()
   }, [])
 
-  const filtered = customers.filter(c =>
+  const filtered = useMemo(() => customers.filter(c =>
     !search ||
     c.full_name?.toLowerCase().includes(search.toLowerCase()) ||
     c.email.toLowerCase().includes(search.toLowerCase()) ||
     c.phone?.includes(search)
-  )
+  ), [customers, search])
+
+  const statusCounts = useMemo(() => {
+    const counts: Record<string, number> = {}
+    for (const c of customers) {
+      counts[c.customer_status] = (counts[c.customer_status] ?? 0) + 1
+    }
+    return counts
+  }, [customers])
 
   return (
     <div>
@@ -80,7 +88,7 @@ export default function AdminCustomersPage() {
       {/* Stats Row */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
         {(['new', 'active', 'inactive', 'vip'] as const).map(s => {
-          const count = customers.filter(c => c.customer_status === s).length
+          const count = statusCounts[s] ?? 0
           return (
             <div key={s} className="bg-card rounded-xl border border-border p-4 text-center hover:border-foreground/20 transition-all duration-200">
               <p className="text-2xl font-semibold tracking-tight mb-1">{count}</p>

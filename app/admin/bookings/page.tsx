@@ -28,29 +28,37 @@ function calcAmount(service: any): number {
 }
 
 export default function AdminBookingsPage() {
+  const PAGE_SIZE = 25
+
   const [bookings, setBookings]     = useState<Booking[]>([])
   const [isLoading, setIsLoading]   = useState(true)
   const [loadError, setLoadError]   = useState<string | null>(null)
   const [statusFilter, setStatusFilter] = useState<string>('all')
   const [updatingId, setUpdatingId] = useState<string | null>(null)
   const [togglingId, setTogglingId] = useState<string | null>(null)
+  const [page, setPage]             = useState(0)
+  const [hasMore, setHasMore]       = useState(false)
 
-  const fetchBookings = async () => {
+  const fetchBookings = async (pageNum = 0, filter = statusFilter) => {
     try {
       const supabase = createClient()
       let query = supabase
         .from('bookings')
-        .select('*, profiles(full_name, email, phone, customer_status), services(title, price, duration_minutes)')
+        .select('*, profiles(id, full_name, email, phone, customer_status), services(title, price, duration_minutes)')
         .order('booking_date', { ascending: false })
         .order('start_time',   { ascending: false })
-      if (statusFilter !== 'all') query = query.eq('status', statusFilter)
+        .range(pageNum * PAGE_SIZE, pageNum * PAGE_SIZE + PAGE_SIZE)
+      if (filter !== 'all') query = query.eq('status', filter)
       const { data, error } = await query
       if (error) {
         console.error('[Admin Bookings] fetch error:', error)
         setLoadError(`Fehler: ${error.message}`)
       } else {
         setLoadError(null)
-        setBookings((data as Booking[]) ?? [])
+        const rows = (data as Booking[]) ?? []
+        setBookings(prev => pageNum === 0 ? rows : [...prev, ...rows])
+        setHasMore(rows.length === PAGE_SIZE + 1)
+        if (rows.length === PAGE_SIZE + 1) rows.pop()
       }
     } catch (err) {
       console.error('[Admin Bookings] unexpected error:', err)
@@ -60,13 +68,15 @@ export default function AdminBookingsPage() {
     }
   }
 
-  useEffect(() => { fetchBookings() }, [statusFilter])
+  useEffect(() => { setPage(0); fetchBookings(0, statusFilter) }, [statusFilter])
 
   const updateStatus = async (bookingId: string, newStatus: string) => {
     setUpdatingId(bookingId)
     const supabase = createClient()
-    await supabase.from('bookings').update({ status: newStatus }).eq('id', bookingId)
-    await fetchBookings()
+    const { error } = await supabase.from('bookings').update({ status: newStatus }).eq('id', bookingId)
+    if (!error) {
+      setBookings(prev => prev.map(b => b.id === bookingId ? { ...b, status: newStatus } : b))
+    }
     setUpdatingId(null)
   }
 
@@ -75,11 +85,11 @@ export default function AdminBookingsPage() {
     const supabase = createClient()
     const service = (booking as any).services
     const nowPaid = !(booking.paid ?? false)
-    await supabase.from('bookings').update({
-      paid: nowPaid,
-      paid_amount: nowPaid ? calcAmount(service) : 0,
-    }).eq('id', booking.id)
-    await fetchBookings()
+    const updates = { paid: nowPaid, paid_amount: nowPaid ? calcAmount(service) : 0 }
+    const { error } = await supabase.from('bookings').update(updates).eq('id', booking.id)
+    if (!error) {
+      setBookings(prev => prev.map(b => b.id === booking.id ? { ...b, ...updates } : b))
+    }
     setTogglingId(null)
   }
 
@@ -246,6 +256,14 @@ export default function AdminBookingsPage() {
           </div>
         )}
       </div>
+
+      {hasMore && (
+        <div className="mt-4 flex justify-center">
+          <Button variant="outline" onClick={() => { const next = page + 1; setPage(next); fetchBookings(next) }}>
+            Mehr laden
+          </Button>
+        </div>
+      )}
     </div>
   )
 }

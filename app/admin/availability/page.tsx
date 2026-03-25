@@ -85,8 +85,13 @@ export default function AvailabilityPage() {
   // ── Data ────────────────────────────────────────────────────────────────
   const load = useCallback(async () => {
     const supabase = createClient()
+    // Load a bounded window: 4 weeks back + 12 weeks forward (covers calendar + list view)
+    const windowStart = format(addDays(new Date(), -28), 'yyyy-MM-dd')
+    const windowEnd   = format(addDays(new Date(),  84), 'yyyy-MM-dd')
     const { data } = await supabase.from('availability').select('*')
       .eq('is_available', true)
+      .or(`date.gte.${windowStart},recurring_weekly.eq.true`)
+      .lte('date', windowEnd)
       .order('date', { ascending: true })
       .order('start_time', { ascending: true })
     setSlots((data as Availability[]) ?? [])

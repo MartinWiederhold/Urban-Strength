@@ -6,43 +6,54 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import type { Profile, ChatMessage } from '@/lib/types'
 
+type CustomerWithChat = Profile & { lastMessage?: ChatMessage; unreadCount: number }
+
 export default function AdminChatListPage() {
-  const [customers, setCustomers] = useState<Array<Profile & { lastMessage?: ChatMessage; unreadCount: number }>>([])
+  const [customers, setCustomers] = useState<CustomerWithChat[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const load = async () => {
       const supabase = createClient()
-      const { data: profiles } = await supabase
-        .from('profiles')
+
+      // 3 queries total instead of 2N+1
+      const [profilesRes, adminRes] = await Promise.all([
+        supabase.from('profiles').select('*').eq('role', 'customer').order('created_at', { ascending: false }),
+        supabase.from('profiles').select('id').eq('role', 'admin').single(),
+      ])
+
+      const profiles = profilesRes.data as Profile[] | null
+      const adminId  = adminRes.data?.id ?? ''
+
+      if (!profiles?.length) { setIsLoading(false); return }
+
+      // Fetch all relevant messages in one round-trip
+      const { data: messages } = await supabase
+        .from('chat_messages')
         .select('*')
-        .eq('role', 'customer')
+        .or(`sender_id.eq.${adminId},receiver_id.eq.${adminId}`)
         .order('created_at', { ascending: false })
 
-      if (!profiles) { setIsLoading(false); return }
+      const allMessages = (messages ?? []) as ChatMessage[]
 
-      const { data: adminProfile } = await supabase.from('profiles').select('id').eq('role', 'admin').single()
+      // Aggregate per customer in JS — O(M) not O(N)
+      const enriched: CustomerWithChat[] = profiles.map(p => {
+        const thread = allMessages.filter(
+          m => (m.sender_id === p.id && m.receiver_id === adminId)
+            || (m.sender_id === adminId && m.receiver_id === p.id)
+        )
+        const unreadCount = thread.filter(m => m.sender_id === p.id && !m.is_read).length
+        return { ...p, lastMessage: thread[0], unreadCount }
+      })
 
-      const enriched = await Promise.all(
-        profiles.map(async (p: Profile) => {
-          const [lastMsgRes, unreadRes] = await Promise.all([
-            supabase.from('chat_messages').select('*')
-              .or(`and(sender_id.eq.${p.id},receiver_id.eq.${adminProfile?.id}),and(sender_id.eq.${adminProfile?.id},receiver_id.eq.${p.id})`)
-              .order('created_at', { ascending: false }).limit(1),
-            supabase.from('chat_messages').select('id', { count: 'exact' })
-              .eq('sender_id', p.id)
-              .eq('receiver_id', adminProfile?.id ?? '')
-              .eq('is_read', false),
-          ])
-          return { ...p, lastMessage: lastMsgRes.data?.[0] as ChatMessage | undefined, unreadCount: unreadRes.count ?? 0 }
-        })
-      )
+      // Sort: conversations with activity first
+      enriched.sort((a, b) => {
+        const aTime = a.lastMessage?.created_at ?? ''
+        const bTime = b.lastMessage?.created_at ?? ''
+        return bTime.localeCompare(aTime)
+      })
 
-      setCustomers(
-        enriched
-          .filter(c => c.lastMessage || c.unreadCount > 0)
-          .concat(enriched.filter(c => !c.lastMessage && c.unreadCount === 0))
-      )
+      setCustomers(enriched)
       setIsLoading(false)
     }
     load()

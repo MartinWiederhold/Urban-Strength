@@ -6,7 +6,7 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
-  ],
+  // Only run middleware on protected routes — avoids executing auth checks
+  // on every static page, API route, and public asset request.
+  matcher: ['/admin/:path*', '/dashboard/:path*'],
 }
