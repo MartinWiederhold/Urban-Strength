@@ -120,7 +120,8 @@ export default function BookingPage() {
       })
 
       if (bookingError) {
-        setError('Fehler beim Speichern der Buchung. Bitte versuche es erneut.')
+        console.error('[Booking] Supabase insert error:', bookingError)
+        setError(`Fehler beim Speichern der Buchung: ${bookingError.message}`)
         setIsLoading(false)
         return
       }
