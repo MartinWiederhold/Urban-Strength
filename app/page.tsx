@@ -29,7 +29,14 @@ export const metadata: Metadata = {
     siteName: 'Personal Training Zurich – by Martin',
     title: 'Personal Training Zürich | Kostenloses Probetraining | by Martin',
     description: 'Dein Personal Trainer in Zürich. Individuelles 1:1 Training. Erster Termin gratis! Ab CHF 85/h.',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Martin – Personal Trainer in Zürich' }],
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1536,
+        height: 1024,
+        alt: 'Personal Training – Gym und Training in Zürich',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
@@ -97,9 +104,9 @@ const jsonLdImage = {
   '@context': 'https://schema.org',
   '@type': 'ImageObject',
   url: 'https://personaltrainingbymartin.netlify.app/og-image.jpg',
-  width: 1200,
-  height: 630,
-  name: 'Martin – Personal Trainer in Zürich',
+  width: 1536,
+  height: 1024,
+  name: 'Personal Training – Gym und Training in Zürich',
   description: 'Personal Training Zürich – Martin Wiederhold, zertifizierter Personal Trainer',
 }
 

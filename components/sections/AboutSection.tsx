@@ -65,17 +65,11 @@ export default function AboutSection() {
                 />
               </div>
 
-              <div className="absolute -bottom-3 -right-3 w-fit min-w-0 max-w-[calc(100vw-2rem)] sm:max-w-none sm:min-w-[9.25rem] sm:w-auto overflow-hidden rounded-2xl border border-white/12 bg-gradient-to-br from-zinc-950 via-black to-zinc-900 px-3 py-2.5 sm:px-4 sm:py-3 shadow-[0_4px_28px_rgba(0,0,0,0.75),0_0_0_1px_rgba(255,255,255,0.05),inset_0_1px_0_rgba(255,255,255,0.1)]">
+              <div className="absolute -bottom-3 -right-3 w-fit min-w-0 max-w-[calc(100vw-2rem)] sm:max-w-none overflow-hidden rounded-2xl border border-white/12 bg-gradient-to-br from-zinc-950 via-black to-zinc-900 px-3 py-2.5 sm:px-4 sm:py-3 shadow-[0_4px_28px_rgba(0,0,0,0.75),0_0_0_1px_rgba(255,255,255,0.05),inset_0_1px_0_rgba(255,255,255,0.1)]">
                 <div className="pointer-events-none absolute inset-x-3 top-0 h-px bg-gradient-to-r from-transparent via-white/35 to-transparent" aria-hidden />
                 <div className="pointer-events-none absolute -right-6 -top-6 h-16 w-16 rounded-full bg-white/[0.06] blur-2xl" aria-hidden />
-                <p className="relative text-2xl font-bold leading-none tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-white via-zinc-100 to-zinc-400 [filter:drop-shadow(0_0_12px_rgba(255,255,255,0.12))] sm:hidden">
+                <p className="relative text-2xl font-bold leading-none tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-white via-zinc-100 to-zinc-400 [filter:drop-shadow(0_0_12px_rgba(255,255,255,0.12))]">
                   Martin
-                </p>
-                <p className="relative hidden text-2xl font-bold leading-none tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-white via-zinc-100 to-zinc-400 [filter:drop-shadow(0_0_12px_rgba(255,255,255,0.12))] sm:block">
-                  10+
-                </p>
-                <p className="relative mt-1.5 hidden whitespace-nowrap text-[11px] font-medium leading-tight tracking-wide text-zinc-400 sm:block">
-                  Jahre Trainingserfahrung
                 </p>
               </div>
             </div>

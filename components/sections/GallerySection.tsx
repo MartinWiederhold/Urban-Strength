@@ -44,6 +44,10 @@ const galleryImages = [
     file: 'A7EDE0A0-51C3-42C7-9AA6-F1606A6C9A36 2.PNG',
     alt: 'Equipment für Personal Training Zürich',
   },
+  {
+    file: 'spinningroom.PNG',
+    alt: 'Spinning- und Cardio-Bereich im Gym Zürich',
+  },
 ].map((item) => ({ ...item, src: ASSET(item.file) }))
 
 function GalleryTile({

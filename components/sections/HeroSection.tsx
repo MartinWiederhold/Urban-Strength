@@ -10,10 +10,10 @@ export default function HeroSection() {
       {/* Hero image + layered black treatment */}
       <div className="absolute inset-0">
         <Image
-          src="/assets/images/berdet.png"
+          src="/assets/images/berdet.png?v=3"
           alt="Personal Training – Gym und Training in Zürich"
           fill
-          className="object-cover object-center scale-[1.02]"
+          className="object-cover object-[center_14%] scale-[1.02]"
           sizes="100vw"
           priority
           quality={90}

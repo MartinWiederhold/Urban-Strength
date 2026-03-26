@@ -42,7 +42,14 @@ export const metadata: Metadata = {
     siteName: 'Personal Training Zurich – by Martin',
     title: 'Personal Training Zürich | Kostenloses Probetraining | by Martin',
     description: 'Dein Personal Trainer in Zürich. Individuelles 1:1 Training. Erster Termin gratis! Ab CHF 85/h.',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Personal Training Zürich – by Martin' }],
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1536,
+        height: 1024,
+        alt: 'Personal Training Zürich – by Martin',
+      },
+    ],
   },
   icons: {
     icon: [
@@ -53,7 +60,7 @@ export const metadata: Metadata = {
     apple: { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
     shortcut: '/favicon.ico',
   },
-  twitter: { card: 'summary_large_image' },
+  twitter: { card: 'summary_large_image', images: ['/og-image.jpg'] },
   robots: {
     index: true,
     follow: true,
