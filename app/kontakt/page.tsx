@@ -7,8 +7,8 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 
 export const metadata: Metadata = {
-  title: 'Kontakt | Personal Training Zürich – Oberer Heuelsteig 30',
-  description: 'Kontaktiere deinen Personal Trainer in Zürich. Adresse: Oberer Heuelsteig 30, 8032 Zürich. Kostenloses Probetraining buchen oder Frage stellen.',
+  title: 'Kontakt | Personal Training Zürich – Oberer Heuelsteig 30-34',
+  description: 'Kontaktiere deinen Personal Trainer in Zürich. Adresse: Oberer Heuelsteig 30-34, 8032 Zürich. Kostenloses Probetraining buchen oder Frage stellen.',
   alternates: { canonical: 'https://personaltrainingbymartin.netlify.app/kontakt' },
 }
 
@@ -45,7 +45,7 @@ export default function KontaktPage() {
                   <MapPin className="w-6 h-6 text-primary shrink-0 mt-0.5" />
                   <div>
                     <h2 className="font-semibold mb-1">Trainingsstandort</h2>
-                    <p className="text-muted-foreground">Oberer Heuelsteig 30<br />8032 Zürich, Schweiz</p>
+                    <p className="text-muted-foreground">Oberer Heuelsteig 30-34<br />8032 Zürich, Schweiz</p>
                   </div>
                 </div>
                 <div className="p-6 rounded-2xl bg-secondary flex items-start gap-4">
@@ -61,7 +61,7 @@ export default function KontaktPage() {
                   <Clock className="w-6 h-6 text-primary shrink-0 mt-0.5" />
                   <div>
                     <h2 className="font-semibold mb-1">Trainingszeiten</h2>
-                    <p className="text-muted-foreground text-sm">Mo–Fr: 06:00–23:00 Uhr<br />Sa: 06:00–22:00 Uhr</p>
+                    <p className="text-muted-foreground text-sm">Mo–Fr: 06:00–23:00 Uhr<br />Sa–So: 06:00–22:00 Uhr</p>
                   </div>
                 </div>
                 <a

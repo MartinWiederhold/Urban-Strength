@@ -65,7 +65,7 @@ export default function Footer() {
               <ul className="space-y-3">
                 <li className="flex items-start gap-2">
                   <MapPin className="w-3.5 h-3.5 text-white/30 mt-0.5 shrink-0" />
-                  <span className="text-sm text-white/45 font-light">Oberer Heuelsteig 30<br />8032 Zürich</span>
+                  <span className="text-sm text-white/45 font-light">Oberer Heuelsteig 30-34<br />8032 Zürich</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Mail className="w-3.5 h-3.5 text-white/30 shrink-0" />

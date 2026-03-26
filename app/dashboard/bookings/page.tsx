@@ -157,7 +157,7 @@ export default function BookingsPage() {
                       </span>
                       <span className="flex items-center gap-1.5">
                         <MapPin className="w-3.5 h-3.5" />
-                        Oberer Heuelsteig 30, 8032 Zürich
+                        Oberer Heuelsteig 30-34, 8032 Zürich
                       </span>
                     </div>
                   </div>

@@ -46,7 +46,7 @@ export default function HeroSection() {
           <div className="animate-slide-up mb-8 md:mb-10"
           >
             <span className="inline-block rounded-full border border-white/22 bg-white/8 px-4 py-1.5 text-[10px] uppercase tracking-[0.22em] text-white/90 backdrop-blur-sm md:px-5 md:py-2 md:text-xs">
-              Zürich · Oberer Heuelsteig 30 · 8032 Zürich
+              Zürich · Oberer Heuelsteig 30-34 · 8032 Zürich
             </span>
           </div>
 

@@ -34,7 +34,7 @@ const galleryImages = [
   },
   {
     file: '70F8BB46-223E-4338-9F90-1ABED8D24F32 2.PNG',
-    alt: 'Innenansicht Gym Oberer Heuelsteig Zürich',
+    alt: 'Innenansicht Gym Oberer Heuelsteig 30-34, Zürich',
   },
   {
     file: '93A28A90-D70B-463F-9DE1-3D8698EAC531 4.PNG',

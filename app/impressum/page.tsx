@@ -10,7 +10,7 @@ export default function ImpressumPage() {
           <h1 className="text-4xl font-semibold tracking-tight mb-8">Impressum</h1>
           <div className="prose text-muted-foreground space-y-4">
             <h2 className="text-xl font-semibold text-foreground">Angaben gemäss Art. 3 UWG</h2>
-            <p>Personal Training Zurich – by Martin<br />Martin Wiederhold<br />Oberer Heuelsteig 30<br />8032 Zürich, Schweiz</p>
+            <p>Personal Training Zurich – by Martin<br />Martin Wiederhold<br />Oberer Heuelsteig 30-34<br />8032 Zürich, Schweiz</p>
             <p>E-Mail: personaltrainingbymartin@gmail.com</p>
           </div>
         </div>

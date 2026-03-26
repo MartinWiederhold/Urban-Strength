@@ -10,7 +10,7 @@ const faqs = [
   },
   {
     question: 'Wo findet das Training statt?',
-    answer: 'Das Training findet im Gym am Oberer Heuelsteig 30, 8032 Zürich statt. Zentral gelegen und gut erreichbar mit ÖV und Auto.',
+    answer: 'Das Training findet im Gym am Oberer Heuelsteig 30-34, 8032 Zürich statt – bei der Sportanlage Sonnenberg. Die Lage ist ruhig und licht, mit schönem Ausblick über die Stadt und ins Grüne, und gut erreichbar mit ÖV und Auto.',
   },
   {
     question: 'Wie läuft das kostenlose Probetraining ab?',

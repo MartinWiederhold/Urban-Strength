@@ -7,7 +7,7 @@ const FROM_NAME = 'Personal Training Zurich – by Martin'
 
 const WA_LINK = 'https://wa.me/41774857535'
 const WA_NUMBER = '+41 77 485 75 35'
-const ADDRESS = 'Oberer Heuelsteig 30, 8032 Zürich'
+const ADDRESS = 'Oberer Heuelsteig 30-34, 8032 Zürich'
 
 function baseTemplate(content: string) {
   return `

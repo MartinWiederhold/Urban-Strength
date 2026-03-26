@@ -7,7 +7,7 @@ import { Check, MapPin, ChevronRight } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'Personal Training Zürich | Nr. 1 für individuelles Fitness Training',
-  description: 'Personal Training Zürich von Martin. Individuelles 1:1 Training für Muskelaufbau, Fettabbau & mehr Fitness. Erster Termin gratis! Ab CHF 85/h. Oberer Heuelsteig 30, 8032 Zürich.',
+  description: 'Personal Training Zürich von Martin. Individuelles 1:1 Training für Muskelaufbau, Fettabbau & mehr Fitness. Erster Termin gratis! Ab CHF 85/h. Oberer Heuelsteig 30-34, 8032 Zürich.',
   keywords: [
     'Personal Training Zürich', 'Personaltrainer Zürich', 'Personal Trainer Zürich kostenlos',
     'Personal Training Zürich Preise', 'Personal Training für Anfänger Zürich',
@@ -106,7 +106,7 @@ export default function PersonalTrainingZuerichPage() {
             <div className="flex items-start gap-3 p-5 rounded-xl bg-secondary mb-8">
               <MapPin className="w-5 h-5 text-primary mt-0.5 shrink-0" />
               <div>
-                <p className="font-semibold">Oberer Heuelsteig 30, 8032 Zürich</p>
+                <p className="font-semibold">Oberer Heuelsteig 30-34, 8032 Zürich</p>
                 <p className="text-sm text-muted-foreground">Gut erreichbar mit ÖV und Auto. Zentral in Zürich gelegen.</p>
               </div>
             </div>

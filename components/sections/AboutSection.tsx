@@ -22,7 +22,7 @@ export default function AboutSection() {
               </h2>
             </div>
             <p className="text-white/55 leading-relaxed mb-8">
-              Ich helfe dir, deine Fitnessziele zu erreichen, egal ob Muskelaufbau, Fettabbau oder einfach mehr Energie im Alltag. Seit über 10 Jahren trainiere ich selbst regelmässig im Gym und habe dabei gelernt, was wirklich funktioniert, ohne unnötigen Schnickschnack oder komplizierte Pläne. Mein Ansatz ist simpel, individuell, praxisnah und nachhaltig. Kein Standardprogramm, sondern ein Training, das zu dir, deinem Alltag und deinem Tempo passt. Ich trainiere im Gym am Oberen Heuelsteig 30 in Zürich und begleite dich Schritt für Schritt auf deinem Weg zu mehr Fitness.
+              Ich helfe dir, deine Fitnessziele zu erreichen, egal ob Muskelaufbau, Fettabbau oder einfach mehr Energie im Alltag. Seit über 10 Jahren trainiere ich selbst regelmässig im Gym und habe dabei gelernt, was wirklich funktioniert, ohne unnötigen Schnickschnack oder komplizierte Pläne. Mein Ansatz ist simpel, individuell, praxisnah und nachhaltig. Kein Standardprogramm, sondern ein Training, das zu dir, deinem Alltag und deinem Tempo passt. Ich trainiere im Gym am Oberer Heuelsteig 30-34 in Zürich und begleite dich Schritt für Schritt auf deinem Weg zu mehr Fitness.
             </p>
 
             <div className="hidden sm:grid sm:grid-cols-3 gap-4 mb-8">

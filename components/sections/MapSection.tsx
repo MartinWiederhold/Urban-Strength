@@ -38,7 +38,7 @@ export default function MapSection() {
             '<div class="pt-map-popup-inner">' +
               '<div class="pt-map-popup-text">' +
               '<strong>Personal Training Zurich – by Martin</strong>' +
-              '<p>Oberer Heuelsteig 30<br/>8032 Zürich, Schweiz</p>' +
+              '<p>Oberer Heuelsteig 30-34<br/>8032 Zürich, Schweiz</p>' +
               '</div>' +
               '<div class="pt-map-popup-avatar">' +
               '<img src="/assets/images/IMG_99828.jpg" alt="Martin – Personal Trainer Zürich" width="80" height="80" loading="lazy" />' +
@@ -64,8 +64,8 @@ export default function MapSection() {
           <h2 className="text-3xl md:text-5xl font-semibold tracking-tight mb-4 text-white">
             Trainingsstandort in Zürich
           </h2>
-          <p className="text-white/45 text-lg max-w-xl mx-auto">
-            Zentral gelegen – einfach erreichbar mit ÖV und Auto.
+          <p className="text-white/45 text-lg max-w-2xl mx-auto leading-relaxed">
+            Das Training findet bei der Sportanlage Sonnenberg statt. Von hier aus blickst du über Zürich und die umliegenden Hügel.
           </p>
         </div>
 
@@ -76,14 +76,14 @@ export default function MapSection() {
               <MapPin className="w-5 h-5 text-white/50 mt-0.5 shrink-0" />
               <div>
                 <p className="font-semibold mb-0.5 text-white">Adresse</p>
-                <p className="text-sm text-white/45">Oberer Heuelsteig 30<br />8032 Zürich, Schweiz</p>
+                <p className="text-sm text-white/45">Oberer Heuelsteig 30-34<br />8032 Zürich, Schweiz</p>
               </div>
             </div>
             <div className="flex items-start gap-3 p-4 rounded-2xl bg-[#111] border border-white/8">
               <Clock className="w-5 h-5 text-white/50 mt-0.5 shrink-0" />
               <div>
                 <p className="font-semibold mb-0.5 text-white">Trainingszeiten</p>
-                <p className="text-sm text-white/45">Mo–Fr: 06:00–23:00 Uhr<br />Sa: 06:00–22:00 Uhr</p>
+                <p className="text-sm text-white/45">Mo–Fr: 06:00–23:00 Uhr<br />Sa–So: 06:00–22:00 Uhr</p>
               </div>
             </div>
             <div className="flex items-start gap-3 p-4 rounded-2xl bg-[#111] border border-white/8">

@@ -79,7 +79,7 @@ export default function BookingSuccessPage() {
                 <MapPin className="w-5 h-5 text-primary shrink-0" />
                 <div>
                   <p className="font-medium text-sm">Trainingsstandort</p>
-                  <p className="text-sm text-muted-foreground">Oberer Heuelsteig 30, 8032 Zürich</p>
+                  <p className="text-sm text-muted-foreground">Oberer Heuelsteig 30-34, 8032 Zürich</p>
                 </div>
               </div>
 

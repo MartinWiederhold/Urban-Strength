@@ -63,7 +63,7 @@ const jsonLdLocalBusiness = {
   paymentAccepted: 'Twint',
   address: {
     '@type': 'PostalAddress',
-    streetAddress: 'Oberer Heuelsteig 30',
+    streetAddress: 'Oberer Heuelsteig 30-34',
     addressLocality: 'Zürich',
     addressRegion: 'ZH',
     postalCode: '8032',
@@ -76,7 +76,7 @@ const jsonLdLocalBusiness = {
   ],
   openingHoursSpecification: [
     { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday'], opens: '06:00', closes: '23:00' },
-    { '@type': 'OpeningHoursSpecification', dayOfWeek: 'Saturday', opens: '06:00', closes: '22:00' },
+    { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Saturday', 'Sunday'], opens: '06:00', closes: '22:00' },
   ],
   founder: { '@type': 'Person', name: 'Martin Wiederhold', jobTitle: 'Personal Trainer' },
   hasOfferCatalog: {
@@ -115,7 +115,7 @@ const jsonLdFAQ = {
   '@type': 'FAQPage',
   mainEntity: [
     { '@type': 'Question', name: 'Brauche ich Vorerfahrung für das Personal Training?', acceptedAnswer: { '@type': 'Answer', text: 'Nein, überhaupt nicht. Egal ob du Anfänger bist oder schon Erfahrung hast – ich passe das Training individuell an dein Level an.' } },
-    { '@type': 'Question', name: 'Wo findet das Personal Training in Zürich statt?', acceptedAnswer: { '@type': 'Answer', text: 'Das Training findet im Gym am Oberer Heuelsteig 30, 8032 Zürich statt.' } },
+    { '@type': 'Question', name: 'Wo findet das Personal Training in Zürich statt?', acceptedAnswer: { '@type': 'Answer', text: 'Das Training findet im Gym am Oberer Heuelsteig 30-34, 8032 Zürich statt.' } },
     { '@type': 'Question', name: 'Wie läuft das kostenlose Probetraining ab?', acceptedAnswer: { '@type': 'Answer', text: 'Du buchst online einen Termin, kommst ins Gym, ich zeige dir die Geräte, bespreche deine Ziele mit dir und wir machen eine erste Trainingseinheit zusammen. Komplett gratis und unverbindlich.' } },
     { '@type': 'Question', name: 'Was kostet Personal Training in Zürich?', acceptedAnswer: { '@type': 'Answer', text: 'Das Personal Training 1:1 kostet CHF 85 pro Stunde. Es gibt auch ein Quartals-Abo (4 Sessions/Monat) für CHF 600 pro Quartal – das spart CHF 420 gegenüber Einzelbuchungen (12 × 85 = 1020). Der erste Termin ist komplett kostenlos.' } },
     { '@type': 'Question', name: 'Wie bezahle ich das Personal Training?', acceptedAnswer: { '@type': 'Answer', text: 'Die Bezahlung erfolgt bequem per Twint nach dem Training. Keine Vorauszahlung nötig.' } },
