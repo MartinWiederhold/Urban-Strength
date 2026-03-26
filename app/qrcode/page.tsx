@@ -91,7 +91,7 @@ export default function QRCodePoster() {
             Sportanlage Sonnenberg
           </p>
           <p className="qr-print-text-light text-[11px] md:text-[12px] text-white/25 font-light tracking-wide">
-            Oberer Heuelsteig 30 · 8032 Zürich
+            Oberer Heuelsteig 30-34 · 8032 Zürich
           </p>
         </div>
 
