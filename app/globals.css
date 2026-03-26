@@ -278,17 +278,94 @@
 .qr-fade-in-up      { animation: qrFadeInUp    0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.6s both; }
 .qr-glow-pulse      { animation: qrGlowPulse   3s   ease-in-out infinite; }
 
-/* ── QR Poster print styles ───────────────────────────────────────────── */
+/* ── QR Poster print styles – A4 portrait, white background ──────────── */
 @media print {
-  .qr-poster * {
-    animation: none !important;
+  @page {
+    size: A4 portrait;
+    margin: 0;
   }
-  .qr-glow-pulse {
-    box-shadow: none !important;
-  }
-  body {
-    background: #000 !important;
+
+  html, body {
+    background: #ffffff !important;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Kill all animations */
+  .qr-poster,
+  .qr-poster * {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* Page wrapper: fill the A4 sheet */
+  .qr-page-wrapper {
+    min-height: auto !important;
+    background: #ffffff !important;
+    padding: 0 !important;
+  }
+
+  /* Poster container: fill the page exactly */
+  .qr-poster {
+    width: 210mm !important;
+    max-width: 210mm !important;
+    height: 297mm !important;
+    aspect-ratio: auto !important;
+    padding: 18mm 20mm 14mm !important;
+    margin: 0 !important;
+    background: #ffffff !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .qr-print-hide {
+    display: none !important;
+  }
+
+  /* Profile image: ~65mm diameter */
+  .qr-print-avatar {
+    width: 65mm !important;
+    height: 65mm !important;
+    border-color: #222 !important;
+    border-width: 2px !important;
+    box-shadow: none !important;
+  }
+
+  /* Name: black gradient text doesn't print well, use solid black */
+  .qr-print-name {
+    -webkit-text-fill-color: #000000 !important;
+    color: #000000 !important;
+    background: none !important;
+  }
+
+  /* Text colors: black/dark grey */
+  .qr-print-text {
+    color: #333333 !important;
+  }
+  .qr-print-text-light {
+    color: #666666 !important;
+  }
+
+  /* WhatsApp icon stays green on print */
+  .qr-print-wa-icon {
+    color: #25D366 !important;
+  }
+
+  /* QR wrapper: no shadow on print */
+  .qr-print-qr-wrapper {
+    box-shadow: none !important;
+    border: 1px solid #e5e5e5 !important;
+  }
+
+  /* Divider: solid dark line */
+  .qr-print-divider {
+    background: #cccccc !important;
   }
 }
