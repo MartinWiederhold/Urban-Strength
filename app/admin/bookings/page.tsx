@@ -1,15 +1,20 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Loader2, CheckCircle2, XCircle } from 'lucide-react'
+import { Loader2, CheckCircle2, XCircle, CalendarClock } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { createClient } from '@/lib/supabase/client'
 import type { Booking } from '@/lib/types'
 import { getBookingAgeLabel, getBookingCustomerDisplayName } from '@/lib/booking-display'
-import { format } from 'date-fns'
+import { format, parseISO, isBefore } from 'date-fns'
 import { de } from 'date-fns/locale'
+
+function bookingStartsAt(b: Pick<Booking, 'booking_date' | 'start_time'>): Date {
+  const hm = b.start_time.slice(0, 5)
+  return parseISO(`${b.booking_date}T${hm}:00`)
+}
 
 const statusLabel: Record<string, string> = {
   booked: 'Gebucht', confirmed: 'Bestätigt', cancelled: 'Storniert',
@@ -40,6 +45,33 @@ export default function AdminBookingsPage() {
   const [togglingId, setTogglingId] = useState<string | null>(null)
   const [page, setPage]             = useState(0)
   const [hasMore, setHasMore]       = useState(false)
+  const [nextBooking, setNextBooking] = useState<Booking | null>(null)
+  const [nextLoading, setNextLoading] = useState(true)
+
+  const fetchNextUpcoming = async () => {
+    setNextLoading(true)
+    try {
+      const supabase = createClient()
+      const { data, error } = await supabase
+        .from('bookings')
+        .select('*, profiles(id, full_name, email, phone, customer_status), services(title, price, duration_minutes)')
+        .in('status', ['booked', 'confirmed'])
+        .gte('booking_date', format(new Date(), 'yyyy-MM-dd'))
+        .order('booking_date', { ascending: true })
+        .order('start_time', { ascending: true })
+        .limit(100)
+      if (error) {
+        setNextBooking(null)
+        return
+      }
+      const now = new Date()
+      const rows = (data as Booking[]) ?? []
+      const next = rows.find(b => !isBefore(bookingStartsAt(b), now))
+      setNextBooking(next ?? null)
+    } finally {
+      setNextLoading(false)
+    }
+  }
 
   const fetchBookings = async (pageNum = 0, filter = statusFilter) => {
     try {
@@ -72,7 +104,11 @@ export default function AdminBookingsPage() {
     }
   }
 
-  useEffect(() => { setPage(0); fetchBookings(0, statusFilter) }, [statusFilter])
+  useEffect(() => {
+    setPage(0)
+    fetchBookings(0, statusFilter)
+    fetchNextUpcoming()
+  }, [statusFilter])
 
   const updateStatus = async (bookingId: string, newStatus: Booking['status']) => {
     setUpdatingId(bookingId)
@@ -80,6 +116,7 @@ export default function AdminBookingsPage() {
     const { error } = await supabase.from('bookings').update({ status: newStatus }).eq('id', bookingId)
     if (!error) {
       setBookings(prev => prev.map(b => b.id === bookingId ? { ...b, status: newStatus } : b))
+      void fetchNextUpcoming()
 
       // Send customer email for every status change except no_show
       if (newStatus !== 'no_show') {
@@ -138,6 +175,55 @@ export default function AdminBookingsPage() {
         <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Buchungen</h1>
         <p className="text-muted-foreground mt-1">Buchungen verwalten, Status und Bezahlung tracken.</p>
       </div>
+
+      {/* Nächster Termin */}
+      {nextLoading ? (
+        <div className="mb-6 h-24 rounded-2xl border border-border bg-secondary/30 animate-pulse" />
+      ) : nextBooking ? (
+        <div className="mb-6 rounded-2xl border border-emerald-400/40 bg-gradient-to-br from-emerald-400/[0.08] to-transparent p-5 md:p-6">
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+            <div className="flex gap-4 min-w-0">
+              <div className="shrink-0 w-12 h-12 rounded-xl bg-emerald-400/15 border border-emerald-400/30 flex items-center justify-center">
+                <CalendarClock className="w-6 h-6 text-emerald-400" />
+              </div>
+              <div className="min-w-0">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-emerald-400/90 mb-1">
+                  Nächster Termin
+                </p>
+                <p className="text-lg md:text-xl font-bold tracking-tight">
+                  {format(parseISO(nextBooking.booking_date), 'EEEE, dd. MMMM yyyy', { locale: de })}
+                </p>
+                <p className="text-base font-semibold text-emerald-400 mt-0.5">
+                  {nextBooking.start_time.slice(0, 5)} Uhr
+                  {(nextBooking as any).services?.duration_minutes != null && (
+                    <span className="text-muted-foreground font-normal text-sm">
+                      {' '}
+                      · {(nextBooking as any).services.duration_minutes} Min.
+                    </span>
+                  )}
+                </p>
+                <p className="text-sm text-foreground font-medium mt-2 truncate">
+                  {getBookingCustomerDisplayName(nextBooking)}
+                </p>
+                <p className="text-sm text-muted-foreground truncate">
+                  {(nextBooking as any).services?.title ?? 'Personal Training'}
+                </p>
+              </div>
+            </div>
+            {(nextBooking as any).profiles?.id && (
+              <Link href={`/admin/customers/${(nextBooking as any).profiles.id}`}>
+                <Button variant="outline" size="sm" className="shrink-0 border-emerald-400/40 hover:bg-emerald-400/10">
+                  Kundenprofil
+                </Button>
+              </Link>
+            )}
+          </div>
+        </div>
+      ) : (
+        <div className="mb-6 rounded-2xl border border-border bg-secondary/20 px-5 py-4 text-sm text-muted-foreground">
+          Kein anstehender Termin mit Status „Gebucht“ oder „Bestätigt“.
+        </div>
+      )}
 
       {/* Filters */}
       <div className="flex gap-3 mb-6 flex-wrap">

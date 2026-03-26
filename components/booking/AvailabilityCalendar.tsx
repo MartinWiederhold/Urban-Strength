@@ -15,6 +15,75 @@ import { de } from 'date-fns/locale'
 interface AvailabilityCalendarProps {
   onSelectSlot: (slot: Availability) => void
   selectedSlot: Availability | null
+  /** Länge einer Buchung in Minuten — bestimmt Raster (z. B. 60 → 07:00, 08:00, … bis Fensterende). */
+  slotDurationMinutes?: number
+}
+
+function normalizeHm(t: string): string {
+  return String(t).slice(0, 5)
+}
+
+function bookingKey(dateStr: string, startTime: string): string {
+  return `${dateStr}-${normalizeHm(startTime)}`
+}
+
+function timeStrToMinutes(t: string): number {
+  const [h, m] = normalizeHm(t).split(':').map(Number)
+  return (h || 0) * 60 + (m || 0)
+}
+
+function minutesToPgTime(total: number): string {
+  const h = Math.floor(total / 60)
+  const m = total % 60
+  return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:00`
+}
+
+/** Zerlegt ein Verfügbarkeitsfenster (start–end) in buchbare Slots fester Dauer. */
+function expandWindowToSlots(
+  windowRow: Availability,
+  dateStr: string,
+  durationMin: number,
+  bookedKeys: Set<string>,
+): Availability[] {
+  const startM = timeStrToMinutes(windowRow.start_time)
+  const endM = timeStrToMinutes(windowRow.end_time)
+  const out: Availability[] = []
+  if (durationMin <= 0 || endM <= startM) return out
+  for (let t = startM; t + durationMin <= endM; t += durationMin) {
+    const st = minutesToPgTime(t)
+    const et = minutesToPgTime(t + durationMin)
+    if (bookedKeys.has(bookingKey(dateStr, st))) continue
+    out.push({
+      ...windowRow,
+      date: dateStr,
+      start_time: st,
+      end_time: et,
+    })
+  }
+  return out
+}
+
+function collectRawWindows(
+  date: Date,
+  specific: Availability[],
+  recurring: Availability[],
+): Availability[] {
+  const dateStr = format(date, 'yyyy-MM-dd')
+  const dow = getDay(date)
+  const raw: Availability[] = []
+  for (const s of specific) {
+    if (s.date === dateStr) raw.push(s)
+  }
+  for (const s of recurring) {
+    if (
+      s.day_of_week === dow &&
+      dateStr >= s.date &&
+      !(s.recurring_end_date && dateStr > s.recurring_end_date)
+    ) {
+      raw.push(s)
+    }
+  }
+  return raw.sort((a, b) => a.start_time.localeCompare(b.start_time))
 }
 
 function getSlotsForDate(
@@ -22,30 +91,25 @@ function getSlotsForDate(
   specific: Availability[],
   recurring: Availability[],
   bookedKeys: Set<string>,
+  durationMin: number,
 ): Availability[] {
   const dateStr = format(date, 'yyyy-MM-dd')
-  const dow = getDay(date)
-  const result: Availability[] = []
-
-  for (const s of specific) {
-    if (s.date === dateStr && !bookedKeys.has(`${dateStr}-${s.start_time}`)) {
-      result.push(s)
+  const raw = collectRawWindows(date, specific, recurring)
+  const byStart = new Map<string, Availability>()
+  for (const w of raw) {
+    for (const slot of expandWindowToSlots(w, dateStr, durationMin, bookedKeys)) {
+      const k = normalizeHm(slot.start_time)
+      if (!byStart.has(k)) byStart.set(k, slot)
     }
   }
-  for (const s of recurring) {
-    if (
-      s.day_of_week === dow &&
-      dateStr >= s.date &&
-      !(s.recurring_end_date && dateStr > s.recurring_end_date) &&
-      !bookedKeys.has(`${dateStr}-${s.start_time}`)
-    ) {
-      result.push({ ...s, date: dateStr })
-    }
-  }
-  return result.sort((a, b) => a.start_time.localeCompare(b.start_time))
+  return Array.from(byStart.values()).sort((a, b) => a.start_time.localeCompare(b.start_time))
 }
 
-export default function AvailabilityCalendar({ onSelectSlot, selectedSlot }: AvailabilityCalendarProps) {
+export default function AvailabilityCalendar({
+  onSelectSlot,
+  selectedSlot,
+  slotDurationMinutes = 60,
+}: AvailabilityCalendarProps) {
   const [currentMonth, setCurrentMonth] = useState(new Date())
   const [specific, setSpecific] = useState<Availability[]>([])
   const [recurring, setRecurring] = useState<Availability[]>([])
@@ -84,20 +148,34 @@ export default function AvailabilityCalendar({ onSelectSlot, selectedSlot }: Ava
         setSpecific(all.filter(s => !s.recurring_weekly))
         setRecurring(all.filter(s => s.recurring_weekly))
 
-        // Bookings query may return empty for anonymous users (RLS) — that's OK
-        const bookingsRes = await supabase
-          .from('bookings')
-          .select('booking_date,start_time')
-          .in('status', ['confirmed', 'completed'])
-
-        console.log('[Calendar] bookings response:', {
-          data: bookingsRes.data,
-          error: bookingsRes.error,
-          count: bookingsRes.data?.length ?? 0,
-        })
+        const rangeStart = format(subMonths(startOfDay(new Date()), 1), 'yyyy-MM-dd')
+        const rangeEnd = format(addMonths(startOfDay(new Date()), 6), 'yyyy-MM-dd')
 
         const keys = new Set<string>()
-        ;(bookingsRes.data ?? []).forEach((b: any) => keys.add(`${b.booking_date}-${b.start_time}`))
+        const rpcRes = await supabase.rpc('get_occupied_booking_slots', {
+          p_from: rangeStart,
+          p_to: rangeEnd,
+        })
+
+        if (!rpcRes.error && rpcRes.data) {
+          ;(rpcRes.data as { booking_date: string; start_time: string }[]).forEach(b =>
+            keys.add(bookingKey(b.booking_date, b.start_time)),
+          )
+        } else {
+          const bookingsRes = await supabase
+            .from('bookings')
+            .select('booking_date,start_time')
+            .in('status', ['booked', 'confirmed', 'completed'])
+            .gte('booking_date', rangeStart)
+            .lte('booking_date', rangeEnd)
+          if (!bookingsRes.error) {
+            ;(bookingsRes.data ?? []).forEach((b: { booking_date: string; start_time: string }) =>
+              keys.add(bookingKey(b.booking_date, b.start_time)),
+            )
+          }
+        }
+
+        console.log('[Calendar] occupied slots:', { count: keys.size, rpcError: rpcRes.error?.message })
         setBookedKeys(keys)
       } catch (err) {
         console.error('[Calendar] load error:', err)
@@ -118,10 +196,11 @@ export default function AvailabilityCalendar({ onSelectSlot, selectedSlot }: Ava
   })
 
   const hasSlots = (d: Date) =>
-    !isBefore(d, today) && getSlotsForDate(d, specific, recurring, bookedKeys).length > 0
+    !isBefore(d, today) &&
+    getSlotsForDate(d, specific, recurring, bookedKeys, slotDurationMinutes).length > 0
 
   const daySlots = selectedDay
-    ? getSlotsForDate(selectedDay, specific, recurring, bookedKeys)
+    ? getSlotsForDate(selectedDay, specific, recurring, bookedKeys, slotDurationMinutes)
     : []
 
   const noDataInDB = !isLoading && !fetchError && specific.length === 0 && recurring.length === 0
@@ -237,13 +316,13 @@ export default function AvailabilityCalendar({ onSelectSlot, selectedSlot }: Ava
             <p className="text-sm text-muted-foreground">Keine freien Zeiten an diesem Tag.</p>
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-              {daySlots.map((slot, i) => {
+              {daySlots.map(slot => {
                 const active =
                   selectedSlot?.date === slot.date &&
                   selectedSlot?.start_time === slot.start_time
                 return (
                   <button
-                    key={i}
+                    key={`${slot.date}-${slot.start_time}`}
                     onClick={() => onSelectSlot(slot)}
                     className={[
                       'flex items-center gap-2 px-3 py-2.5 rounded-xl border text-sm font-medium transition-all',

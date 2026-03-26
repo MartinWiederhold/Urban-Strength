@@ -259,6 +259,7 @@ export default function BookingPage() {
                   <AvailabilityCalendar
                     onSelectSlot={setSelectedSlot}
                     selectedSlot={selectedSlot}
+                    slotDurationMinutes={service?.duration_minutes ?? 60}
                   />
                   <div className="mt-6">
                     <Button

@@ -31,6 +31,24 @@ function hourToTime(h: number): string {
 function timeToHour(t: string): number {
   const [hh, mm] = t.split(':').map(Number); return hh + mm / 60
 }
+function timeStrToMinutes(t: string): number {
+  const [hh, mm] = String(t).split(':').map(Number)
+  return (hh || 0) * 60 + (mm || 0)
+}
+/**
+ * Alte Buchungen speicherten oft end_time = Ende des Verfügbarkeitsblocks (z. B. 22:00).
+ * Für die rote „Gebucht“-Markierung nur die echte Sitzungsdauer (Angebot) anzeigen.
+ */
+function bookingDisplayEndHour(startTime: string, endTime: string, durationMinutes: number): number {
+  const startM = timeStrToMinutes(startTime)
+  const dbEndM = timeStrToMinutes(endTime)
+  const expectedEndM = startM + durationMinutes
+  const span = dbEndM - startM
+  if (span > durationMinutes + 15) {
+    return expectedEndM / 60
+  }
+  return dbEndM / 60
+}
 function durationLabel(start: string, end: string): string {
   const mins = Math.round((timeToHour(end) - timeToHour(start)) * 60)
   return mins >= 60 ? `${mins / 60}h` : `${mins}min`
@@ -58,8 +76,16 @@ interface SeriesConfirm {
 }
 
 // ── Component ──────────────────────────────────────────────────────────────
+type WeekBookingRow = {
+  booking_date: string
+  start_time: string
+  end_time: string
+  services: { duration_minutes: number } | null
+}
+
 export default function AvailabilityPage() {
   const [slots, setSlots]           = useState<Availability[]>([])
+  const [weekBookings, setWeekBookings] = useState<WeekBookingRow[]>([])
   const [isLoading, setIsLoading]   = useState(true)
   const [deletingId, setDeletingId] = useState<string | null>(null)
   const [isSaving, setIsSaving]     = useState(false)
@@ -103,6 +129,37 @@ export default function AvailabilityPage() {
   }, [])
 
   useEffect(() => { load() }, [load])
+
+  useEffect(() => {
+    let cancelled = false
+    const run = async () => {
+      const supabase = createClient()
+      const from = format(weekStart, 'yyyy-MM-dd')
+      const to = format(addDays(weekStart, 6), 'yyyy-MM-dd')
+      const { data, error } = await supabase
+        .from('bookings')
+        .select('booking_date, start_time, end_time, services(duration_minutes)')
+        .in('status', ['booked', 'confirmed', 'completed'])
+        .gte('booking_date', from)
+        .lte('booking_date', to)
+      if (!cancelled && !error) {
+        const rows = (data ?? []).map((row: Record<string, unknown>) => {
+          const svc = row.services
+          const services =
+            Array.isArray(svc) ? (svc[0] as { duration_minutes: number } | undefined) ?? null : (svc as { duration_minutes: number } | null) ?? null
+          return {
+            booking_date: row.booking_date as string,
+            start_time: row.start_time as string,
+            end_time: row.end_time as string,
+            services,
+          }
+        })
+        setWeekBookings(rows)
+      }
+    }
+    run()
+    return () => { cancelled = true }
+  }, [weekStart])
 
   const getSlotsForDay = (day: Date): Availability[] => {
     const dateStr = format(day, 'yyyy-MM-dd')
@@ -484,6 +541,7 @@ export default function AvailabilityPage() {
             <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-[#29C46A] inline-block" />Einmalig</span>
             <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-[#1aaa58] inline-block opacity-70" /><RefreshCw className="w-2.5 h-2.5" /> Wöchentlich</span>
             <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-primary/20 border border-primary/40 border-dashed inline-block" />Ziehen zum Erstellen</span>
+            <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded bg-red-500/70 border border-red-400/50 inline-block" />Gebucht</span>
           </div>
 
           {/* Grid */}
@@ -563,6 +621,35 @@ export default function AvailabilityPage() {
                             }}
                           />
                         )}
+
+                        {/* Gebuchte Zeiten (über grünem Verfügbarkeitsblock) */}
+                        {weekBookings
+                          .filter(b => b.booking_date === format(day, 'yyyy-MM-dd'))
+                          .map((b, bi) => {
+                            const durMin = b.services?.duration_minutes ?? 60
+                            const startH = timeToHour(b.start_time)
+                            const endH = bookingDisplayEndHour(b.start_time, b.end_time, durMin)
+                            const visStart = Math.max(startH, HOUR_START)
+                            const visEnd = Math.min(endH, HOUR_END)
+                            if (visEnd <= visStart) return null
+                            const top = (visStart - HOUR_START) * HOUR_PX
+                            const height = Math.max((visEnd - visStart) * HOUR_PX - 2, 10)
+                            return (
+                              <div
+                                key={`book-${b.booking_date}-${b.start_time}-${bi}`}
+                                className="absolute left-0.5 right-0.5 rounded-md z-[25] pointer-events-auto overflow-hidden border border-red-500/45 bg-red-500/50 shadow-[inset_0_0_0_1px_rgba(0,0,0,0.15)] cursor-default"
+                                style={{ top, height }}
+                                title={`Gebucht ${b.start_time.slice(0, 5)}–${hourToTime(endH)}`}
+                              >
+                                <div className="px-1 pt-0.5 text-[8px] font-bold uppercase tracking-wide text-white/95 leading-tight">
+                                  Gebucht
+                                </div>
+                                <div className="px-1 pb-0.5 text-[7px] font-mono text-white/85 leading-tight">
+                                  {b.start_time.slice(0, 5)}–{hourToTime(endH)}
+                                </div>
+                              </div>
+                            )
+                          })}
 
                         {/* Slots */}
                         {daySlots.map(slot => {

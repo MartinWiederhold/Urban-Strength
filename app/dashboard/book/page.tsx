@@ -138,6 +138,7 @@ export default function DashboardBookPage() {
                 <AvailabilityCalendar
                   onSelectSlot={setSelectedSlot}
                   selectedSlot={selectedSlot}
+                  slotDurationMinutes={selectedService?.duration_minutes ?? 60}
                 />
               </div>
             </div>
