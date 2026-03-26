@@ -8,7 +8,8 @@ import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
 import { Button } from '@/components/ui/button'
 import { format } from 'date-fns'
-import { de } from 'date-fns/locale'
+import { de, enUS } from 'date-fns/locale'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 interface BookingInfo {
   name: string
@@ -23,6 +24,7 @@ interface BookingInfo {
 
 export default function BookingSuccessPage() {
   const [booking, setBooking] = useState<BookingInfo | null>(null)
+  const { lang, t } = useLanguage()
 
   useEffect(() => {
     try {
@@ -37,7 +39,11 @@ export default function BookingSuccessPage() {
   }, [])
 
   const formattedDate = booking?.date
-    ? format(new Date(booking.date), 'EEEE, dd. MMMM yyyy', { locale: de })
+    ? format(new Date(booking.date), 'EEEE, dd. MMMM yyyy', { locale: lang === 'en' ? enUS : de })
+    : null
+
+  const timeStr = booking?.time
+    ? `${booking.time.slice(0, 5)}${t('success.uhr') ? ` ${t('success.uhr')}` : ''}`
     : null
 
   return (
@@ -52,12 +58,12 @@ export default function BookingSuccessPage() {
                 <CheckCircle className="w-10 h-10 text-green-500" />
               </div>
               <h1 className="text-3xl md:text-4xl font-semibold tracking-tight mb-3">
-                Deine Buchung ist bestätigt ✓
+                {t('success.title')}
               </h1>
               <p className="text-muted-foreground text-lg">
                 {booking
-                  ? `Hallo ${booking.name.split(' ')[0]}, ich freue mich auf dich!`
-                  : 'Dein Termin ist gebucht. Ich freue mich auf dich!'}
+                  ? t('success.greet').replace('{name}', booking.name.split(' ')[0])
+                  : t('success.greetGeneric')}
               </p>
             </div>
 
@@ -65,11 +71,11 @@ export default function BookingSuccessPage() {
             <div className="space-y-3 mb-8">
               {booking && (
                 <div className="p-4 rounded-xl bg-secondary space-y-2">
-                  <h3 className="font-semibold text-sm text-muted-foreground uppercase tracking-wide">Dein Termin</h3>
+                  <h3 className="font-semibold text-sm text-muted-foreground uppercase tracking-wide">{t('success.yourAppointment')}</h3>
                   <p className="font-medium">{booking.service}</p>
                   {formattedDate && (
                     <p className="text-sm text-muted-foreground">
-                      {formattedDate} · {booking.time.slice(0, 5)} Uhr
+                      {formattedDate} · {timeStr}
                     </p>
                   )}
                 </div>
@@ -78,17 +84,19 @@ export default function BookingSuccessPage() {
               <div className="flex items-center gap-3 p-4 rounded-xl bg-secondary">
                 <MapPin className="w-5 h-5 text-primary shrink-0" />
                 <div>
-                  <p className="font-medium text-sm">Trainingsstandort</p>
-                  <p className="text-sm text-muted-foreground">Oberer Heuelsteig 30-34, 8032 Zürich</p>
+                  <p className="font-medium text-sm">{t('success.location')}</p>
+                  <p className="text-sm text-muted-foreground">{t('success.locationValue')}</p>
                 </div>
               </div>
 
               <div className="flex items-center gap-3 p-4 rounded-xl bg-secondary">
                 <Calendar className="w-5 h-5 text-primary shrink-0" />
                 <div>
-                  <p className="font-medium text-sm">Bestätigung per E-Mail</p>
+                  <p className="font-medium text-sm">{t('success.emailConfirm')}</p>
                   <p className="text-sm text-muted-foreground">
-                    {booking?.email ? `Gesendet an ${booking.email}` : 'Du erhältst eine Bestätigungs-E-Mail.'}
+                    {booking?.email
+                      ? t('success.emailSent').replace('{email}', booking.email)
+                      : t('success.emailGeneric')}
                   </p>
                 </div>
               </div>
@@ -96,8 +104,8 @@ export default function BookingSuccessPage() {
               <div className="flex items-center gap-3 p-4 rounded-xl bg-secondary">
                 <MessageCircle className="w-5 h-5 text-primary shrink-0" />
                 <div>
-                  <p className="font-medium text-sm">Fragen?</p>
-                  <p className="text-sm text-muted-foreground">Schreib mir direkt auf WhatsApp</p>
+                  <p className="font-medium text-sm">{t('success.questions')}</p>
+                  <p className="text-sm text-muted-foreground">{t('success.whatsapp')}</p>
                 </div>
               </div>
             </div>
@@ -109,7 +117,7 @@ export default function BookingSuccessPage() {
               </div>
               <div className="flex-1">
                 <p className="font-semibold text-base mb-0.5">Martin Wiederhold</p>
-                <p className="text-sm text-muted-foreground mb-3">Dein Personal Trainer in Zürich</p>
+                <p className="text-sm text-muted-foreground mb-3">{t('success.trainerRole')}</p>
                 <a
                   href="https://wa.me/41774857535"
                   target="_blank"
@@ -128,7 +136,7 @@ export default function BookingSuccessPage() {
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link href="/">
                 <Button variant="outline" size="lg" className="w-full sm:w-auto">
-                  Zur Startseite
+                  {t('success.home')}
                 </Button>
               </Link>
             </div>

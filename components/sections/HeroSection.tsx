@@ -3,8 +3,11 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { ChevronDown } from 'lucide-react'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 export default function HeroSection() {
+  const { t } = useLanguage()
+
   return (
     <section className="relative min-h-[88svh] md:min-h-[92svh] overflow-hidden bg-black">
       {/* Hero image + layered black treatment */}
@@ -43,39 +46,34 @@ export default function HeroSection() {
         <div className="w-full text-center">
 
           {/* Badge */}
-          <div className="animate-slide-up mb-8 md:mb-10"
-          >
+          <div className="animate-slide-up mb-8 md:mb-10">
             <span className="inline-block rounded-full border border-white/22 bg-white/8 px-4 py-1.5 text-[10px] uppercase tracking-[0.22em] text-white/90 backdrop-blur-sm md:px-5 md:py-2 md:text-xs">
               Zürich · Oberer Heuelsteig 30-34 · 8032 Zürich
             </span>
           </div>
 
           {/* H1 */}
-          <div className="animate-slide-up mx-auto w-full max-w-none text-center"
-          >
+          <div className="animate-slide-up mx-auto w-full max-w-none text-center">
             <h1 className="mx-auto w-fit max-w-full px-0 text-[1.92rem] max-[430px]:text-[1.78rem] max-[375px]:text-[1.62rem] font-light leading-[1.08] max-[375px]:leading-[1.12] tracking-tight text-white md:text-[clamp(2.5rem,4.2vw,3.95rem)]">
-              <span className="mx-auto block">Personal Training in Zürich –</span>
+              <span className="mx-auto block">{t('hero.title1')}</span>
               <span className="mx-auto block">
-                Dein Weg zu{' '}
-                <span className="text-primary">echten Resultaten</span>
+                {t('hero.title2')}{' '}
+                <span className="text-primary">{t('hero.titleHighlight')}</span>
               </span>
             </h1>
           </div>
 
           {/* Subline */}
-          <p className="animate-slide-up mt-6 text-base md:text-lg text-white/70 max-w-xl mx-auto leading-relaxed" style={{ animationDelay: '0.28s' }}
-          >
-            Individuelles 1:1 Training für Muskelaufbau, Fettabbau und mehr Fitness.
-            Dein erster Termin ist gratis.
+          <p className="animate-slide-up mt-6 text-base md:text-lg text-white/70 max-w-xl mx-auto leading-relaxed" style={{ animationDelay: '0.28s' }}>
+            {t('hero.subtitle')}
           </p>
 
-          <div className="animate-slide-up mt-10 flex flex-col sm:flex-row gap-3 justify-center items-center sm:items-stretch"
-          >
+          <div className="animate-slide-up mt-10 flex flex-col sm:flex-row gap-3 justify-center items-center sm:items-stretch">
             <Link
               href="/book/probe-training"
               className="inline-flex min-h-12 sm:min-h-14 h-auto py-3 sm:py-0 items-center justify-center rounded-full bg-primary px-5 sm:px-10 text-sm sm:text-[15px] font-semibold text-black text-center leading-snug hover:bg-white/90 hover:shadow-[0_16px_48px_-8px_hsl(0_0%_0%_/0.25)] hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 w-[min(100%,19rem)] sm:w-auto"
             >
-              Kostenloses Probetraining buchen
+              {t('hero.ctaPrimary')}
             </Link>
             <Link
               href="/#angebote"
@@ -87,7 +85,7 @@ export default function HeroSection() {
                 window.history.pushState(null, '', '/#angebote')
               }}
             >
-              Angebote ansehen
+              {t('hero.ctaSecondary')}
             </Link>
           </div>
 
@@ -95,9 +93,7 @@ export default function HeroSection() {
       </div>
 
       {/* Scroll Button */}
-      <div
-        className="absolute bottom-7 left-0 right-0 z-20 flex justify-center md:bottom-8"
-      >
+      <div className="absolute bottom-7 left-0 right-0 z-20 flex justify-center md:bottom-8">
         <button
           onClick={() => {
             const el = document.getElementById('angebote')

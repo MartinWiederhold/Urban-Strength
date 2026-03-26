@@ -1,14 +1,19 @@
+'use client'
+
 import Link from 'next/link'
 import Image from 'next/image'
 import { Award, Target, Sparkles, ChevronRight } from 'lucide-react'
-
-const highlights = [
-  { icon: Award, title: '10+ Erfahrung', subtitle: 'Alles selbst gelernt' },
-  { icon: Target, title: 'Fokus auf Ergebnisse', subtitle: 'Was wirklich funktioniert' },
-  { icon: Sparkles, title: 'Kein Standardprogramm', subtitle: 'Individuell für dich' },
-]
+import { useLanguage } from '@/contexts/LanguageContext'
 
 export default function AboutSection() {
+  const { t } = useLanguage()
+
+  const highlights = [
+    { icon: Award, titleKey: 'about.highlight1Title', subtitleKey: 'about.highlight1Sub' },
+    { icon: Target, titleKey: 'about.highlight2Title', subtitleKey: 'about.highlight2Sub' },
+    { icon: Sparkles, titleKey: 'about.highlight3Title', subtitleKey: 'about.highlight3Sub' },
+  ]
+
   return (
     <section className="section-padding bg-[#080808]" id="ueber-martin">
       <div className="container-max">
@@ -17,12 +22,12 @@ export default function AboutSection() {
           <div className="animate-slide-up md:order-1 order-2 min-w-0">
             <div className="min-w-0 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden -mx-1 px-1">
               <h2 className="text-2xl sm:text-3xl md:text-5xl font-semibold tracking-tight mb-6 text-white whitespace-nowrap w-max max-w-none">
-                <span className="sm:hidden">Dein Personal Trainer in Zürich</span>
-                <span className="hidden sm:inline">Dein Personal Trainer in Zürich – Martin</span>
+                <span className="sm:hidden">{t('about.titleShort')}</span>
+                <span className="hidden sm:inline">{t('about.titleLong')}</span>
               </h2>
             </div>
             <p className="text-white/55 leading-relaxed mb-8">
-              Ich helfe dir, deine Fitnessziele zu erreichen, egal ob Muskelaufbau, Fettabbau oder einfach mehr Energie im Alltag. Seit über 10 Jahren trainiere ich selbst regelmässig im Gym und habe dabei gelernt, was wirklich funktioniert, ohne unnötigen Schnickschnack oder komplizierte Pläne. Mein Ansatz ist simpel, individuell, praxisnah und nachhaltig. Kein Standardprogramm, sondern ein Training, das zu dir, deinem Alltag und deinem Tempo passt. Ich trainiere im Gym am Oberer Heuelsteig 30-34 in Zürich und begleite dich Schritt für Schritt auf deinem Weg zu mehr Fitness.
+              {t('about.bio')}
             </p>
 
             <div className="hidden sm:grid sm:grid-cols-3 gap-4 mb-8">
@@ -31,9 +36,9 @@ export default function AboutSection() {
                   <div className="text-center p-4 rounded-2xl bg-[#111] border border-white/8 flex flex-col items-center justify-center min-h-[8rem] sm:min-h-[9rem] w-full max-w-[17.5rem] sm:max-w-[15.5rem]">
                     <item.icon className="w-6 h-6 text-white/50 mx-auto mb-2 shrink-0" />
                     <p className="text-base font-semibold text-white tracking-tight leading-snug mb-1.5">
-                      {item.title}
+                      {t(item.titleKey)}
                     </p>
-                    <p className="text-sm text-white/40 leading-snug">{item.subtitle}</p>
+                    <p className="text-sm text-white/40 leading-snug">{t(item.subtitleKey)}</p>
                   </div>
                 </div>
               ))}
@@ -44,7 +49,7 @@ export default function AboutSection() {
                 href="/book/probe-training"
                 className="inline-flex h-12 items-center rounded-full border border-white/20 px-8 text-sm font-semibold text-white hover:bg-white/8 hover:border-white/40 transition-all duration-300 gap-2 group"
               >
-                Kostenloses Probetraining buchen
+                {t('about.cta')}
                 <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>

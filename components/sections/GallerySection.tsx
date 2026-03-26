@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import { X, ChevronLeft, ChevronRight } from 'lucide-react'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 const ASSET = (filename: string) =>
   `/assets/images/${encodeURIComponent(filename)}`
@@ -79,6 +80,7 @@ function GalleryTile({
 
 export default function GallerySection() {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
+  const { t } = useLanguage()
 
   const prev = () =>
     setLightboxIndex((i) =>
@@ -92,10 +94,10 @@ export default function GallerySection() {
       <div className="container-max">
         <div className="animate-slide-up text-center mb-12">
           <h2 className="text-3xl md:text-5xl font-semibold tracking-tight mb-4 text-white">
-            Trainingsumgebung in Zürich
+            {t('gallery.title')}
           </h2>
           <p className="text-white/45 text-lg max-w-xl mx-auto">
-            Modernes Equipment in zentraler Lage – perfekte Bedingungen für dein Training.
+            {t('gallery.subtitle')}
           </p>
         </div>
 

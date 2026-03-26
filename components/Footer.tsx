@@ -1,7 +1,13 @@
+'use client'
+
 import Link from 'next/link'
 import { MapPin, Mail } from 'lucide-react'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 export default function Footer() {
+  const { t } = useLanguage()
+  const year = new Date().getFullYear()
+
   return (
     <footer className="bg-black border-t border-white/8 text-white py-16 md:py-20">
       <div className="max-w-[1440px] mx-auto px-4 md:px-6">
@@ -18,21 +24,21 @@ export default function Footer() {
               </span>
             </Link>
             <p className="text-sm text-white/45 font-light leading-relaxed">
-              Professionelles Personal Training in Zürich. Individuelles 1:1 Training für deine Ziele.
+              {t('footer.tagline')}
             </p>
           </div>
 
             <div>
-              <h3 className="font-semibold text-xs tracking-[0.12em] mb-4 uppercase text-white">Navigation</h3>
+              <h3 className="font-semibold text-xs tracking-[0.12em] mb-4 uppercase text-white">{t('footer.navTitle')}</h3>
               <ul className="space-y-3">
                 {[
-                  { href: '/', label: 'Home' },
-                  { href: '/services', label: 'Angebote' },
-                  { href: '/kontakt', label: 'Kontakt' },
+                  { href: '/', labelKey: 'footer.navHome' },
+                  { href: '/services', labelKey: 'footer.navServices' },
+                  { href: '/kontakt', labelKey: 'footer.navContact' },
                 ].map((link) => (
                   <li key={link.href}>
                     <Link href={link.href} className="text-sm text-white/45 hover:text-white transition-colors font-light">
-                      {link.label}
+                      {t(link.labelKey)}
                     </Link>
                   </li>
                 ))}
@@ -40,28 +46,28 @@ export default function Footer() {
             </div>
 
             <div>
-              <h3 className="font-semibold text-xs tracking-[0.12em] mb-4 uppercase text-white">Angebote</h3>
+              <h3 className="font-semibold text-xs tracking-[0.12em] mb-4 uppercase text-white">{t('footer.offersTitle')}</h3>
               <ul className="space-y-3">
                 <li>
                   <Link href="/book/probe-training" className="text-sm text-white/45 hover:text-white transition-colors font-light">
-                    Kostenloses Probetraining
+                    {t('footer.offerFree')}
                   </Link>
                 </li>
                 <li>
                   <Link href="/book/personal-training" className="text-sm text-white/45 hover:text-white transition-colors font-light">
-                    Personal Training 1:1
+                    {t('footer.offer1on1')}
                   </Link>
                 </li>
                 <li>
                   <Link href="/personal-training-zuerich" className="text-sm text-white/45 hover:text-white transition-colors font-light">
-                    Personal Training Zürich
+                    {t('footer.offerZuerich')}
                   </Link>
                 </li>
               </ul>
             </div>
 
             <div>
-              <h3 className="font-semibold text-xs tracking-[0.12em] mb-4 uppercase text-white">Kontakt</h3>
+              <h3 className="font-semibold text-xs tracking-[0.12em] mb-4 uppercase text-white">{t('footer.contactTitle')}</h3>
               <ul className="space-y-3">
                 <li className="flex items-start gap-2">
                   <MapPin className="w-3.5 h-3.5 text-white/30 mt-0.5 shrink-0" />
@@ -70,7 +76,7 @@ export default function Footer() {
                 <li className="flex items-center gap-2">
                   <Mail className="w-3.5 h-3.5 text-white/30 shrink-0" />
                   <a href="mailto:personaltrainingbymartin@gmail.com" className="text-sm text-white/45 hover:text-white transition-colors font-light">
-                    Kontakt per Mail
+                    {t('footer.contactMail')}
                   </a>
                 </li>
               </ul>
@@ -80,12 +86,12 @@ export default function Footer() {
         {/* Bottom */}
         <div className="pt-4 border-t border-white/8 flex flex-col md:flex-row justify-between items-center gap-3">
           <p className="text-xs text-white/30 font-light">
-            © {new Date().getFullYear()} Personal Training Zurich – by Martin. Alle Rechte vorbehalten.
+            {t('footer.copyright').replace('{year}', String(year))}
           </p>
           <div className="flex items-center gap-4">
-            <Link href="/impressum" className="text-xs text-white/30 hover:text-white/60 transition-colors font-light">Impressum</Link>
+            <Link href="/impressum" className="text-xs text-white/30 hover:text-white/60 transition-colors font-light">{t('footer.imprint')}</Link>
             <span className="text-white/15">·</span>
-            <Link href="/datenschutz" className="text-xs text-white/30 hover:text-white/60 transition-colors font-light">Datenschutz</Link>
+            <Link href="/datenschutz" className="text-xs text-white/30 hover:text-white/60 transition-colors font-light">{t('footer.privacy')}</Link>
           </div>
         </div>
       </div>

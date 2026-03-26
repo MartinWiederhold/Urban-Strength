@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Outfit, Inter } from 'next/font/google'
 import './globals.css'
 import { AuthProvider } from '@/contexts/AuthContext'
+import { LanguageProvider } from '@/contexts/LanguageContext'
 import ScrollToTop from '@/components/ScrollToTop'
 import { WebVitals } from '@/components/WebVitals'
 
@@ -80,11 +81,13 @@ export default function RootLayout({
         <link href="https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.css" rel="stylesheet" />
       </head>
       <body suppressHydrationWarning>
-        <AuthProvider>
-          <WebVitals />
-          {children}
-          <ScrollToTop />
-        </AuthProvider>
+        <LanguageProvider>
+          <AuthProvider>
+            <WebVitals />
+            {children}
+            <ScrollToTop />
+          </AuthProvider>
+        </LanguageProvider>
       </body>
     </html>
   )

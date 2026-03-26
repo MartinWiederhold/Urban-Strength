@@ -2,85 +2,28 @@
 
 import Link from 'next/link'
 import { Check, ChevronRight } from 'lucide-react'
-
-const services = [
-  {
-    id: 'probe-training',
-    badge: 'Kostenlos & Unverbindlich',
-    title: 'Kostenloser Start – Geräte-Einweisung & Probetraining',
-    price: 'CHF 0',
-    priceNote: 'Komplett gratis',
-    duration: 'ca. 60 Minuten',
-    description: 'Dein erster Termin ist komplett gratis. Lerne das Gym kennen, lerne mich kennen, und starte mit deiner ersten Trainingseinheit.',
-    features: [
-      'Einführung in die wichtigsten Geräte',
-      'Korrekte Übungsausführung (Verletzungen vermeiden)',
-      'Individuelle Beratung zu deinen Zielen',
-      'Erste Trainingseinheit mit Anleitung',
-      'Tipps für einen sicheren Start',
-    ],
-    cta: 'Jetzt Termin buchen',
-    paymentNote: null,
-  },
-  {
-    id: 'personal-training',
-    badge: 'Beliebtestes Angebot',
-    title: 'Personal Training 1:1',
-    price: 'CHF 85',
-    priceNote: 'pro Stunde',
-    duration: '60 Minuten',
-    description: 'Individuelles Training, das auf dich zugeschnitten ist. Maximale Resultate durch persönliche Betreuung und einen Plan, der wirklich funktioniert.',
-    features: [
-      'Individuell auf dich abgestimmtes Training',
-      'Persönliche Betreuung (keine Fehler, maximale Effizienz)',
-      'Motivation & Push im Training',
-      'Fortschritts-Tracking',
-      'Anpassung deines Trainingsplans',
-      'Optional: Ernährungstipps & Trainingsplan',
-    ],
-    cta: 'Jetzt Termin buchen',
-    paymentNote: 'Bezahlung bequem per Twint nach dem Training',
-  },
-  {
-    id: 'quartals-abo',
-    badge: 'Bestes Preis-Leistungs-Verhältnis',
-    title: 'Quartals-Abo – Personal Training',
-    price: 'CHF 600',
-    priceNote: 'pro Quartal',
-    duration: '4 × 60 Min. / Monat',
-    description: 'Dein regelmässiges Training zum Vorteilspreis. 4 Sessions à 60 Minuten pro Monat, frei wählbar – persönlich betreut wie beim 1:1 Training.',
-    features: [
-      '4 Sessions pro Monat (frei wählbar)',
-      'Persönliche 1:1 Betreuung',
-      'Trainingsplan inklusive',
-      'Ernährungstipps inklusive',
-      'Fortschritts-Tracking',
-      'Priorität bei Terminvergabe',
-      'CHF 420 Ersparnis gegenüber Einzelbuchungen (12 × 85 = 1020)',
-    ],
-    cta: 'Jetzt Termin buchen',
-    paymentNote: 'CHF 420 günstiger als 12 × CHF 85 Einzelbuchungen',
-    /** Hervorhebung wie gelber Map-Pin (#FBBF24 = MapSection-Marker) */
-    highlight: true,
-  },
-]
+import { useLanguage } from '@/contexts/LanguageContext'
+import { servicesData } from '@/lib/translations'
 
 export default function ServicesSection() {
+  const { lang, t } = useLanguage()
+  const services = servicesData[lang]
+
   return (
     <section className="section-padding bg-black scroll-mt-[4.75rem] md:scroll-mt-[5rem]" id="angebote">
       <div className="container-max">
         <div className="animate-slide-up text-center mb-16">
           <h2 className="text-3xl md:text-5xl font-semibold tracking-tight mb-4 text-white">
-            Mein Angebot – Personal Training in Zürich
+            {t('services.title')}
           </h2>
           <p className="text-white/45 text-lg max-w-xl mx-auto">
-            Drei klare Angebote, kein Kleingedrucktes. Starte einfach mit dem kostenlosen Termin.
+            {t('services.subtitle')}
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-6xl mx-auto md:items-stretch">
           {services.map((service) => {
-            const featured = 'highlight' in service && service.highlight
+            const featured = service.highlight
             return (
             <div
               key={service.id}
@@ -107,7 +50,7 @@ export default function ServicesSection() {
                 <span className="text-4xl font-semibold text-black">{service.price}</span>
                 <span className="text-sm text-black/50">{service.priceNote}</span>
               </div>
-              <p className="text-sm mb-4 text-black/50">Dauer: {service.duration}</p>
+              <p className="text-sm mb-4 text-black/50">{t('services.duration')}: {service.duration}</p>
 
               <p className="text-sm leading-relaxed mb-6 text-black/65">{service.description}</p>
 
