@@ -234,9 +234,7 @@ export default function BookingPage() {
             {steps.map((s, i) => (
               <div key={s.number} className="flex items-center gap-2 flex-1">
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold transition-all ${
-                  step > s.number ? 'bg-primary text-primary-foreground' :
-                  step === s.number ? 'bg-primary text-primary-foreground' :
-                  'bg-muted text-muted-foreground'
+                  step >= s.number ? 'bg-amber-400 text-black' : 'bg-muted text-muted-foreground'
                 }`}>
                   {step > s.number ? <Check className="w-4 h-4" /> : s.number}
                 </div>
@@ -244,7 +242,7 @@ export default function BookingPage() {
                   {s.label}
                 </span>
                 {i < steps.length - 1 && (
-                  <div className={`flex-1 h-px ${step > s.number ? 'bg-primary' : 'bg-border'}`} />
+                  <div className={`flex-1 h-px ${step > s.number ? 'bg-amber-400' : 'bg-border'}`} />
                 )}
               </div>
             ))}
@@ -451,8 +449,8 @@ export default function BookingPage() {
                       )}
                     </div>
 
-                    <div className="flex items-start gap-2 p-4 rounded-xl bg-primary/5 border border-primary/20">
-                      <MapPin className="w-4 h-4 text-primary mt-0.5 shrink-0" />
+                    <div className="flex items-start gap-2 p-4 rounded-xl bg-amber-400/5 border border-amber-400/20">
+                      <MapPin className="w-4 h-4 text-amber-400 mt-0.5 shrink-0" />
                       <div>
                         <p className="text-sm font-medium">{t('book.summaryLocation')}</p>
                         <p className="text-sm text-muted-foreground">Oberer Heuelsteig 30-34, 8032 Zürich</p>
@@ -460,7 +458,7 @@ export default function BookingPage() {
                     </div>
 
                     {service?.price === 0 && (
-                      <div className="p-4 rounded-xl bg-primary/5 border border-primary/20 text-sm text-primary">
+                      <div className="p-4 rounded-xl bg-amber-400/5 border border-amber-400/20 text-sm text-amber-400">
                         {t('book.summaryFree')}
                       </div>
                     )}
@@ -503,7 +501,7 @@ export default function BookingPage() {
                 <div className="bg-card border border-border rounded-2xl p-5 sticky top-24">
                   <h3 className="font-bold mb-3">{service.title}</h3>
                   <div className="flex items-baseline gap-1 mb-1">
-                    <span className="text-2xl font-bold text-primary">
+                    <span className="text-2xl font-bold text-amber-400">
                       {service.price === 0 ? t('book.summaryFreeLabel') : `CHF ${service.price}`}
                     </span>
                     {service.price > 0 && service.price < 100 && <span className="text-sm text-muted-foreground">{t('book.summaryPerHour')}</span>}
@@ -511,7 +509,7 @@ export default function BookingPage() {
                   </div>
                   <p className="text-sm text-muted-foreground mb-4">{service.duration_minutes} {t('book.summaryTime')}</p>
                   {selectedSlot && (
-                    <div className="p-3 rounded-lg bg-primary/10 text-sm text-primary font-medium">
+                    <div className="p-3 rounded-lg bg-amber-400/10 text-sm text-amber-400 font-medium">
                       ✓ {selectedSlot.start_time.slice(0, 5)}{t('book.uhr') ? ` ${t('book.uhr')}` : ''} {lang === 'de' ? 'ausgewählt' : 'selected'}
                     </div>
                   )}
