@@ -278,6 +278,20 @@
 .qr-fade-in-up      { animation: qrFadeInUp    0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.6s both; }
 .qr-glow-pulse      { animation: qrGlowPulse   3s   ease-in-out infinite; }
 
+/* ── Portfolio animations ────────────────────────────────────────────── */
+@keyframes portfolioFadeDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes portfolioImgFade {
+  from { opacity: 0; transform: scale(1.03); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.portfolio-fade-in       { animation: portfolioFadeDown 0.8s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.portfolio-fade-in-delay { animation: portfolioFadeDown 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both; }
+.portfolio-img-fade      { animation: portfolioImgFade  0.6s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
 /* ── QR Poster print styles – A4 portrait, white background ──────────── */
 @media print {
   @page {
@@ -387,5 +401,30 @@
   }
   .qr-poster > *:first-child {
     margin-bottom: 5mm !important;
+  }
+
+  /* ── Portfolio print: black background, white text, multi-page ───── */
+  .portfolio-print-mode {
+    background: #000000 !important;
+  }
+  .portfolio-container {
+    background: #000000 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  .portfolio-container * {
+    animation: none !important;
+    transition: none !important;
+  }
+  .portfolio-container h1,
+  .portfolio-container p {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+  }
+  .portfolio-container img {
+    break-inside: avoid !important;
+  }
+  .portfolio-container .grid {
+    gap: 3px !important;
   }
 }
