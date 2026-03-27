@@ -10,7 +10,6 @@ const SITE_URL = 'https://personaltrainingbymartin.netlify.app'
 /* ── Portfolio images ─────────────────────────────────────────────────── */
 const PORTFOLIO_IMAGES = [
   { src: '/portfolio/model1.jpg',   span: 'col-span-1 row-span-2' },
-  { src: '/portfolio/model2.jpg',   span: 'col-span-1 row-span-1' },
   { src: '/portfolio/model3.jpg',   span: 'col-span-1 row-span-1' },
   { src: '/portfolio/model4.jpg',   span: 'col-span-2 row-span-2' },
   { src: '/portfolio/model5.jpg',   span: 'col-span-1 row-span-1' },
@@ -20,9 +19,8 @@ const PORTFOLIO_IMAGES = [
   { src: '/portfolio/model9.JPEG',  span: 'col-span-1 row-span-2' },
   { src: '/portfolio/model10.jpg',  span: 'col-span-1 row-span-1' },
   { src: '/portfolio/model11.jpg',  span: 'col-span-2 row-span-1' },
-  { src: '/portfolio/mode12.jpg',   span: 'col-span-1 row-span-1' },
   { src: '/portfolio/model13.jpg',  span: 'col-span-1 row-span-2' },
-  { src: '/portfolio/model14.jpg',  span: 'col-span-1 row-span-1' },
+  { src: '/portfolio/mode33l.png',  span: 'col-span-1 row-span-1' },
 ]
 
 type Tab = 'qr' | 'portfolio'
@@ -176,10 +174,10 @@ export default function QRCodePage() {
       </div>
 
       {/* ── Tab 2: Portfolio ─────────────────────────────────────────── */}
-      <div className={`${activeTab === 'portfolio' ? 'block' : 'hidden print:hidden'}`}>
-        <div ref={portfolioRef} className="portfolio-container bg-black min-h-screen">
+      <div className={`${activeTab === 'portfolio' ? 'flex flex-col' : 'hidden print:hidden'}`} style={{ minHeight: activeTab === 'portfolio' ? '100vh' : undefined }}>
+        <div ref={portfolioRef} className="portfolio-container bg-black flex-1 flex flex-col" data-portfolio>
           {/* Header */}
-          <div className="pt-10 md:pt-16 pb-6 text-center">
+          <div className="pt-10 md:pt-14 pb-4 md:pb-6 text-center shrink-0">
             <h1 className="portfolio-fade-in text-[4rem] md:text-[7rem] lg:text-[9rem] font-bold leading-[0.85] tracking-[0.04em] uppercase text-white">
               Martin
             </h1>
@@ -188,9 +186,9 @@ export default function QRCodePage() {
             </p>
           </div>
 
-          {/* Editorial grid */}
-          <div className="px-1 md:px-4 lg:px-8 pb-8">
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 auto-rows-[180px] md:auto-rows-[240px] lg:auto-rows-[280px] gap-[5px] md:gap-[6px]">
+          {/* Editorial grid – fills remaining space */}
+          <div className="px-1 md:px-4 lg:px-8 flex-1">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 auto-rows-[180px] md:auto-rows-[240px] lg:auto-rows-[280px] gap-[5px] md:gap-[6px] h-full">
               {PORTFOLIO_IMAGES.map((img, i) => (
                 <div
                   key={i}
@@ -209,17 +207,10 @@ export default function QRCodePage() {
               ))}
             </div>
           </div>
-
-          {/* Bottom name */}
-          <div className="py-12 md:py-16 text-center">
-            <p className="text-sm md:text-base font-medium tracking-[0.3em] uppercase text-white/25">
-              Martin
-            </p>
-          </div>
         </div>
 
         {/* Buttons – screen only */}
-        <div className="flex items-center justify-center gap-3 pb-10 print:hidden">
+        <div className="flex items-center justify-center gap-3 py-8 print:hidden shrink-0">
           <button
             onClick={handleDownloadPortfolio}
             className="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/10 px-6 py-3 text-sm font-medium text-white/70 hover:bg-white/15 hover:text-white transition-all"
