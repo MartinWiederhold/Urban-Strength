@@ -234,8 +234,8 @@ export default function BookingPage() {
             {steps.map((s, i) => (
               <div key={s.number} className="flex items-center gap-2 flex-1">
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold transition-all ${
-                  step > s.number ? 'bg-primary text-white' :
-                  step === s.number ? 'bg-primary text-white' :
+                  step > s.number ? 'bg-primary text-primary-foreground' :
+                  step === s.number ? 'bg-primary text-primary-foreground' :
                   'bg-muted text-muted-foreground'
                 }`}>
                   {step > s.number ? <Check className="w-4 h-4" /> : s.number}
