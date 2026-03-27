@@ -300,12 +300,10 @@
   }
 
   html, body {
-    background: #ffffff !important;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
     margin: 0 !important;
     padding: 0 !important;
-    overflow: hidden !important;
   }
 
   /* Kill all animations */
@@ -315,7 +313,7 @@
     transition: none !important;
   }
 
-  /* Page wrapper */
+  /* Page wrapper – QR mode: white bg, single page */
   .qr-page-wrapper {
     min-height: auto !important;
     height: auto !important;
@@ -323,6 +321,8 @@
     padding: 0 !important;
     overflow: hidden !important;
   }
+  .qr-page-wrapper html, .qr-page-wrapper body,
+  .qr-page-wrapper { background: #ffffff !important; }
 
   /* Poster container: exactly one A4 page */
   .qr-poster {
@@ -403,14 +403,24 @@
     margin-bottom: 5mm !important;
   }
 
-  /* ── Portfolio print: black background, white text, multi-page ───── */
-  .portfolio-print-mode {
+  /* ── Portfolio print: black bg, white text, multi-page booklet ──── */
+  .portfolio-print-mode,
+  .portfolio-print-mode html,
+  .portfolio-print-mode body {
     background: #000000 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    overflow: visible !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
   .portfolio-container {
     background: #000000 !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
+    min-height: auto !important;
+    padding-bottom: 0 !important;
+    margin: 0 !important;
   }
   .portfolio-container * {
     animation: none !important;
@@ -421,8 +431,10 @@
     color: #ffffff !important;
     -webkit-text-fill-color: #ffffff !important;
   }
-  .portfolio-container img {
+  /* Each grid cell avoids page break through the middle */
+  .portfolio-container .grid > div {
     break-inside: avoid !important;
+    page-break-inside: avoid !important;
   }
   .portfolio-container .grid {
     gap: 3px !important;
