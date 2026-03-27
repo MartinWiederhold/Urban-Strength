@@ -5,6 +5,7 @@ import { AuthProvider } from '@/contexts/AuthContext'
 import { LanguageProvider } from '@/contexts/LanguageContext'
 import ScrollToTop from '@/components/ScrollToTop'
 import { WebVitals } from '@/components/WebVitals'
+import PageTracker from '@/components/PageTracker'
 
 const outfit = Outfit({
   subsets: ['latin'],
@@ -84,6 +85,7 @@ export default function RootLayout({
         <LanguageProvider>
           <AuthProvider>
             <WebVitals />
+            <PageTracker />
             {children}
             <ScrollToTop />
           </AuthProvider>
