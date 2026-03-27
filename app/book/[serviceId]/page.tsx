@@ -453,8 +453,8 @@ export default function BookingPage() {
                       )}
                     </div>
 
-                    <div className="flex items-start gap-2 p-4 rounded-xl bg-amber-400/5 border border-amber-400/20">
-                      <MapPin className="w-4 h-4 text-amber-400 mt-0.5 shrink-0" />
+                    <div className="flex items-start gap-2 p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/25">
+                      <MapPin className="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" />
                       <div>
                         <p className="text-sm font-medium">{t('book.summaryLocation')}</p>
                         <p className="text-sm text-muted-foreground">Oberer Heuelsteig 30-34, 8032 Zürich</p>
@@ -462,7 +462,7 @@ export default function BookingPage() {
                     </div>
 
                     {service?.price === 0 && (
-                      <div className="p-4 rounded-xl bg-amber-400/5 border border-amber-400/20 text-sm text-amber-400">
+                      <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/25 text-sm text-emerald-400">
                         {t('book.summaryFree')}
                       </div>
                     )}

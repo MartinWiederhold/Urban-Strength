@@ -245,7 +245,7 @@ const bookDE = {
   'book.step3Title': 'Zusammenfassung',
   'book.next': 'Weiter',
   'book.back2': 'Zurück',
-  'book.submit': 'Jetzt verbindlich buchen',
+  'book.submit': 'Jetzt buchen',
   'book.submitting': 'Wird gebucht...',
   'book.firstName': 'Vorname',
   'book.lastName': 'Nachname',
