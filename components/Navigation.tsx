@@ -268,7 +268,7 @@ export default function Navigation() {
                 </div>
               ) : (
                 <Link
-                  href="/book/probe-training"
+                  href="/#angebote"
                   className="inline-flex h-10 items-center rounded-full bg-white px-5 text-[13px] font-semibold tracking-tight text-black hover:bg-white/90 transition-colors"
                 >
                   {t('nav.bookNow')}
