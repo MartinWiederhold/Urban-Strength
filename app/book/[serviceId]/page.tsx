@@ -73,7 +73,11 @@ export default function BookingPage() {
   const serviceId = params.serviceId as string
   const { lang, t } = useLanguage()
 
-  const [step, setStep] = useState<Step>(1)
+  const [step, setStepRaw] = useState<Step>(1)
+  const setStep = (s: Step) => {
+    setStepRaw(s)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
   const [service, setService] = useState<Service | null>(null)
   const [selectedSlot, setSelectedSlot] = useState<Availability | null>(null)
   const [isLoading, setIsLoading] = useState(false)

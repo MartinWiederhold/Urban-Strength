@@ -280,7 +280,7 @@ export default function AvailabilityCalendar({
               >
                 <span className={!sel && tod ? 'font-bold' : ''}>{format(day, 'd')}</span>
                 {avail && !past && inMonth && !sel && (
-                  <span className="w-1 h-1 rounded-full mt-0.5 bg-amber-400" />
+                  <span className="w-1 h-1 rounded-full mt-0.5 bg-emerald-400" />
                 )}
               </button>
             )
@@ -303,7 +303,7 @@ export default function AvailabilityCalendar({
       {/* Legend */}
       <div className="flex items-center gap-5 text-xs text-muted-foreground">
         <span className="flex items-center gap-1.5">
-          <span className="w-1.5 h-1.5 rounded-full bg-amber-400 inline-block" />
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block" />
           Verfügbar
         </span>
         <span className="flex items-center gap-1.5">
