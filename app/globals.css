@@ -403,40 +403,88 @@
     margin-bottom: 5mm !important;
   }
 
-  /* ── Portfolio print: black bg, white text, multi-page booklet ──── */
-  .portfolio-print-mode,
-  .portfolio-print-mode html,
-  .portfolio-print-mode body {
+  /* ── Portfolio print: ALL on ONE A4 page, black bg ─────────────── */
+  .portfolio-print-mode {
     background: #000000 !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
-    overflow: visible !important;
+    color-adjust: exact !important;
     margin: 0 !important;
     padding: 0 !important;
   }
   .portfolio-container {
+    width: 210mm !important;
+    height: 297mm !important;
+    max-height: 297mm !important;
+    overflow: hidden !important;
     background: #000000 !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
+    color-adjust: exact !important;
     min-height: auto !important;
-    padding-bottom: 0 !important;
     margin: 0 !important;
+    padding: 4mm 4mm 3mm !important;
+    display: flex !important;
+    flex-direction: column !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
   }
   .portfolio-container * {
     animation: none !important;
     transition: none !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
   .portfolio-container h1,
   .portfolio-container p {
     color: #ffffff !important;
     -webkit-text-fill-color: #ffffff !important;
   }
-  /* Each grid cell avoids page break through the middle */
-  .portfolio-container .grid > div {
-    break-inside: avoid !important;
-    page-break-inside: avoid !important;
+  /* Shrink header for print */
+  .portfolio-container h1 {
+    font-size: 28pt !important;
+    margin-bottom: 0 !important;
+    padding-top: 2mm !important;
+    padding-bottom: 0 !important;
+    line-height: 1 !important;
   }
+  .portfolio-container > div:first-child {
+    padding-top: 2mm !important;
+    padding-bottom: 2mm !important;
+  }
+  /* Grid: 5 columns, compact, images fully visible */
   .portfolio-container .grid {
-    gap: 3px !important;
+    display: grid !important;
+    grid-template-columns: repeat(5, 1fr) !important;
+    grid-auto-rows: auto !important;
+    gap: 2px !important;
+    flex: 1 !important;
+    overflow: hidden !important;
+  }
+  /* Reset all spans to 1×1 in print so images fit uniformly */
+  .portfolio-container .grid > div {
+    grid-column: span 1 !important;
+    grid-row: span 1 !important;
+    position: relative !important;
+    overflow: hidden !important;
+    height: auto !important;
+    aspect-ratio: 3/4 !important;
+    break-inside: avoid !important;
+  }
+  /* Images: fill cell, contain so nothing is cut off */
+  .portfolio-container .grid > div img {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+  /* Bottom credit: tiny */
+  .portfolio-container > div:last-child {
+    padding-top: 2mm !important;
+    padding-bottom: 1mm !important;
+  }
+  .portfolio-container > div:last-child p {
+    font-size: 7pt !important;
   }
 }
