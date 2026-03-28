@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import Image from 'next/image'
 import { X, ChevronLeft, ChevronRight } from 'lucide-react'
 import { useLanguage } from '@/contexts/LanguageContext'
@@ -80,14 +80,42 @@ function GalleryTile({
 
 export default function GallerySection() {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
+  const [isVisible, setIsVisible] = useState(false)
   const { t } = useLanguage()
 
-  const prev = () =>
+  const open = useCallback((i: number) => {
+    setLightboxIndex(i)
+    requestAnimationFrame(() => setIsVisible(true))
+  }, [])
+
+  const close = useCallback(() => {
+    setIsVisible(false)
+    setTimeout(() => setLightboxIndex(null), 300)
+  }, [])
+
+  const prev = useCallback(() =>
     setLightboxIndex((i) =>
       i !== null ? (i - 1 + galleryImages.length) % galleryImages.length : null
-    )
-  const next = () =>
-    setLightboxIndex((i) => (i !== null ? (i + 1) % galleryImages.length : null))
+    ), [])
+
+  const next = useCallback(() =>
+    setLightboxIndex((i) => (i !== null ? (i + 1) % galleryImages.length : null)), [])
+
+  // Keyboard navigation
+  useEffect(() => {
+    if (lightboxIndex === null) return
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') close()
+      if (e.key === 'ArrowLeft') prev()
+      if (e.key === 'ArrowRight') next()
+    }
+    window.addEventListener('keydown', handler)
+    document.body.style.overflow = 'hidden'
+    return () => {
+      window.removeEventListener('keydown', handler)
+      document.body.style.overflow = ''
+    }
+  }, [lightboxIndex, close, prev, next])
 
   return (
     <section className="section-padding bg-[#080808]" id="galerie">
@@ -107,63 +135,118 @@ export default function GallerySection() {
               key={image.file}
               src={image.src}
               alt={image.alt}
-              onClick={() => setLightboxIndex(i)}
+              onClick={() => open(i)}
             />
           ))}
         </div>
       </div>
 
+      {/* ── Premium Lightbox Gallery ─────────────────────────────────── */}
       {lightboxIndex !== null && (
         <div
-          className="fixed inset-0 z-50 bg-black/92 flex items-center justify-center p-4 md:p-8"
-          onClick={() => setLightboxIndex(null)}
+          className={`fixed inset-0 z-50 flex flex-col transition-all duration-300 ease-out ${
+            isVisible ? 'opacity-100' : 'opacity-0'
+          }`}
           role="dialog"
           aria-modal="true"
           aria-label="Galerie"
         >
-          <button
-            type="button"
-            className="absolute top-4 right-4 z-10 text-white/80 hover:text-white p-2 rounded-lg hover:bg-white/10 transition-colors"
-            onClick={() => setLightboxIndex(null)}
-            aria-label="Schliessen"
-          >
-            <X className="w-8 h-8" />
-          </button>
-          <button
-            type="button"
-            className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-10 text-white/80 hover:text-white p-2 rounded-lg hover:bg-white/10 transition-colors"
-            onClick={(e) => {
-              e.stopPropagation()
-              prev()
-            }}
-            aria-label="Vorheriges Bild"
-          >
-            <ChevronLeft className="w-8 h-8 md:w-10 md:h-10" />
-          </button>
-          <button
-            type="button"
-            className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-10 text-white/80 hover:text-white p-2 rounded-lg hover:bg-white/10 transition-colors"
-            onClick={(e) => {
-              e.stopPropagation()
-              next()
-            }}
-            aria-label="Nächstes Bild"
-          >
-            <ChevronRight className="w-8 h-8 md:w-10 md:h-10" />
-          </button>
-
+          {/* Backdrop */}
           <div
-            className="relative w-full max-w-5xl h-[min(85vh,900px)] flex items-center justify-center"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <Image
-              src={galleryImages[lightboxIndex].src}
-              alt={galleryImages[lightboxIndex].alt}
-              fill
-              className="object-contain"
-              sizes="(max-width: 1024px) 100vw, 896px"
-              priority
-            />
+            className={`absolute inset-0 bg-black/95 backdrop-blur-2xl transition-opacity duration-300 ${
+              isVisible ? 'opacity-100' : 'opacity-0'
+            }`}
+            onClick={close}
+          />
+
+          {/* Top bar: counter + close */}
+          <div className="relative z-10 flex items-center justify-between px-4 md:px-8 pt-4 md:pt-6 pb-2">
+            <span className="text-white/40 text-sm font-light tracking-wide">
+              {lightboxIndex + 1} / {galleryImages.length}
+            </span>
+            <button
+              type="button"
+              className="text-white/50 hover:text-white p-2 rounded-full hover:bg-white/10 transition-all duration-200"
+              onClick={close}
+              aria-label="Schliessen"
+            >
+              <X className="w-6 h-6" />
+            </button>
+          </div>
+
+          {/* Main image area */}
+          <div className="relative z-10 flex-1 flex items-center justify-center px-4 md:px-20 min-h-0">
+            {/* Prev button */}
+            <button
+              type="button"
+              className="absolute left-2 md:left-6 top-1/2 -translate-y-1/2 z-20 text-white/30 hover:text-white p-2 md:p-3 rounded-full hover:bg-white/10 transition-all duration-200 backdrop-blur-sm"
+              onClick={(e) => { e.stopPropagation(); prev() }}
+              aria-label="Vorheriges Bild"
+            >
+              <ChevronLeft className="w-6 h-6 md:w-8 md:h-8" />
+            </button>
+
+            {/* Next button */}
+            <button
+              type="button"
+              className="absolute right-2 md:right-6 top-1/2 -translate-y-1/2 z-20 text-white/30 hover:text-white p-2 md:p-3 rounded-full hover:bg-white/10 transition-all duration-200 backdrop-blur-sm"
+              onClick={(e) => { e.stopPropagation(); next() }}
+              aria-label="Nächstes Bild"
+            >
+              <ChevronRight className="w-6 h-6 md:w-8 md:h-8" />
+            </button>
+
+            {/* Image container with animation */}
+            <div
+              className={`relative w-full max-w-5xl h-full max-h-[70vh] md:max-h-[75vh] transition-all duration-300 ease-out ${
+                isVisible ? 'scale-100 opacity-100' : 'scale-95 opacity-0'
+              }`}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <Image
+                key={lightboxIndex}
+                src={galleryImages[lightboxIndex].src}
+                alt={galleryImages[lightboxIndex].alt}
+                fill
+                className="object-contain drop-shadow-[0_8px_60px_rgba(0,0,0,0.8)] animate-[fadeScale_0.25s_ease-out]"
+                sizes="(max-width: 1024px) 100vw, 896px"
+                priority
+              />
+            </div>
+          </div>
+
+          {/* Image caption */}
+          <div className="relative z-10 text-center py-2">
+            <p className="text-white/30 text-xs md:text-sm font-light tracking-wide">
+              {galleryImages[lightboxIndex].alt}
+            </p>
+          </div>
+
+          {/* Thumbnail strip */}
+          <div className="relative z-10 px-4 md:px-8 pb-4 md:pb-6 pt-2">
+            <div className="flex items-center justify-center gap-2 overflow-x-auto scrollbar-hide py-1">
+              {galleryImages.map((image, i) => (
+                <button
+                  key={image.file}
+                  type="button"
+                  onClick={(e) => { e.stopPropagation(); setLightboxIndex(i) }}
+                  className={`relative shrink-0 w-14 h-14 md:w-16 md:h-16 rounded-lg overflow-hidden transition-all duration-200 ${
+                    i === lightboxIndex
+                      ? 'ring-2 ring-white/80 ring-offset-1 ring-offset-black scale-105 opacity-100'
+                      : 'opacity-35 hover:opacity-70 hover:scale-105'
+                  }`}
+                  aria-label={`Bild ${i + 1}`}
+                >
+                  <Image
+                    src={image.src}
+                    alt=""
+                    fill
+                    className="object-cover"
+                    sizes="64px"
+                  />
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       )}
