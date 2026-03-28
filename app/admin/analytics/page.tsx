@@ -2,13 +2,14 @@
 
 import { useEffect, useState } from 'react'
 import dynamic from 'next/dynamic'
-import { TrendingUp, Users, Calendar, DollarSign, CheckCircle2, XCircle, BarChart2, Globe, Eye, UserCheck, MonitorSmartphone } from 'lucide-react'
+import { TrendingUp, Users, Calendar, DollarSign, CheckCircle2, XCircle, BarChart2, Globe, Eye, UserCheck, MonitorSmartphone, QrCode, ScanLine } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { format, parseISO, subDays, startOfDay, startOfWeek, startOfMonth } from 'date-fns'
 import { de } from 'date-fns/locale'
 import { AnimatedNumber } from '@/components/ui/animated-number'
 import type { AnalyticsStats, AnalyticsChartData } from '@/lib/types'
 import type { VisitorChartData } from './VisitorCharts'
+import type { QrScanChartData } from './QrScanCharts'
 
 // Recharts (~180 kB) deferred — KPI cards render immediately
 const AnalyticsCharts = dynamic(() => import('./AnalyticsCharts'), {
@@ -23,6 +24,17 @@ const AnalyticsCharts = dynamic(() => import('./AnalyticsCharts'), {
 })
 
 const VisitorCharts = dynamic(() => import('./VisitorCharts'), {
+  ssr: false,
+  loading: () => (
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+      {[1, 2].map(i => (
+        <div key={i} className="bg-card rounded-xl border border-border p-6 h-[300px] animate-pulse" />
+      ))}
+    </div>
+  ),
+})
+
+const QrScanCharts = dynamic(() => import('./QrScanCharts'), {
   ssr: false,
   loading: () => (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
@@ -83,6 +95,10 @@ export default function AnalyticsPage() {
   const [visitorLoading, setVisitorLoading] = useState(true)
   const [visitorStats, setVisitorStats] = useState<VisitorStats>(EMPTY_VISITOR)
   const [visitorChartData, setVisitorChartData] = useState<VisitorChartData | null>(null)
+
+  const [qrLoading, setQrLoading] = useState(true)
+  const [qrStats, setQrStats] = useState({ today: 0, week: 0, month: 0, total: 0 })
+  const [qrChartData, setQrChartData] = useState<QrScanChartData | null>(null)
 
   // ── Load booking analytics (existing) ─────────────────────────────────
   useEffect(() => {
@@ -299,6 +315,133 @@ export default function AnalyticsPage() {
     load()
   }, [])
 
+  // ── Load QR scan analytics ───────────────────────────────────────────
+  useEffect(() => {
+    const WEEKDAYS = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa']
+
+    const load = async () => {
+      const supabase = createClient()
+      const now = new Date()
+      const todayStart = startOfDay(now).toISOString()
+      const weekStart  = startOfWeek(now, { weekStartsOn: 1 }).toISOString()
+      const monthStart = startOfMonth(now).toISOString()
+      const thirtyDaysAgo = subDays(now, 30).toISOString()
+
+      // Fetch all qr_scans
+      const { data: allRows, error: totalError } = await supabase
+        .from('qr_scans')
+        .select('id', { count: 'exact', head: true })
+
+      const totalCount = totalError ? 0 : (allRows as any)
+
+      // Fetch last 30 days for charts
+      const { data: rows, error } = await supabase
+        .from('qr_scans')
+        .select('visitor_id, device_type, browser, country, created_at')
+        .gte('created_at', thirtyDaysAgo)
+        .order('created_at', { ascending: true })
+
+      if (error) {
+        console.error('[QR Scans] query error:', error)
+        setQrLoading(false)
+        return
+      }
+
+      if (!rows || rows.length === 0) {
+        // Still try to get total count
+        const { count } = await supabase
+          .from('qr_scans')
+          .select('*', { count: 'exact', head: true })
+        setQrStats({ today: 0, week: 0, month: 0, total: count ?? 0 })
+        setQrLoading(false)
+        return
+      }
+
+      // Get total count separately (includes older than 30 days)
+      const { count: totalScanCount } = await supabase
+        .from('qr_scans')
+        .select('*', { count: 'exact', head: true })
+
+      // ── KPI stats ──
+      const todayRows = rows.filter(r => r.created_at >= todayStart)
+      const weekRows  = rows.filter(r => r.created_at >= weekStart)
+      const monthRows = rows.filter(r => r.created_at >= monthStart)
+
+      setQrStats({
+        today: todayRows.length,
+        week: weekRows.length,
+        month: monthRows.length,
+        total: totalScanCount ?? rows.length,
+      })
+
+      // ── Daily scans (30 days) ──
+      const dailyMap = new Map<string, number>()
+      for (let i = 29; i >= 0; i--) {
+        const d = format(subDays(now, i), 'yyyy-MM-dd')
+        dailyMap.set(d, 0)
+      }
+      for (const r of rows) {
+        const d = r.created_at.slice(0, 10)
+        if (dailyMap.has(d)) dailyMap.set(d, dailyMap.get(d)! + 1)
+      }
+      const dailyScans = Array.from(dailyMap.entries()).map(([d, scans]) => ({
+        date: format(parseISO(d), 'dd.MM.', { locale: de }),
+        scans,
+      }))
+
+      // ── Hourly distribution ──
+      const hourMap = new Map<number, number>()
+      for (let h = 0; h < 24; h++) hourMap.set(h, 0)
+      for (const r of rows) {
+        const h = new Date(r.created_at).getHours()
+        hourMap.set(h, hourMap.get(h)! + 1)
+      }
+      const hourlyScans = Array.from(hourMap.entries()).map(([h, scans]) => ({
+        hour: `${h.toString().padStart(2, '0')}:00`,
+        scans,
+      }))
+
+      // ── Weekday distribution ──
+      const dayMap = new Map<number, number>()
+      for (let d = 0; d < 7; d++) dayMap.set(d, 0)
+      for (const r of rows) {
+        const d = new Date(r.created_at).getDay()
+        dayMap.set(d, dayMap.get(d)! + 1)
+      }
+      // Reorder: Mo-So
+      const dayOrder = [1, 2, 3, 4, 5, 6, 0]
+      const weekdayScans = dayOrder.map(d => ({
+        day: WEEKDAYS[d],
+        scans: dayMap.get(d) ?? 0,
+      }))
+
+      // ── Devices ──
+      const deviceMap = new Map<string, number>()
+      for (const r of rows) {
+        const d = r.device_type === 'desktop' ? 'Desktop' : r.device_type === 'mobile' ? 'Mobile' : 'Tablet'
+        deviceMap.set(d, (deviceMap.get(d) ?? 0) + 1)
+      }
+      const devices = Array.from(deviceMap.entries())
+        .sort((a, b) => b[1] - a[1])
+        .map(([name, value]) => ({ name, value }))
+
+      // ── Recent scans (last 20) ──
+      const recentScans = [...rows]
+        .reverse()
+        .slice(0, 20)
+        .map(r => ({
+          time: format(new Date(r.created_at), 'dd.MM.yyyy HH:mm', { locale: de }),
+          device: r.device_type === 'desktop' ? 'Desktop' : r.device_type === 'mobile' ? 'Mobile' : 'Tablet',
+          browser: r.browser ?? '–',
+          country: r.country,
+        }))
+
+      setQrChartData({ dailyScans, hourlyScans, weekdayScans, devices, recentScans })
+      setQrLoading(false)
+    }
+    load()
+  }, [])
+
   const kpiCards = [
     { label: 'Bezahlter Umsatz', value: stats.paidRevenue,     prefix: 'CHF ', decimals: 2, icon: DollarSign },
     { label: 'Buchungen gesamt', value: stats.totalBookings,    icon: Calendar },
@@ -318,11 +461,18 @@ export default function AnalyticsPage() {
     { label: 'Aufrufe diesen Monat',  value: visitorStats.month,       icon: Eye },
   ]
 
+  const qrCards = [
+    { label: 'QR-Scans heute',       value: qrStats.today, icon: ScanLine },
+    { label: 'QR-Scans diese Woche', value: qrStats.week,  icon: QrCode },
+    { label: 'QR-Scans diesen Monat',value: qrStats.month, icon: QrCode },
+    { label: 'QR-Scans gesamt',      value: qrStats.total, icon: QrCode },
+  ]
+
   return (
     <div>
       <div className="animate-slide-up mb-8">
         <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Analytics</h1>
-        <p className="text-muted-foreground mt-1">Buchungen, Kunden und Umsatz im Überblick.</p>
+        <p className="text-muted-foreground mt-1">Buchungen, Kunden, Umsatz und QR-Code Scans im Überblick.</p>
       </div>
 
       {loadError && (
@@ -379,6 +529,34 @@ export default function AnalyticsPage() {
         </div>
 
         {visitorChartData && <VisitorCharts data={visitorChartData} />}
+      </div>
+
+      {/* ── QR-Code Scans Section ────────────────────────────────────── */}
+      <div className="mt-12 mb-8 border-t border-border pt-10">
+        <h2 className="text-xl md:text-2xl font-bold tracking-tight mb-1">QR-Code Scans</h2>
+        <p className="text-muted-foreground text-sm mb-6">Wie oft, wann und von welchem Gerät dein QR-Code gescannt wurde.</p>
+
+        {/* QR KPI cards */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+          {qrCards.map((card) => (
+            <div key={card.label} className="bg-card rounded-xl border border-border p-4 hover:border-foreground/20 transition-all duration-200 card-hover">
+              <div className="flex items-start justify-between mb-3">
+                <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-wide leading-tight">{card.label}</p>
+                <div className="p-1.5 bg-secondary rounded-lg shrink-0">
+                  <card.icon className="w-3.5 h-3.5 text-muted-foreground" />
+                </div>
+              </div>
+              <p className="text-2xl font-semibold tracking-tight">
+                {qrLoading
+                  ? <span className="animate-pulse text-muted-foreground">–</span>
+                  : <AnimatedNumber value={card.value} />
+                }
+              </p>
+            </div>
+          ))}
+        </div>
+
+        {qrChartData && <QrScanCharts data={qrChartData} />}
       </div>
     </div>
   )

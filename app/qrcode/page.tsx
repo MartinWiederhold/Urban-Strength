@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { QRCodeSVG } from 'qrcode.react'
 import { Download, Printer } from 'lucide-react'
 
-const SITE_URL = 'https://personaltrainingbymartin.netlify.app'
+const SITE_URL = 'https://personaltrainingbymartin.netlify.app/scan'
 
 /* ── Portfolio images ─────────────────────────────────────────────────── */
 const PORTFOLIO_IMAGES = [
