@@ -111,6 +111,18 @@
     0%   { background-position: -200% 0; }
     100% { background-position:  200% 0; }
   }
+  @keyframes heroWord {
+    from { opacity: 0; transform: scale(1.06); letter-spacing: 0.04em; }
+    to   { opacity: 1; transform: scale(1);    letter-spacing: -0.03em; }
+  }
+  @keyframes heroAthlete {
+    from { opacity: 0; transform: translateY(28px) scale(1.015); }
+    to   { opacity: 1; transform: translateY(0)    scale(1); }
+  }
+  @keyframes heroCta {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
 }
 
 @layer utilities {
@@ -121,6 +133,10 @@
   .animate-slide-left { animation: slideInLeft 0.4s  cubic-bezier(0.22, 1, 0.36, 1) both; }
   .animate-from-top  { animation: slideFromTop  0.32s cubic-bezier(0.22, 1, 0.36, 1) both; }
   .animate-from-left { animation: slideFromLeft 0.28s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+  .animate-hero-word    { animation: heroWord    0.9s  cubic-bezier(0.22, 1, 0.36, 1) 0.05s both; }
+  .animate-hero-athlete { animation: heroAthlete 1s    cubic-bezier(0.22, 1, 0.36, 1) 0.12s both; }
+  .animate-hero-cta     { animation: heroCta     0.6s  cubic-bezier(0.22, 1, 0.36, 1) 0.5s  both; }
 
   .card-hover {
     @apply transition-all duration-300;

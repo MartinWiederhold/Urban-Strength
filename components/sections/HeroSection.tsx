@@ -9,100 +9,63 @@ export default function HeroSection() {
   const { t } = useLanguage()
 
   return (
-    <section className="relative min-h-[88svh] md:min-h-[92svh] overflow-hidden bg-black">
-      {/* Hero image + layered black treatment */}
-      <div className="absolute inset-0">
-        <Image
-          src="/assets/images/berdet.png?v=3"
-          alt="Personal Training – Gym und Training in Zürich"
-          fill
-          className="object-cover object-[center_14%] scale-[1.02]"
-          sizes="100vw"
-          priority
-          quality={90}
-        />
-        {/* Base: vertical depth – darker footer zone for scroll affordance */}
-        <div
-          className="pointer-events-none absolute inset-0 z-[1]"
+    <section className="relative min-h-[92svh] overflow-hidden">
+      {/* Orange gradient backdrop – bright yellow top-left → deep orange bottom-right */}
+      <div
+        className="absolute inset-0 z-0"
+        style={{
+          background:
+            'radial-gradient(120% 120% at 22% 8%, #ffd23a 0%, #ffb01f 26%, #ff9412 52%, #f5810f 74%, #e9720c 100%)',
+        }}
+      />
+
+      {/* Big wordmark – sits BEHIND the athlete for the overlap / depth effect */}
+      <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
+        <h1
+          className="animate-hero-word whitespace-nowrap select-none text-center font-sans font-extrabold uppercase leading-none text-white"
           style={{
-            background:
-              'linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.28) 38%, rgba(0,0,0,0.52) 72%, rgba(0,0,0,0.82) 100%)',
+            fontSize: 'clamp(2.6rem, 12.8vw, 12rem)',
+            letterSpacing: '-0.03em',
+            textShadow: '0 8px 40px rgba(120,55,0,0.18)',
           }}
-        />
-        {/* Soft vignette – draws focus to center copy */}
-        <div
-          className="pointer-events-none absolute inset-0 z-[2]"
-          style={{
-            background:
-              'radial-gradient(ellipse 95% 75% at 50% 42%, transparent 0%, rgba(0,0,0,0.35) 55%, rgba(0,0,0,0.75) 100%)',
-          }}
-        />
-        {/* Thin top edge – header blend */}
-        <div className="pointer-events-none absolute inset-x-0 top-0 z-[3] h-28 bg-gradient-to-b from-black/70 to-transparent" />
+        >
+          Train with me
+        </h1>
       </div>
 
-      {/* Content */}
-      <div className="relative z-20 mx-auto flex min-h-[88svh] w-full max-w-[1440px] items-center px-2 pb-24 pt-28 md:min-h-[92svh] md:px-10 md:pt-32">
-        <div className="w-full text-center">
-
-          {/* Badge */}
-          <div className="animate-slide-up mb-8 md:mb-10">
-            <span className="inline-block rounded-full border border-white/22 bg-white/8 px-4 py-1.5 text-[10px] uppercase tracking-[0.22em] text-white/90 backdrop-blur-sm md:px-5 md:py-2 md:text-xs">
-              Zürich · Oberer Heuelsteig 30-34 · 8032 Zürich
-            </span>
-          </div>
-
-          {/* H1 */}
-          <div className="animate-slide-up mx-auto w-full max-w-none text-center">
-            <h1 className="mx-auto w-fit max-w-full px-0 text-[1.92rem] max-[430px]:text-[1.78rem] max-[375px]:text-[1.62rem] font-light leading-[1.08] max-[375px]:leading-[1.12] tracking-tight text-white md:text-[clamp(2.5rem,4.2vw,3.95rem)]">
-              <span className="mx-auto block">{t('hero.title1')}</span>
-              <span className="mx-auto block">
-                {t('hero.title2')}{' '}
-                <span className="text-primary">{t('hero.titleHighlight')}</span>
-              </span>
-            </h1>
-          </div>
-
-          {/* Subline */}
-          <p className="animate-slide-up mt-6 text-base md:text-lg text-white/70 max-w-xl mx-auto leading-relaxed" style={{ animationDelay: '0.28s' }}>
-            {t('hero.subtitle')}
-          </p>
-
-          <div className="animate-slide-up mt-10 flex flex-col sm:flex-row gap-3 justify-center items-center sm:items-stretch">
-            <Link
-              href="/book/probe-training"
-              className="inline-flex min-h-12 sm:min-h-14 h-auto py-3 sm:py-0 items-center justify-center rounded-full bg-primary px-5 sm:px-10 text-sm sm:text-[15px] font-semibold text-black text-center leading-snug hover:bg-white/90 hover:shadow-[0_16px_48px_-8px_hsl(0_0%_0%_/0.25)] hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 w-[min(100%,19rem)] sm:w-auto"
-            >
-              {t('hero.ctaPrimary')}
-            </Link>
-            <Link
-              href="/#angebote"
-              className="inline-flex h-12 sm:h-14 shrink-0 items-center justify-center rounded-full border border-white/30 bg-white/8 px-5 sm:px-10 text-sm sm:text-[15px] font-semibold text-white hover:bg-white/15 backdrop-blur-sm transition-all duration-300 w-[min(100%,19rem)] sm:w-auto"
-              onClick={(e) => {
-                if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return
-                e.preventDefault()
-                document.getElementById('angebote')?.scrollIntoView({ behavior: 'smooth' })
-                window.history.pushState(null, '', '/#angebote')
-              }}
-            >
-              {t('hero.ctaSecondary')}
-            </Link>
-          </div>
-
+      {/* Athlete – multiply blend melts the light studio backdrop into the orange */}
+      <div className="animate-hero-athlete absolute inset-x-0 bottom-0 z-20 mx-auto flex h-full max-w-[1440px] items-end justify-center">
+        <div className="relative h-[92%] w-full max-w-[560px] sm:h-[94%] md:h-[97%]">
+          <Image
+            src="/assets/images/a4eeb001-c68a-4abe-824a-dd5beb5277f9.png"
+            alt="Personal Trainer Martin – Training in Zürich"
+            fill
+            priority
+            quality={92}
+            sizes="(max-width: 768px) 90vw, 560px"
+            className="object-contain object-bottom mix-blend-multiply"
+            style={{ filter: 'contrast(1.03) saturate(1.05) brightness(1.05)' }}
+          />
         </div>
       </div>
 
-      {/* Scroll Button */}
-      <div className="absolute bottom-7 left-0 right-0 z-20 flex justify-center md:bottom-8">
+      {/* Bottom fade into the black page + CTA */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-30 h-40 bg-gradient-to-b from-transparent to-black/25" />
+
+      <div className="absolute inset-x-0 bottom-9 z-40 flex flex-col items-center gap-5 px-4 md:bottom-11">
+        <Link
+          href="/book/probe-training"
+          className="animate-hero-cta inline-flex min-h-12 items-center justify-center rounded-full bg-black px-8 text-[15px] font-semibold text-white shadow-[0_16px_48px_-8px_rgba(90,40,0,0.45)] transition-all duration-300 hover:scale-[1.03] hover:bg-black/90 active:scale-[0.98]"
+        >
+          {t('hero.ctaPrimary')}
+        </Link>
+
         <button
-          onClick={() => {
-            const el = document.getElementById('angebote')
-            if (el) el.scrollIntoView({ behavior: 'smooth' })
-          }}
-          className="group inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/8 px-4 py-2 text-[10px] uppercase tracking-[0.2em] text-white/90 backdrop-blur-sm transition-colors duration-500 hover:bg-white/14 md:text-[11px]"
+          onClick={() => document.getElementById('angebote')?.scrollIntoView({ behavior: 'smooth' })}
+          className="group inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.22em] text-black/70 transition-colors hover:text-black md:text-[11px]"
         >
           <span>Scroll</span>
-          <ChevronDown className="h-4 w-4 text-white transition-transform duration-500 group-hover:translate-y-[2px]" />
+          <ChevronDown className="h-4 w-4 transition-transform duration-500 group-hover:translate-y-[2px]" />
         </button>
       </div>
     </section>
