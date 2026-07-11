@@ -75,7 +75,7 @@ export default function MapSection() {
         <div className="animate-slide-up mb-12 flex flex-col items-start gap-5 border-b border-ink/12 pb-8 md:flex-row md:items-end md:justify-between">
           <div>
             <span className="eyebrow mb-5">(05) — Standort</span>
-            <h2 className="mt-4 font-display text-[2.5rem] leading-[0.9] md:text-[5rem] font-black uppercase tracking-[-0.02em] text-ink">
+            <h2 className="mt-4 font-display text-[1.5rem] sm:text-2xl md:text-[2.5rem] font-black uppercase tracking-[-0.01em] leading-[1.05] text-ink">
               {t('map.title')}
             </h2>
           </div>

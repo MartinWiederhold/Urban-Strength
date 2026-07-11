@@ -34,7 +34,7 @@ export default function MethodSection() {
         <div className="animate-slide-up mb-16 flex flex-col items-start gap-5 border-b border-ink/12 pb-8 md:flex-row md:items-end md:justify-between">
           <div>
             <span className="eyebrow mb-5">(03) — Ablauf</span>
-            <h2 className="mt-4 font-display text-[2.5rem] leading-[0.9] md:text-[5rem] font-black uppercase tracking-[-0.02em] text-ink">
+            <h2 className="mt-4 font-display text-[1.5rem] sm:text-2xl md:text-[2.5rem] font-black uppercase tracking-[-0.01em] leading-[1.05] text-ink">
               {t('method.title')}
             </h2>
           </div>
@@ -48,8 +48,8 @@ export default function MethodSection() {
             <div key={i} className="animate-slide-up relative border-t border-ink/15 pt-6">
               <div className="flex flex-col items-start">
                 <div className="mb-5 flex w-full items-center justify-between">
-                  <span className="font-display text-6xl font-black leading-none tracking-[-0.03em] text-flame">{step.number}</span>
-                  <step.icon className="h-7 w-7 text-ink/70" />
+                  <span className="font-display text-6xl font-black leading-none tracking-[-0.03em] text-ink/15">{step.number}</span>
+                  <step.icon className="h-7 w-7 text-flame" />
                 </div>
                 <h3 className="font-display text-lg font-bold uppercase tracking-wide mb-3 text-ink">{t(step.titleKey)}</h3>
                 <p className="text-ink/55 leading-relaxed">{t(step.descKey)}</p>

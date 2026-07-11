@@ -192,7 +192,7 @@
   }
   .icon-chip {
     @apply flex items-center justify-center rounded-xl text-flame;
-    border: 1px solid rgba(255, 81, 0, 0.3);
+    border: 1px solid rgba(255, 122, 10, 0.3);
   }
   .rule { border-color: rgba(11, 11, 11, 0.12); }
 

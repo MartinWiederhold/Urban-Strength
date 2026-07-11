@@ -43,7 +43,7 @@ const config: Config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        flame: "#FF5100",
+        flame: "#FF7A0A",
         ink: "#0B0B0B",
         paper: "#F4F1EA",
         "pt-green": "hsl(var(--pt-green))",

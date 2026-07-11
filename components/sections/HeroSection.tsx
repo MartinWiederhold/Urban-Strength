@@ -8,69 +8,71 @@ export default function HeroSection() {
   const { t } = useLanguage()
 
   return (
-    <section className="relative min-h-[100svh] overflow-hidden bg-flame">
-      {/* Orange gradient backdrop – bright top-left → deep flame bottom-right */}
+    <section className="relative min-h-[100svh] overflow-hidden">
+      {/* Warm yellow → orange gradient (from the title artwork) */}
       <div
         className="absolute inset-0 z-0"
         style={{
           background:
-            'radial-gradient(125% 125% at 20% 6%, #ffc73a 0%, #ff9f16 30%, #ff7a0a 58%, #ff5100 82%, #f24500 100%)',
+            'radial-gradient(125% 125% at 18% 8%, #ffc73a 0%, #ffab1f 32%, #ff9412 60%, #ff7a0a 84%, #f56b06 100%)',
         }}
       />
 
-      {/* Editorial meta frame */}
-      <div className="pointer-events-none absolute inset-0 z-30 mx-auto flex max-w-[1600px] flex-col justify-between px-5 pb-6 pt-24 md:px-10 md:pt-28">
-        <div className="flex items-start justify-between font-display text-[10px] font-bold uppercase tracking-[0.24em] text-black/70 md:text-[11px]">
-          <span>(01) — Personal Training</span>
-          <span className="hidden sm:block">Zürich · CH</span>
-          <span>Est. Oberer Heuelsteig</span>
-        </div>
-        <div className="flex items-end justify-between font-display text-[10px] font-bold uppercase tracking-[0.24em] text-black/70 md:text-[11px]">
-          <span>1:1 Coaching</span>
-          <span className="hidden md:block">Muskelaufbau · Fettabbau · Kraft</span>
-          <span>© {new Date().getFullYear()}</span>
-        </div>
-      </div>
+      <div className="relative z-20 mx-auto flex min-h-[100svh] max-w-[1500px] items-center px-5 pb-16 pt-28 md:px-10 md:pt-32">
+        <div className="grid w-full grid-cols-1 items-center gap-10 md:grid-cols-[1.1fr_0.9fr] md:gap-12">
 
-      {/* Big wordmark – sits BEHIND the athlete for the overlap / depth effect */}
-      <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
-        <h1
-          className="animate-hero-word whitespace-nowrap select-none text-center font-display font-black uppercase leading-[0.82] text-white"
-          style={{
-            fontSize: 'clamp(2.4rem, 11.5vw, 11rem)',
-            letterSpacing: '-0.02em',
-          }}
-        >
-          Train with me
-        </h1>
-      </div>
+          {/* Left — copy */}
+          <div className="order-2 text-left md:order-1">
+            <span className="animate-hero-cta font-display text-[11px] font-bold uppercase tracking-[0.24em] text-black/70">
+              (01) — Personal Training · Zürich
+            </span>
 
-      {/* Athlete – transparent cut-out, sits on the orange in front of the word */}
-      <div className="animate-hero-athlete absolute inset-x-0 bottom-0 z-20 mx-auto flex h-full max-w-[1600px] items-end justify-center">
-        <div className="relative h-[88%] w-full max-w-[500px] sm:h-[92%] md:h-[96%]">
-          <div
-            className="pointer-events-none absolute inset-x-[16%] bottom-[2%] h-[5%] rounded-[50%] blur-xl"
-            style={{ background: 'radial-gradient(ellipse at center, rgba(90,35,0,0.4) 0%, transparent 70%)' }}
-          />
-          <Image
-            src="/assets/images/Objekt 3.png"
-            alt="Personal Trainer Martin – Training in Zürich"
-            fill
-            priority
-            quality={92}
-            sizes="(max-width: 768px) 88vw, 500px"
-            className="object-contain object-bottom"
-            style={{ filter: 'drop-shadow(0 30px 44px rgba(80,32,0,0.32))' }}
-          />
+            <h1
+              className="animate-hero-word mt-5 font-display font-black uppercase leading-[0.9] tracking-[-0.02em] text-ink"
+              style={{ fontSize: 'clamp(2.6rem, 6.4vw, 5.25rem)' }}
+            >
+              Train<br />with me
+            </h1>
+
+            <p className="animate-hero-cta mt-6 max-w-md text-[15px] leading-relaxed text-black/70 md:text-base">
+              {t('hero.subtitle')}
+            </p>
+
+            <div className="animate-hero-cta mt-8 flex flex-wrap items-center gap-3">
+              <Link href="/book/probe-training" className="btn-dark h-14 gap-3">
+                {t('hero.ctaPrimary')}
+                <span aria-hidden className="text-flame">→</span>
+              </Link>
+              <Link
+                href="/#angebote"
+                className="inline-flex h-14 items-center rounded-full border border-black/25 px-7 text-[13px] font-bold uppercase tracking-[0.14em] text-ink transition-colors duration-300 hover:bg-black/[0.06]"
+                onClick={(e) => {
+                  if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return
+                  e.preventDefault()
+                  document.getElementById('angebote')?.scrollIntoView({ behavior: 'smooth' })
+                }}
+              >
+                {t('hero.ctaSecondary')}
+              </Link>
+            </div>
+          </div>
+
+          {/* Right — portrait in a circle (zoomed out; black photo bg blends with the disc) */}
+          <div className="animate-hero-athlete order-1 flex justify-center md:order-2 md:justify-end">
+            <div className="relative aspect-square w-[68vw] max-w-[26rem] overflow-hidden rounded-full bg-ink ring-1 ring-black/15 shadow-[0_30px_70px_-20px_rgba(90,40,0,0.45)] sm:w-[22rem]">
+              <Image
+                src="/assets/images/ChatGPT Image 11. Juli 2026, 21_51_45.png"
+                alt="Martin – Personal Trainer in Zürich"
+                fill
+                priority
+                quality={92}
+                sizes="(max-width: 768px) 68vw, 416px"
+                className="object-contain object-bottom"
+              />
+            </div>
+          </div>
+
         </div>
-      </div>
-
-      {/* CTA row */}
-      <div className="animate-hero-cta absolute inset-x-0 bottom-14 z-40 flex justify-center px-4 md:bottom-16">
-        <Link href="/book/probe-training" className="btn-dark h-14 gap-3">
-          {t('hero.ctaPrimary')}
-          <span aria-hidden className="text-flame">→</span>
-        </Link>
       </div>
     </section>
   )

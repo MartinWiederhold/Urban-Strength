@@ -22,7 +22,7 @@ export default function AboutSection() {
           <div className="animate-slide-up md:order-1 order-2 min-w-0">
             <span className="eyebrow mb-6">(01) — Über Martin</span>
             <div className="min-w-0 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden -mx-1 px-1">
-              <h2 className="font-display text-[2rem] sm:text-4xl md:text-[3.75rem] font-black uppercase leading-[0.92] tracking-[-0.02em] mt-4 mb-6 text-ink whitespace-nowrap w-max max-w-none">
+              <h2 className="font-display text-[1.5rem] sm:text-2xl md:text-[2.5rem] font-black uppercase leading-[1.05] tracking-[-0.01em] mt-4 mb-6 text-ink whitespace-nowrap w-max max-w-none">
                 <span className="sm:hidden">{t('about.titleShort')}</span>
                 <span className="hidden sm:inline">{t('about.titleLong')}</span>
               </h2>
@@ -65,7 +65,7 @@ export default function AboutSection() {
                   src="/assets/images/ChatGPT Image 11. Juli 2026, 21_51_45.png"
                   alt="Martin – Personal Trainer in Zürich"
                   fill
-                  className="object-cover object-[54%_28%]"
+                  className="object-contain object-bottom"
                   sizes="(max-width: 768px) 256px, 320px"
                   priority
                 />
