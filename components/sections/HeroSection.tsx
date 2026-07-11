@@ -57,20 +57,19 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* Right — portrait in a circle. Whole figure shown (no clipping) and
-              nudged right so the back-line sits at the right edge; the photo's
-              black background blends into the disc, so no seam is visible. */}
+          {/* Right — portrait in a circle. Full figure (nothing clipped), sized by
+              height and right-aligned so his body edge sits toward the right; the
+              photo's black background blends into the disc, so no seam shows. */}
           <div className="animate-hero-athlete order-1 flex justify-center md:order-2 md:justify-end">
-            <div className="relative aspect-square w-[64vw] max-w-[23rem] overflow-hidden rounded-full bg-ink ring-1 ring-black/15 shadow-[0_30px_70px_-20px_rgba(90,40,0,0.45)] sm:w-[21rem]">
+            <div className="relative aspect-square w-[64vw] max-w-[24rem] overflow-hidden rounded-full bg-ink ring-1 ring-black/15 shadow-[0_30px_70px_-20px_rgba(90,40,0,0.45)] sm:w-[22rem]">
               <Image
                 src="/assets/images/ChatGPT Image 11. Juli 2026, 21_51_45.png"
                 alt="Martin – Personal Trainer in Zürich"
-                fill
+                width={892}
+                height={1763}
                 priority
                 quality={92}
-                sizes="(max-width: 768px) 64vw, 368px"
-                className="object-contain object-bottom"
-                style={{ transform: 'translateX(20%)' }}
+                className="pointer-events-none absolute top-1/2 right-[3%] h-[88%] w-auto max-w-none -translate-y-1/2 select-none"
               />
             </div>
           </div>

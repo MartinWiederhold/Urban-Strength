@@ -64,11 +64,10 @@ export default function AboutSection() {
                 <Image
                   src="/assets/images/ChatGPT Image 11. Juli 2026, 21_51_45.png"
                   alt="Martin – Personal Trainer in Zürich"
-                  fill
-                  className="object-contain object-bottom"
-                  style={{ transform: 'translateX(20%)' }}
-                  sizes="(max-width: 768px) 256px, 320px"
+                  width={892}
+                  height={1763}
                   priority
+                  className="pointer-events-none absolute top-1/2 right-[3%] h-[88%] w-auto max-w-none -translate-y-1/2 select-none"
                 />
               </div>
 
