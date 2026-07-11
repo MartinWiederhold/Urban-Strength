@@ -57,17 +57,19 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* Right — portrait in a circle (zoomed out; black photo bg blends with the disc) */}
+          {/* Right — portrait in a circle. Filled larger and pushed right so the
+              straight back-line sits flush with the right edge; the photo's black
+              background blends into the disc, so no seam is visible. */}
           <div className="animate-hero-athlete order-1 flex justify-center md:order-2 md:justify-end">
-            <div className="relative aspect-square w-[68vw] max-w-[26rem] overflow-hidden rounded-full bg-ink ring-1 ring-black/15 shadow-[0_30px_70px_-20px_rgba(90,40,0,0.45)] sm:w-[22rem]">
+            <div className="relative aspect-square w-[74vw] max-w-[28rem] overflow-hidden rounded-full bg-ink ring-1 ring-black/15 shadow-[0_30px_70px_-20px_rgba(90,40,0,0.45)] sm:w-[24rem]">
               <Image
                 src="/assets/images/ChatGPT Image 11. Juli 2026, 21_51_45.png"
                 alt="Martin – Personal Trainer in Zürich"
                 fill
                 priority
                 quality={92}
-                sizes="(max-width: 768px) 68vw, 416px"
-                className="object-contain object-bottom"
+                sizes="(max-width: 768px) 74vw, 448px"
+                className="origin-right scale-[1.16] object-cover object-top"
               />
             </div>
           </div>
