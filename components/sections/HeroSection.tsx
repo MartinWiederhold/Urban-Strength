@@ -33,18 +33,23 @@ export default function HeroSection() {
         </h1>
       </div>
 
-      {/* Athlete – multiply blend melts the light studio backdrop into the orange */}
+      {/* Athlete – transparent cut-out, sits on the orange in front of the word */}
       <div className="animate-hero-athlete absolute inset-x-0 bottom-0 z-20 mx-auto flex h-full max-w-[1440px] items-end justify-center">
-        <div className="relative h-[92%] w-full max-w-[560px] sm:h-[94%] md:h-[97%]">
+        <div className="relative h-[90%] w-full max-w-[520px] sm:h-[93%] md:h-[97%]">
+          {/* soft contact shadow at the feet */}
+          <div
+            className="pointer-events-none absolute inset-x-[14%] bottom-[2%] h-[6%] rounded-[50%] blur-xl"
+            style={{ background: 'radial-gradient(ellipse at center, rgba(120,55,0,0.38) 0%, transparent 70%)' }}
+          />
           <Image
-            src="/assets/images/a4eeb001-c68a-4abe-824a-dd5beb5277f9.png"
+            src="/assets/images/Objekt 3.png"
             alt="Personal Trainer Martin – Training in Zürich"
             fill
             priority
             quality={92}
-            sizes="(max-width: 768px) 90vw, 560px"
-            className="object-contain object-bottom mix-blend-multiply"
-            style={{ filter: 'contrast(1.03) saturate(1.05) brightness(1.05)' }}
+            sizes="(max-width: 768px) 90vw, 520px"
+            className="object-contain object-bottom"
+            style={{ filter: 'drop-shadow(0 24px 40px rgba(90,40,0,0.28))' }}
           />
         </div>
       </div>
