@@ -10,14 +10,16 @@ export default function ServicesSection() {
   const services = servicesData[lang]
 
   return (
-    <section className="section-padding bg-[#fff8f0] scroll-mt-[4.75rem] md:scroll-mt-[5rem]" id="angebote">
+    <section className="section-padding bg-[#EDE9DF] scroll-mt-[4.75rem] md:scroll-mt-[5rem]" id="angebote">
       <div className="container-max">
-        <div className="animate-slide-up text-center mb-16">
-          <span className="eyebrow mb-4">{t('services.title')}</span>
-          <h2 className="mt-3 font-display text-3xl md:text-5xl font-extrabold tracking-tight mb-4 text-neutral-900">
-            {t('services.title')}
-          </h2>
-          <p className="text-neutral-500 text-lg max-w-xl mx-auto">
+        <div className="animate-slide-up mb-14 flex flex-col items-start gap-5 border-b border-ink/12 pb-8 md:flex-row md:items-end md:justify-between">
+          <div>
+            <span className="eyebrow mb-5">(02) — Angebote</span>
+            <h2 className="mt-4 font-display text-[2.5rem] leading-[0.9] md:text-[5rem] font-black uppercase tracking-[-0.02em] text-ink">
+              {t('services.title')}
+            </h2>
+          </div>
+          <p className="text-ink/55 text-base max-w-sm md:text-right">
             {t('services.subtitle')}
           </p>
         </div>
@@ -31,8 +33,8 @@ export default function ServicesSection() {
               id={service.id}
               className={`relative scroll-mt-[5.5rem] md:scroll-mt-[6rem] rounded-3xl p-8 flex flex-col transition-all duration-500 bg-white text-black border border-black/[0.06] ${
                 featured
-                  ? 'z-[1] ring-2 ring-orange-400 ring-offset-2 ring-offset-[#fff8f0] shadow-[0_20px_50px_-12px_rgba(245,129,15,0.4)] hover:-translate-y-1 hover:shadow-[0_28px_56px_-10px_rgba(245,129,15,0.5)] md:scale-[1.02] md:z-[2]'
-                  : 'shadow-[0_10px_40px_-16px_rgba(20,20,20,0.16)] hover:-translate-y-1 hover:shadow-[0_28px_56px_-14px_rgba(20,20,20,0.22)]'
+                  ? 'z-[1] ring-2 ring-flame ring-offset-2 ring-offset-[#EDE9DF] hover:-translate-y-1 md:scale-[1.02] md:z-[2]'
+                  : 'border border-ink/12 hover:-translate-y-1 hover:border-ink/25'
               }`}
             >
               <div

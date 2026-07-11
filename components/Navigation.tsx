@@ -212,10 +212,10 @@ export default function Navigation() {
         >
           {/* Logo */}
           <Link href="/" className="group flex flex-col">
-            <span className={`font-display text-[1.05rem] font-extrabold uppercase tracking-tight transition-colors ${txt} group-hover:opacity-70`}>
+            <span className={`font-display text-[0.78rem] sm:text-[0.92rem] font-extrabold uppercase tracking-[-0.01em] leading-none transition-colors ${txt} group-hover:opacity-70`}>
               Personal Training Zurich
             </span>
-            <span className={`text-[10px] font-medium tracking-[0.12em] uppercase transition-colors ${txtMuted}`}>
+            <span className={`mt-1 text-[9px] font-bold tracking-[0.2em] uppercase transition-colors ${solid ? 'text-flame' : 'text-flame'}`}>
               by Martin
             </span>
           </Link>
@@ -275,7 +275,7 @@ export default function Navigation() {
             ) : (
               <Link
                 href="/#angebote"
-                className={`inline-flex h-10 items-center rounded-full px-5 text-[13px] font-semibold tracking-tight transition-all duration-300 hover:scale-[1.03] ${solid ? 'bg-white text-black hover:bg-white/90' : 'bg-black text-white hover:bg-black/90'}`}
+                className={`inline-flex h-10 items-center rounded-full px-6 text-[12px] font-bold uppercase tracking-[0.12em] transition-colors duration-300 ${solid ? 'bg-flame text-white hover:bg-white hover:text-ink' : 'bg-ink text-white hover:bg-flame'}`}
               >
                 {t('nav.bookNow')}
               </Link>

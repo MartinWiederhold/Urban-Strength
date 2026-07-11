@@ -23,7 +23,7 @@ const inter = Inter({
 
 const archivo = Archivo({
   subsets: ['latin'],
-  weight: ['500', '600', '700', '800', '900'],
+  weight: ['600', '700', '800', '900'],
   display: 'swap',
   variable: '--font-archivo',
 })

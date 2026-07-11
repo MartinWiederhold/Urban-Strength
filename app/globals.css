@@ -123,6 +123,10 @@
     from { opacity: 0; transform: translateY(14px); }
     to   { opacity: 1; transform: translateY(0); }
   }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
 }
 
 @layer utilities {
@@ -168,22 +172,37 @@
     @apply max-w-[1440px] mx-auto;
   }
 
-  /* ── Light design system (below the hero) ── */
+  /* ── Editorial design system (below the hero) ── */
   .eyebrow {
-    @apply inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.18em] text-orange-500;
+    @apply inline-flex items-center gap-3 font-display text-[11px] font-bold uppercase tracking-[0.28em] text-flame;
+  }
+  .eyebrow::before {
+    content: "";
+    @apply h-px w-8 bg-flame;
   }
   .btn-accent {
-    @apply inline-flex items-center justify-center rounded-full bg-gradient-to-r from-amber-400 to-orange-500 px-8 text-[15px] font-semibold text-white shadow-[0_14px_34px_-10px_rgba(245,129,15,0.6)] transition-all duration-300 hover:brightness-[1.04] hover:scale-[1.03] active:scale-[0.98];
+    @apply relative inline-flex items-center justify-center overflow-hidden rounded-full bg-flame px-8 text-[13px] font-bold uppercase tracking-[0.14em] text-white transition-colors duration-300 hover:bg-ink;
   }
   .btn-dark {
-    @apply inline-flex items-center justify-center rounded-full bg-neutral-900 px-8 text-[15px] font-semibold text-white transition-all duration-300 hover:bg-black hover:scale-[1.03] active:scale-[0.98];
+    @apply inline-flex items-center justify-center rounded-full bg-ink px-8 text-[13px] font-bold uppercase tracking-[0.14em] text-white transition-colors duration-300 hover:bg-flame;
   }
   .card-light {
-    @apply rounded-3xl border border-black/[0.07] bg-white shadow-[0_10px_40px_-16px_rgba(20,20,20,0.14)];
+    @apply rounded-2xl bg-white/70;
+    border: 1px solid rgba(11, 11, 11, 0.12);
   }
   .icon-chip {
-    @apply flex items-center justify-center rounded-2xl bg-orange-50 text-orange-500 ring-1 ring-orange-100;
+    @apply flex items-center justify-center rounded-xl text-flame;
+    border: 1px solid rgba(255, 81, 0, 0.3);
   }
+  .rule { border-color: rgba(11, 11, 11, 0.12); }
+
+  .marquee-track {
+    display: inline-flex;
+    white-space: nowrap;
+    will-change: transform;
+    animation: marquee 32s linear infinite;
+  }
+  .marquee-track.reverse { animation-direction: reverse; }
 
   .text-balance {
     text-wrap: balance;

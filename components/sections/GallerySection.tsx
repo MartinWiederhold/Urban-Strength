@@ -64,7 +64,7 @@ function GalleryTile({
     <button
       type="button"
       onClick={onClick}
-      className="group relative aspect-square w-full rounded-2xl border border-black/[0.06] overflow-hidden cursor-pointer transition-all duration-300 shadow-[0_10px_30px_-16px_rgba(20,20,20,0.18)] hover:border-orange-300 hover:shadow-[0_18px_40px_-16px_rgba(245,129,15,0.35)] hover:-translate-y-1 text-left"
+      className="group relative aspect-square w-full overflow-hidden cursor-pointer border border-ink/10 transition-all duration-300 hover:border-flame text-left"
       aria-label={`${alt} vergrössern`}
     >
       <Image
@@ -118,14 +118,16 @@ export default function GallerySection() {
   }, [lightboxIndex, close, prev, next])
 
   return (
-    <section className="section-padding bg-[#fff8f0]" id="galerie">
+    <section className="section-padding bg-[#EDE9DF]" id="galerie">
       <div className="container-max">
-        <div className="animate-slide-up text-center mb-12">
-          <span className="eyebrow mb-4">{t('gallery.title')}</span>
-          <h2 className="mt-3 font-display text-3xl md:text-5xl font-extrabold tracking-tight mb-4 text-neutral-900">
-            {t('gallery.title')}
-          </h2>
-          <p className="text-neutral-500 text-lg max-w-xl mx-auto">
+        <div className="animate-slide-up mb-12 flex flex-col items-start gap-5 border-b border-ink/12 pb-8 md:flex-row md:items-end md:justify-between">
+          <div>
+            <span className="eyebrow mb-5">(04) — Gym</span>
+            <h2 className="mt-4 font-display text-[2.5rem] leading-[0.9] md:text-[5rem] font-black uppercase tracking-[-0.02em] text-ink">
+              {t('gallery.title')}
+            </h2>
+          </div>
+          <p className="text-ink/55 text-base max-w-sm md:text-right">
             {t('gallery.subtitle')}
           </p>
         </div>

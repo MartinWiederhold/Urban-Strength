@@ -29,35 +29,30 @@ export default function MethodSection() {
   ]
 
   return (
-    <section className="section-padding bg-white">
+    <section className="section-padding bg-paper">
       <div className="container-max">
-        <div className="animate-slide-up text-center mb-16">
-          <span className="eyebrow mb-4">{t('method.title')}</span>
-          <h2 className="mt-3 font-display text-3xl md:text-5xl font-extrabold tracking-tight mb-4 text-neutral-900">
-            {t('method.title')}
-          </h2>
-          <p className="text-neutral-500 text-lg max-w-xl mx-auto">
+        <div className="animate-slide-up mb-16 flex flex-col items-start gap-5 border-b border-ink/12 pb-8 md:flex-row md:items-end md:justify-between">
+          <div>
+            <span className="eyebrow mb-5">(03) — Ablauf</span>
+            <h2 className="mt-4 font-display text-[2.5rem] leading-[0.9] md:text-[5rem] font-black uppercase tracking-[-0.02em] text-ink">
+              {t('method.title')}
+            </h2>
+          </div>
+          <p className="text-ink/55 text-base max-w-sm md:text-right">
             {t('method.subtitle')}
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-14">
           {steps.map((step, i) => (
-            <div key={i} className="animate-slide-up relative">
-              {/* Connector */}
-              {i < steps.length - 1 && (
-                <div className="hidden md:block absolute top-10 left-[calc(100%+1rem)] w-8 h-px bg-orange-200" />
-              )}
-
+            <div key={i} className="animate-slide-up relative border-t border-ink/15 pt-6">
               <div className="flex flex-col items-start">
-                <div className="flex items-center gap-4 mb-4">
-                  <span className="font-display text-4xl font-extrabold text-orange-500/20 tracking-tight">{step.number}</span>
-                  <span className="icon-chip h-12 w-12">
-                    <step.icon className="w-6 h-6" />
-                  </span>
+                <div className="mb-5 flex w-full items-center justify-between">
+                  <span className="font-display text-6xl font-black leading-none tracking-[-0.03em] text-flame">{step.number}</span>
+                  <step.icon className="h-7 w-7 text-ink/70" />
                 </div>
-                <h3 className="font-display text-xl font-bold mb-3 text-neutral-900">{t(step.titleKey)}</h3>
-                <p className="text-neutral-500 leading-relaxed">{t(step.descKey)}</p>
+                <h3 className="font-display text-lg font-bold uppercase tracking-wide mb-3 text-ink">{t(step.titleKey)}</h3>
+                <p className="text-ink/55 leading-relaxed">{t(step.descKey)}</p>
               </div>
             </div>
           ))}

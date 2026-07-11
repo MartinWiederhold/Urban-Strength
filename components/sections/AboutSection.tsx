@@ -15,31 +15,31 @@ export default function AboutSection() {
   ]
 
   return (
-    <section className="section-padding bg-white" id="ueber-martin">
+    <section className="section-padding bg-paper" id="ueber-martin">
       <div className="container-max">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
 
           <div className="animate-slide-up md:order-1 order-2 min-w-0">
-            <span className="eyebrow mb-4">Personal Trainer · Zürich</span>
+            <span className="eyebrow mb-6">(01) — Über Martin</span>
             <div className="min-w-0 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden -mx-1 px-1">
-              <h2 className="font-display text-2xl sm:text-3xl md:text-5xl font-extrabold tracking-tight mt-3 mb-6 text-neutral-900 whitespace-nowrap w-max max-w-none">
+              <h2 className="font-display text-[2rem] sm:text-4xl md:text-[3.75rem] font-black uppercase leading-[0.92] tracking-[-0.02em] mt-4 mb-6 text-ink whitespace-nowrap w-max max-w-none">
                 <span className="sm:hidden">{t('about.titleShort')}</span>
                 <span className="hidden sm:inline">{t('about.titleLong')}</span>
               </h2>
             </div>
-            <p className="text-neutral-500 leading-relaxed mb-8">
+            <p className="text-ink/60 leading-relaxed mb-8 max-w-md">
               {t('about.bio')}
             </p>
 
             <div className="hidden sm:grid sm:grid-cols-3 gap-4 mb-8">
               {highlights.map((item, i) => (
                 <div key={i} className="flex justify-center">
-                  <div className="card-light text-center p-4 flex flex-col items-center justify-center min-h-[8rem] sm:min-h-[9rem] w-full max-w-[17.5rem] sm:max-w-[15.5rem]">
-                    <span className="icon-chip h-11 w-11 mb-2 shrink-0"><item.icon className="w-5 h-5" /></span>
-                    <p className="text-base font-semibold text-neutral-900 tracking-tight leading-snug mb-1.5">
+                  <div className="text-left p-5 flex flex-col items-start justify-center min-h-[8rem] sm:min-h-[9rem] w-full max-w-[17.5rem] sm:max-w-[15.5rem] border-t border-ink/15">
+                    <item.icon className="w-5 h-5 text-flame mb-3 shrink-0" />
+                    <p className="font-display text-sm font-bold uppercase tracking-wide text-ink leading-snug mb-1.5">
                       {t(item.titleKey)}
                     </p>
-                    <p className="text-sm text-neutral-400 leading-snug">{t(item.subtitleKey)}</p>
+                    <p className="text-sm text-ink/50 leading-snug">{t(item.subtitleKey)}</p>
                   </div>
                 </div>
               ))}
@@ -58,23 +58,21 @@ export default function AboutSection() {
 
           <div className="animate-slide-up md:order-2 order-1 flex justify-center">
             <div className="relative">
-              {/* warm glow behind the portrait */}
-              <div className="pointer-events-none absolute -inset-6 rounded-full bg-gradient-to-br from-amber-300/40 to-orange-400/30 blur-2xl" aria-hidden />
               <div
-                className="relative w-64 h-64 md:w-72 md:h-72 rounded-full overflow-hidden bg-neutral-900 ring-4 ring-orange-400/60 shadow-[0_24px_64px_-12px_rgba(245,129,15,0.4)]"
+                className="relative w-64 h-64 md:w-[20rem] md:h-[20rem] rounded-full overflow-hidden bg-ink ring-1 ring-ink/15"
               >
                 <Image
                   src="/assets/images/ChatGPT Image 11. Juli 2026, 21_51_45.png"
                   alt="Martin – Personal Trainer in Zürich"
                   fill
                   className="object-cover object-[54%_28%]"
-                  sizes="(max-width: 768px) 256px, 288px"
+                  sizes="(max-width: 768px) 256px, 320px"
                   priority
                 />
               </div>
 
-              <div className="absolute -bottom-3 -right-3 w-fit min-w-0 max-w-[calc(100vw-2rem)] sm:max-w-none overflow-hidden rounded-2xl bg-gradient-to-r from-amber-400 to-orange-500 px-4 py-2.5 sm:py-3 shadow-[0_10px_30px_-8px_rgba(245,129,15,0.6)]">
-                <p className="relative text-2xl font-display font-extrabold leading-none tracking-tight text-white">
+              <div className="absolute -bottom-2 -right-1 sm:-right-3 w-fit overflow-hidden rounded-full bg-flame px-5 py-2.5">
+                <p className="relative font-display text-lg font-black uppercase leading-none tracking-[0.06em] text-white">
                   Martin
                 </p>
               </div>

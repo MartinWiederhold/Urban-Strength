@@ -2,31 +2,43 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { ChevronDown } from 'lucide-react'
 import { useLanguage } from '@/contexts/LanguageContext'
 
 export default function HeroSection() {
   const { t } = useLanguage()
 
   return (
-    <section className="relative min-h-[92svh] overflow-hidden">
-      {/* Orange gradient backdrop – bright yellow top-left → deep orange bottom-right */}
+    <section className="relative min-h-[100svh] overflow-hidden bg-flame">
+      {/* Orange gradient backdrop – bright top-left → deep flame bottom-right */}
       <div
         className="absolute inset-0 z-0"
         style={{
           background:
-            'radial-gradient(120% 120% at 22% 8%, #ffd23a 0%, #ffb01f 26%, #ff9412 52%, #f5810f 74%, #e9720c 100%)',
+            'radial-gradient(125% 125% at 20% 6%, #ffc73a 0%, #ff9f16 30%, #ff7a0a 58%, #ff5100 82%, #f24500 100%)',
         }}
       />
+
+      {/* Editorial meta frame */}
+      <div className="pointer-events-none absolute inset-0 z-30 mx-auto flex max-w-[1600px] flex-col justify-between px-5 pb-6 pt-24 md:px-10 md:pt-28">
+        <div className="flex items-start justify-between font-display text-[10px] font-bold uppercase tracking-[0.24em] text-black/70 md:text-[11px]">
+          <span>(01) — Personal Training</span>
+          <span className="hidden sm:block">Zürich · CH</span>
+          <span>Est. Oberer Heuelsteig</span>
+        </div>
+        <div className="flex items-end justify-between font-display text-[10px] font-bold uppercase tracking-[0.24em] text-black/70 md:text-[11px]">
+          <span>1:1 Coaching</span>
+          <span className="hidden md:block">Muskelaufbau · Fettabbau · Kraft</span>
+          <span>© {new Date().getFullYear()}</span>
+        </div>
+      </div>
 
       {/* Big wordmark – sits BEHIND the athlete for the overlap / depth effect */}
       <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
         <h1
-          className="animate-hero-word whitespace-nowrap select-none text-center font-display font-black uppercase leading-none text-white"
+          className="animate-hero-word whitespace-nowrap select-none text-center font-display font-black uppercase leading-[0.82] text-white"
           style={{
-            fontSize: 'clamp(2.6rem, 12.8vw, 12rem)',
-            letterSpacing: '-0.03em',
-            textShadow: '0 8px 40px rgba(120,55,0,0.18)',
+            fontSize: 'clamp(2.4rem, 11.5vw, 11rem)',
+            letterSpacing: '-0.02em',
           }}
         >
           Train with me
@@ -34,12 +46,11 @@ export default function HeroSection() {
       </div>
 
       {/* Athlete – transparent cut-out, sits on the orange in front of the word */}
-      <div className="animate-hero-athlete absolute inset-x-0 bottom-0 z-20 mx-auto flex h-full max-w-[1440px] items-end justify-center">
-        <div className="relative h-[90%] w-full max-w-[520px] sm:h-[93%] md:h-[97%]">
-          {/* soft contact shadow at the feet */}
+      <div className="animate-hero-athlete absolute inset-x-0 bottom-0 z-20 mx-auto flex h-full max-w-[1600px] items-end justify-center">
+        <div className="relative h-[88%] w-full max-w-[500px] sm:h-[92%] md:h-[96%]">
           <div
-            className="pointer-events-none absolute inset-x-[14%] bottom-[2%] h-[6%] rounded-[50%] blur-xl"
-            style={{ background: 'radial-gradient(ellipse at center, rgba(120,55,0,0.38) 0%, transparent 70%)' }}
+            className="pointer-events-none absolute inset-x-[16%] bottom-[2%] h-[5%] rounded-[50%] blur-xl"
+            style={{ background: 'radial-gradient(ellipse at center, rgba(90,35,0,0.4) 0%, transparent 70%)' }}
           />
           <Image
             src="/assets/images/Objekt 3.png"
@@ -47,31 +58,19 @@ export default function HeroSection() {
             fill
             priority
             quality={92}
-            sizes="(max-width: 768px) 90vw, 520px"
+            sizes="(max-width: 768px) 88vw, 500px"
             className="object-contain object-bottom"
-            style={{ filter: 'drop-shadow(0 24px 40px rgba(90,40,0,0.28))' }}
+            style={{ filter: 'drop-shadow(0 30px 44px rgba(80,32,0,0.32))' }}
           />
         </div>
       </div>
 
-      {/* Bottom fade into the black page + CTA */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-30 h-40 bg-gradient-to-b from-transparent to-black/25" />
-
-      <div className="absolute inset-x-0 bottom-9 z-40 flex flex-col items-center gap-5 px-4 md:bottom-11">
-        <Link
-          href="/book/probe-training"
-          className="animate-hero-cta inline-flex min-h-12 items-center justify-center rounded-full bg-black px-8 text-[15px] font-semibold text-white shadow-[0_16px_48px_-8px_rgba(90,40,0,0.45)] transition-all duration-300 hover:scale-[1.03] hover:bg-black/90 active:scale-[0.98]"
-        >
+      {/* CTA row */}
+      <div className="animate-hero-cta absolute inset-x-0 bottom-14 z-40 flex justify-center px-4 md:bottom-16">
+        <Link href="/book/probe-training" className="btn-dark h-14 gap-3">
           {t('hero.ctaPrimary')}
+          <span aria-hidden className="text-flame">→</span>
         </Link>
-
-        <button
-          onClick={() => document.getElementById('angebote')?.scrollIntoView({ behavior: 'smooth' })}
-          className="group inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.22em] text-black/70 transition-colors hover:text-black md:text-[11px]"
-        >
-          <span>Scroll</span>
-          <ChevronDown className="h-4 w-4 transition-transform duration-500 group-hover:translate-y-[2px]" />
-        </button>
       </div>
     </section>
   )
