@@ -37,12 +37,9 @@ export default function Navigation() {
       rafId = requestAnimationFrame(() => {
         rafId = null
         const currentY  = window.scrollY
-        const previousY = lastScrollYRef.current
         setIsScrolled(currentY > 24)
-        if (currentY <= 8) { setNavVisible(true); lastScrollYRef.current = currentY; return }
-        const delta = currentY - previousY
-        if (delta > 6 && currentY > 84) setNavVisible(false)
-        else if (delta < -6) setNavVisible(true)
+        // Header stays visible at all times – only the pill styling morphs.
+        setNavVisible(true)
         lastScrollYRef.current = currentY
       })
     }
@@ -215,7 +212,7 @@ export default function Navigation() {
         >
           {/* Logo */}
           <Link href="/" className="group flex flex-col">
-            <span className={`text-[1.05rem] font-semibold uppercase tracking-tight transition-colors ${txt} group-hover:opacity-70`}>
+            <span className={`font-display text-[1.05rem] font-extrabold uppercase tracking-tight transition-colors ${txt} group-hover:opacity-70`}>
               Personal Training Zurich
             </span>
             <span className={`text-[10px] font-medium tracking-[0.12em] uppercase transition-colors ${txtMuted}`}>

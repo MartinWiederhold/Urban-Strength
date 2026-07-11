@@ -143,7 +143,7 @@ export default function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdFAQ) }}
       />
       <Navigation />
-      <main>
+      <main className="bg-white">
         <HeroSection />
         <AboutSection />
         <ServicesSection />

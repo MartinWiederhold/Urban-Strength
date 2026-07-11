@@ -22,7 +22,7 @@ export default function HeroSection() {
       {/* Big wordmark – sits BEHIND the athlete for the overlap / depth effect */}
       <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
         <h1
-          className="animate-hero-word whitespace-nowrap select-none text-center font-sans font-extrabold uppercase leading-none text-white"
+          className="animate-hero-word whitespace-nowrap select-none text-center font-display font-black uppercase leading-none text-white"
           style={{
             fontSize: 'clamp(2.6rem, 12.8vw, 12rem)',
             letterSpacing: '-0.03em',

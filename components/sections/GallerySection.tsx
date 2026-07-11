@@ -64,7 +64,7 @@ function GalleryTile({
     <button
       type="button"
       onClick={onClick}
-      className="group relative aspect-square w-full rounded-2xl border border-white/8 overflow-hidden cursor-pointer transition-all duration-300 hover:border-white/20 hover:-translate-y-1 text-left"
+      className="group relative aspect-square w-full rounded-2xl border border-black/[0.06] overflow-hidden cursor-pointer transition-all duration-300 shadow-[0_10px_30px_-16px_rgba(20,20,20,0.18)] hover:border-orange-300 hover:shadow-[0_18px_40px_-16px_rgba(245,129,15,0.35)] hover:-translate-y-1 text-left"
       aria-label={`${alt} vergrössern`}
     >
       <Image
@@ -118,13 +118,14 @@ export default function GallerySection() {
   }, [lightboxIndex, close, prev, next])
 
   return (
-    <section className="section-padding bg-[#080808]" id="galerie">
+    <section className="section-padding bg-[#fff8f0]" id="galerie">
       <div className="container-max">
         <div className="animate-slide-up text-center mb-12">
-          <h2 className="text-3xl md:text-5xl font-semibold tracking-tight mb-4 text-white">
+          <span className="eyebrow mb-4">{t('gallery.title')}</span>
+          <h2 className="mt-3 font-display text-3xl md:text-5xl font-extrabold tracking-tight mb-4 text-neutral-900">
             {t('gallery.title')}
           </h2>
-          <p className="text-white/45 text-lg max-w-xl mx-auto">
+          <p className="text-neutral-500 text-lg max-w-xl mx-auto">
             {t('gallery.subtitle')}
           </p>
         </div>

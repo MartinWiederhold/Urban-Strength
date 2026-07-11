@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Outfit, Inter } from 'next/font/google'
+import { Outfit, Inter, Archivo } from 'next/font/google'
 import './globals.css'
 import { AuthProvider } from '@/contexts/AuthContext'
 import { LanguageProvider } from '@/contexts/LanguageContext'
@@ -19,6 +19,13 @@ const inter = Inter({
   weight: ['400', '500', '600'],
   display: 'swap',
   variable: '--font-inter',
+})
+
+const archivo = Archivo({
+  subsets: ['latin'],
+  weight: ['500', '600', '700', '800', '900'],
+  display: 'swap',
+  variable: '--font-archivo',
 })
 
 export const metadata: Metadata = {
@@ -76,7 +83,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="de-CH" className={`${outfit.variable} ${inter.variable}`}>
+    <html lang="de-CH" className={`${outfit.variable} ${inter.variable} ${archivo.variable}`}>
       <head>
         <meta name="google-site-verification" content="PqjATptIERle8deiSP1NeBH7Uf5KaHOBBAwjAL7vaU0" />
         <link href="https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.css" rel="stylesheet" />

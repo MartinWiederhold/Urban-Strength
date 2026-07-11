@@ -29,13 +29,14 @@ export default function MethodSection() {
   ]
 
   return (
-    <section className="section-padding bg-black">
+    <section className="section-padding bg-white">
       <div className="container-max">
         <div className="animate-slide-up text-center mb-16">
-          <h2 className="text-3xl md:text-5xl font-semibold tracking-tight mb-4 text-white">
+          <span className="eyebrow mb-4">{t('method.title')}</span>
+          <h2 className="mt-3 font-display text-3xl md:text-5xl font-extrabold tracking-tight mb-4 text-neutral-900">
             {t('method.title')}
           </h2>
-          <p className="text-white/45 text-lg max-w-xl mx-auto">
+          <p className="text-neutral-500 text-lg max-w-xl mx-auto">
             {t('method.subtitle')}
           </p>
         </div>
@@ -45,18 +46,18 @@ export default function MethodSection() {
             <div key={i} className="animate-slide-up relative">
               {/* Connector */}
               {i < steps.length - 1 && (
-                <div className="hidden md:block absolute top-10 left-[calc(100%+1rem)] w-8 h-px bg-white/10" />
+                <div className="hidden md:block absolute top-10 left-[calc(100%+1rem)] w-8 h-px bg-orange-200" />
               )}
 
               <div className="flex flex-col items-start">
                 <div className="flex items-center gap-4 mb-4">
-                  <span className="text-4xl font-semibold text-white/8 tracking-tight">{step.number}</span>
-                  <div className="w-12 h-12 rounded-2xl bg-white/8 border border-white/10 flex items-center justify-center">
-                    <step.icon className="w-6 h-6 text-white/60" />
-                  </div>
+                  <span className="font-display text-4xl font-extrabold text-orange-500/20 tracking-tight">{step.number}</span>
+                  <span className="icon-chip h-12 w-12">
+                    <step.icon className="w-6 h-6" />
+                  </span>
                 </div>
-                <h3 className="text-xl font-semibold mb-3 text-white">{t(step.titleKey)}</h3>
-                <p className="text-white/50 leading-relaxed">{t(step.descKey)}</p>
+                <h3 className="font-display text-xl font-bold mb-3 text-neutral-900">{t(step.titleKey)}</h3>
+                <p className="text-neutral-500 leading-relaxed">{t(step.descKey)}</p>
               </div>
             </div>
           ))}
@@ -65,7 +66,7 @@ export default function MethodSection() {
         <div className="animate-slide-up text-center">
           <Link
             href="/book/probe-training"
-            className="inline-flex h-14 items-center justify-center rounded-full bg-white px-10 text-[15px] font-semibold text-black hover:bg-white/90 hover:scale-[1.03] active:scale-[0.98] transition-all duration-300"
+            className="btn-accent h-14 px-10"
           >
             {t('method.cta')}
           </Link>

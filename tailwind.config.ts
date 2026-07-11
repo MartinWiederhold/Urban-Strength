@@ -62,6 +62,7 @@ const config: Config = {
       },
       fontFamily: {
         sans: ["var(--font-outfit)", "var(--font-inter)", "system-ui", "sans-serif"],
+        display: ["var(--font-archivo)", "var(--font-outfit)", "system-ui", "sans-serif"],
       },
       letterSpacing: {
         tighter: "-0.02em",
