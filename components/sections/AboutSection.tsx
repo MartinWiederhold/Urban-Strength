@@ -66,6 +66,7 @@ export default function AboutSection() {
                   alt="Martin – Personal Trainer in Zürich"
                   fill
                   className="object-contain object-bottom"
+                  style={{ transform: 'translateX(20%)' }}
                   sizes="(max-width: 768px) 256px, 320px"
                   priority
                 />
