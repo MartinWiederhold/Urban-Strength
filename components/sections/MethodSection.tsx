@@ -102,10 +102,10 @@ export default function MethodSection() {
                     ref={planRef}
                     className="pointer-events-none absolute font-hand text-neutral-800"
                     style={{
-                      left: '24%',
-                      top: '36%',
-                      width: '54%',
-                      height: '42%',
+                      left: '54%',
+                      top: '34%',
+                      width: '38%',
+                      height: '44%',
                       transform: 'rotate(-2deg)',
                       transformOrigin: 'top left',
                       lineHeight: 1.05,
