@@ -9,6 +9,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/dashboard/', '/admin/', '/api/', '/qrcode'],
       },
     ],
-    sitemap: 'https://personaltrainingbymartin.netlify.app/sitemap.xml',
+    sitemap: 'https://personal-training-zurich.vercel.app/sitemap.xml',
   }
 }

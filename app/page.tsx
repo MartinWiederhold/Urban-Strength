@@ -19,13 +19,13 @@ export const metadata: Metadata = {
     'Personal Training Zürich Preise', 'Geräte-Einweisung Zürich',
   ],
   alternates: {
-    canonical: 'https://personaltrainingbymartin.netlify.app',
-    languages: { 'de-CH': 'https://personaltrainingbymartin.netlify.app', 'de': 'https://personaltrainingbymartin.netlify.app' },
+    canonical: 'https://personal-training-zurich.vercel.app',
+    languages: { 'de-CH': 'https://personal-training-zurich.vercel.app', 'de': 'https://personal-training-zurich.vercel.app' },
   },
   openGraph: {
     type: 'website',
     locale: 'de_CH',
-    url: 'https://personaltrainingbymartin.netlify.app',
+    url: 'https://personal-training-zurich.vercel.app',
     siteName: 'Personal Training Zurich – by Martin',
     title: 'Personal Training Zürich | Kostenloses Probetraining | by Martin',
     description: 'Dein Personal Trainer in Zürich. Individuelles 1:1 Training. Erster Termin gratis! Ab CHF 85/h.',
@@ -52,12 +52,12 @@ export const metadata: Metadata = {
 const jsonLdLocalBusiness = {
   '@context': 'https://schema.org',
   '@type': 'HealthAndBeautyBusiness',
-  '@id': 'https://personaltrainingbymartin.netlify.app/#business',
+  '@id': 'https://personal-training-zurich.vercel.app/#business',
   name: 'Personal Training Zurich – by Martin',
   alternateName: ['Personal Training Zürich', 'PT Zurich by Martin'],
   description: 'Professionelles Personal Training in Zürich. Individuelles 1:1 Training für Muskelaufbau, Fettabbau und Fitness. Kostenlose Geräte-Einweisung und Probetraining.',
-  url: 'https://personaltrainingbymartin.netlify.app',
-  image: 'https://personaltrainingbymartin.netlify.app/og-image.jpg?v=2',
+  url: 'https://personal-training-zurich.vercel.app',
+  image: 'https://personal-training-zurich.vercel.app/og-image.jpg?v=2',
   priceRange: 'CHF 0-600',
   currenciesAccepted: 'CHF',
   paymentAccepted: 'Twint',
@@ -96,16 +96,16 @@ const jsonLdPerson = {
   name: 'Martin Wiederhold',
   jobTitle: 'Personal Trainer',
   description: 'Zertifizierter Personal Trainer in Zürich. Spezialisiert auf individuelles 1:1 Training, Muskelaufbau und Fettabbau.',
-  url: 'https://personaltrainingbymartin.netlify.app',
+  url: 'https://personal-training-zurich.vercel.app',
   knowsAbout: ['Personal Training','Muskelaufbau','Fettabbau','Fitness','Ernährungsberatung','Krafttraining'],
 }
 
 const jsonLdImage = {
   '@context': 'https://schema.org',
   '@type': 'ImageObject',
-  url: 'https://personaltrainingbymartin.netlify.app/og-image.jpg?v=2',
-  width: 1536,
-  height: 1024,
+  url: 'https://personal-training-zurich.vercel.app/og-image.jpg?v=2',
+  width: 938,
+  height: 964,
   name: 'Personal Training – Gym und Training in Zürich',
   description: 'Personal Training Zürich – Martin Wiederhold, zertifizierter Personal Trainer',
 }
