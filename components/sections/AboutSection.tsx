@@ -21,7 +21,7 @@ export default function AboutSection() {
 
           {/* Text */}
           <div className="animate-slide-up order-2 min-w-0 md:order-1">
-            <h2 className="mb-6 font-display text-[1.9rem] sm:text-4xl md:text-[3rem] font-black uppercase leading-[0.98] tracking-[-0.02em] text-ink text-balance">
+            <h2 className="mb-6 font-display text-[1.9rem] sm:text-4xl md:text-[3rem] font-black uppercase leading-[1.12] tracking-[-0.02em] text-ink text-balance">
               {t('about.titleShort')}
             </h2>
             <p className="max-w-xl leading-relaxed text-ink/60">
