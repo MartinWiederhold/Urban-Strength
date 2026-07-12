@@ -6,10 +6,13 @@ import { useEffect, useRef, useState } from 'react'
 import { CalendarCheck, ClipboardCheck, Trophy } from 'lucide-react'
 import { useLanguage } from '@/contexts/LanguageContext'
 
-const PLAN_LINES: { text: string; className: string }[] = [
+const HEADER_LINES: { text: string; className: string }[] = [
   { text: 'Trainingsplan', className: 'text-[clamp(12px,1.55vw,19px)] font-bold uppercase tracking-wide underline decoration-neutral-500 underline-offset-[3px]' },
   { text: 'Max · 25 J. — 8 Wochen', className: 'mt-[3%] text-[clamp(10px,1.2vw,15px)]' },
-  { text: 'Woche 1–4', className: 'mt-[6%] text-[clamp(11px,1.3vw,16px)] font-bold' },
+]
+
+const BODY_LINES: { text: string; className: string }[] = [
+  { text: 'Woche 1–4', className: 'text-[clamp(11px,1.3vw,16px)] font-bold' },
   { text: 'Mo · Push', className: 'text-[clamp(10px,1.15vw,14px)]' },
   { text: 'Mi · Pull', className: 'text-[clamp(10px,1.15vw,14px)]' },
   { text: 'Fr · Legs', className: 'text-[clamp(10px,1.15vw,14px)]' },
@@ -44,6 +47,13 @@ export default function MethodSection() {
     return () => obs.disconnect()
   }, [planVisible])
 
+  const writeStyle = (idx: number): React.CSSProperties => ({
+    opacity: planVisible ? undefined : 0,
+    animation: planVisible
+      ? `writeIn 0.45s cubic-bezier(0.22,1,0.36,1) ${idx * 0.28}s forwards`
+      : undefined,
+  })
+
   const steps = [
     {
       number: '01',
@@ -67,6 +77,8 @@ export default function MethodSection() {
       descKey: 'method.step3Desc',
     },
   ]
+
+  const bracketIdx = HEADER_LINES.length // index used for bracket delay
 
   return (
     <section className="section-padding bg-paper">
@@ -111,20 +123,44 @@ export default function MethodSection() {
                       lineHeight: 1.05,
                     }}
                   >
-                    {PLAN_LINES.map((line, k) => (
-                      <div
-                        key={k}
-                        className={line.className}
-                        style={{
-                          opacity: planVisible ? undefined : 0,
-                          animation: planVisible
-                            ? `writeIn 0.45s cubic-bezier(0.22,1,0.36,1) ${k * 0.28}s forwards`
-                            : undefined,
-                        }}
+                    {/* Header block — shifted 15% left */}
+                    <div style={{ transform: 'translateX(-15%)' }}>
+                      {HEADER_LINES.map((line, k) => (
+                        <div key={k} className={line.className} style={writeStyle(k)}>
+                          {line.text}
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Body block with hand-drawn curly brace on the left */}
+                    <div className="relative mt-[6%]" style={{ paddingLeft: '13%' }}>
+                      <svg
+                        className="pointer-events-none absolute left-0 top-0 h-full text-neutral-800"
+                        style={{ width: '10%', minWidth: 12, ...writeStyle(bracketIdx) }}
+                        viewBox="0 0 20 100"
+                        preserveAspectRatio="none"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        aria-hidden
                       >
-                        {line.text}
-                      </div>
-                    ))}
+                        <path
+                          vectorEffect="non-scaling-stroke"
+                          d="M 16 3 C 10 4 12 10 12 14 L 12 44 C 12 48 8 50 4 50 C 8 50 12 52 12 56 L 12 86 C 12 90 10 96 16 97"
+                        />
+                      </svg>
+                      {BODY_LINES.map((line, k) => (
+                        <div
+                          key={k}
+                          className={line.className}
+                          style={writeStyle(bracketIdx + 1 + k)}
+                        >
+                          {line.text}
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 )}
 
