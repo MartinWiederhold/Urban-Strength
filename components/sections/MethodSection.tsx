@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { CalendarCheck, ClipboardList, Trophy } from 'lucide-react'
+import { CalendarCheck, ClipboardCheck, Trophy } from 'lucide-react'
 import { useLanguage } from '@/contexts/LanguageContext'
 
 export default function MethodSection() {
@@ -16,7 +16,7 @@ export default function MethodSection() {
     },
     {
       number: '02',
-      icon: ClipboardList,
+      icon: ClipboardCheck,
       titleKey: 'method.step2Title',
       descKey: 'method.step2Desc',
     },
@@ -47,8 +47,10 @@ export default function MethodSection() {
             <div key={i} className="animate-slide-up relative border-t border-ink/15 pt-6">
               <div className="flex flex-col items-start">
                 <div className="mb-5 flex w-full items-center justify-between">
-                  <span className="font-display text-6xl font-black leading-none tracking-[-0.03em] text-ink/15">{step.number}</span>
-                  <step.icon className="h-7 w-7 text-flame" />
+                  <span className="flex h-14 w-14 items-center justify-center rounded-full bg-ink font-display text-xl font-black text-white">
+                    {step.number}
+                  </span>
+                  <step.icon className="h-7 w-7 text-flame" strokeWidth={1.75} />
                 </div>
                 <h3 className="font-display text-lg font-bold uppercase tracking-wide mb-3 text-ink">{t(step.titleKey)}</h3>
                 <p className="text-ink/55 leading-relaxed">{t(step.descKey)}</p>
