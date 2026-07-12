@@ -18,11 +18,43 @@ export default function HeroSection() {
         }}
       />
 
-      <div className="relative z-20 mx-auto flex min-h-[100svh] max-w-[1500px] items-center px-5 pb-16 pt-28 md:px-10 md:pt-32">
-        <div className="grid w-full grid-cols-1 items-center gap-10 md:grid-cols-[1.1fr_0.9fr] md:gap-12">
+      {/* Desktop portrait — large black disc that runs off the right edge.
+          The photo's black background blends into the disc; his body bleeds
+          toward the right, his face stays visible on the left of the disc. */}
+      <div className="animate-hero-athlete pointer-events-none absolute inset-y-0 right-0 z-10 hidden md:block">
+        <div className="absolute right-0 top-1/2 aspect-square h-[84vh] max-h-[880px] -translate-y-1/2 translate-x-[24%] overflow-hidden rounded-full bg-ink">
+          <Image
+            src="/assets/images/ChatGPT Image 11. Juli 2026, 21_51_45.png"
+            alt="Martin – Personal Trainer in Zürich"
+            fill
+            priority
+            quality={92}
+            sizes="60vw"
+            className="object-cover object-[46%_16%]"
+          />
+        </div>
+      </div>
 
-          {/* Left — copy */}
-          <div className="order-2 text-left md:order-1">
+      <div className="relative z-20 mx-auto flex min-h-[100svh] max-w-[1500px] items-center px-5 pb-16 pt-28 md:px-10 md:pt-32">
+        <div className="flex w-full flex-col items-start gap-10 md:max-w-[54%] md:gap-0">
+
+          {/* Mobile portrait */}
+          <div className="animate-hero-athlete order-1 mx-auto w-[62vw] max-w-[20rem] md:hidden">
+            <div className="relative aspect-square overflow-hidden rounded-full bg-ink ring-1 ring-black/15">
+              <Image
+                src="/assets/images/ChatGPT Image 11. Juli 2026, 21_51_45.png"
+                alt="Martin – Personal Trainer in Zürich"
+                fill
+                priority
+                quality={92}
+                sizes="62vw"
+                className="object-cover object-[46%_14%]"
+              />
+            </div>
+          </div>
+
+          {/* Copy */}
+          <div className="order-2 text-left">
             <span className="animate-hero-cta font-display text-[11px] font-bold uppercase tracking-[0.24em] text-black/70">
               (01) — Personal Training · Zürich
             </span>
@@ -54,23 +86,6 @@ export default function HeroSection() {
               >
                 {t('hero.ctaSecondary')}
               </Link>
-            </div>
-          </div>
-
-          {/* Right — portrait in a circle. Full figure (nothing clipped), sized by
-              height and right-aligned so his body edge sits toward the right; the
-              photo's black background blends into the disc, so no seam shows. */}
-          <div className="animate-hero-athlete order-1 flex justify-center md:order-2 md:justify-end">
-            <div className="relative aspect-square w-[64vw] max-w-[24rem] overflow-hidden rounded-full bg-ink ring-1 ring-black/15 shadow-[0_30px_70px_-20px_rgba(90,40,0,0.45)] sm:w-[22rem]">
-              <Image
-                src="/assets/images/ChatGPT Image 11. Juli 2026, 21_51_45.png"
-                alt="Martin – Personal Trainer in Zürich"
-                width={892}
-                height={1763}
-                priority
-                quality={92}
-                className="pointer-events-none absolute top-1/2 right-[3%] h-[88%] w-auto max-w-none -translate-y-1/2 select-none"
-              />
             </div>
           </div>
 
