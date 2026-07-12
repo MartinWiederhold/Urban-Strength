@@ -75,8 +75,8 @@ export default function LoginPage() {
         >
           {/* Logo */}
           <div className="mb-8">
-            <p className="text-lg font-bold tracking-tight">Personal Training Zurich</p>
-            <p className="text-sm text-muted-foreground">by Martin</p>
+            <p className="text-lg font-bold tracking-tight">Momentum</p>
+            <p className="text-sm text-muted-foreground">Personal training in Zurich</p>
           </div>
 
           {forgotMode ? (

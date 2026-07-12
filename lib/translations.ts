@@ -187,7 +187,7 @@ const footerDE = {
   'footer.offer1on1': 'Personal Training 1:1',
   'footer.offerZuerich': 'Personal Training Zürich',
   'footer.contactMail': 'Kontakt per Mail',
-  'footer.copyright': '© {year} Personal Training Zurich – by Martin. Alle Rechte vorbehalten.',
+  'footer.copyright': '© {year} Momentum – Personal Training in Zurich. Alle Rechte vorbehalten.',
   'footer.imprint': 'Impressum',
   'footer.privacy': 'Datenschutz',
 }
@@ -203,7 +203,7 @@ const footerEN = {
   'footer.offer1on1': 'Personal Training 1:1',
   'footer.offerZuerich': 'Personal Training Zurich',
   'footer.contactMail': 'Contact by email',
-  'footer.copyright': '© {year} Personal Training Zurich – by Martin. All rights reserved.',
+  'footer.copyright': '© {year} Momentum – Personal Training in Zurich. All rights reserved.',
   'footer.imprint': 'Legal Notice',
   'footer.privacy': 'Privacy Policy',
 }

@@ -212,11 +212,11 @@ export default function Navigation() {
         >
           {/* Logo */}
           <Link href="/" className="group flex flex-col">
-            <span className={`font-display text-[0.95rem] sm:text-[1.05rem] font-extrabold uppercase tracking-[0.02em] leading-[0.95] transition-colors ${txt} group-hover:opacity-70`}>
-              Personal Training
+            <span className={`font-display text-[1.15rem] sm:text-[1.35rem] font-black uppercase tracking-[0.02em] leading-[0.95] transition-colors ${txt} group-hover:opacity-70`}>
+              Momentum
             </span>
-            <span className={`mt-1 text-[9px] font-bold tracking-[0.3em] uppercase transition-colors ${solid ? 'text-flame' : 'text-white'}`}>
-              Zürich · by Martin
+            <span className={`mt-1 text-[9px] font-bold tracking-[0.28em] uppercase transition-colors ${solid ? 'text-flame' : 'text-white'}`}>
+              Personal training in Zurich
             </span>
           </Link>
 
@@ -305,8 +305,8 @@ export default function Navigation() {
           <div className="flex h-full flex-col px-4 pb-8 pt-5">
             <div className="flex items-center justify-between" style={{ height: '4.2rem' }}>
               <button type="button" onClick={() => navigateFromMobile('/')} className="flex flex-col">
-                <span className="text-[1.1rem] font-semibold uppercase tracking-tight text-white">Personal Training Zurich</span>
-                <span className="text-[10px] font-medium tracking-[0.12em] uppercase text-white/40">by Martin</span>
+                <span className="font-display text-[1.3rem] font-black uppercase tracking-tight text-white">Momentum</span>
+                <span className="mt-0.5 text-[10px] font-bold tracking-[0.24em] uppercase text-flame">Personal training in Zurich</span>
               </button>
               <button onClick={() => setIsMobileOpen(false)} className="relative flex h-10 w-10 items-center justify-center">
                 <span className="absolute h-[2px] w-6 bg-white translate-y-0 rotate-45 transition-all" />

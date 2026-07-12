@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Nur in der Schweiz verfügbar – Personal Training Zurich',
+  title: 'Nur in der Schweiz verfügbar – Momentum',
   description: 'Diese Website ist nur in der Schweiz verfügbar.',
   robots: { index: false, follow: false, nocache: true },
 }
@@ -11,7 +11,7 @@ export default function BlockedPage() {
     <main className="min-h-screen flex items-center justify-center bg-background text-foreground px-6">
       <div className="w-full max-w-md text-center space-y-8">
         <p className="text-[11px] uppercase tracking-[0.4em] text-muted-foreground">
-          Personal Training Zurich – by Martin
+          Momentum – Personal Training in Zurich
         </p>
 
         <div className="space-y-4">

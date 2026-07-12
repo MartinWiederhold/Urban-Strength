@@ -2,8 +2,8 @@ import { MetadataRoute } from 'next'
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'Personal Training Zurich – by Martin',
-    short_name: 'PT Zurich',
+    name: 'Momentum – Personal Training in Zurich',
+    short_name: 'Momentum',
     description: 'Personal Training in Zürich – Individuelles 1:1 Training',
     start_url: '/',
     display: 'standalone',

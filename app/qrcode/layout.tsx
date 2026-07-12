@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'QR Code Poster | Personal Training Zurich',
+  title: 'QR Code Poster | Momentum',
   robots: { index: false, follow: false },
 }
 

@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import KontaktContent from './KontaktContent'
 
 export const metadata: Metadata = {
-  title: 'Kontakt | Personal Training Zürich – Oberer Heuelsteig 30-34',
+  title: 'Kontakt | Momentum – Personal Training in Zürich',
   description: 'Kontaktiere deinen Personal Trainer in Zürich. Adresse: Oberer Heuelsteig 30-34, 8032 Zürich. Kostenloses Probetraining buchen oder Frage stellen.',
   alternates: { canonical: 'https://personal-training-zurich.vercel.app/kontakt' },
 }

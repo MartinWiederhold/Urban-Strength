@@ -6,8 +6,8 @@ import { Button } from '@/components/ui/button'
 import { Check, MapPin, ChevronRight } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Personal Training Zürich | Nr. 1 für individuelles Fitness Training',
-  description: 'Personal Training Zürich von Martin. Individuelles 1:1 Training für Muskelaufbau, Fettabbau & mehr Fitness. Erster Termin gratis! Ab CHF 85/h. Oberer Heuelsteig 30-34, 8032 Zürich.',
+  title: 'Momentum | Personal Training in Zürich | Individuelles Fitness Training',
+  description: 'Momentum – Personal Training in Zürich mit Martin. Individuelles 1:1 Training für Muskelaufbau, Fettabbau & mehr Fitness. Erster Termin gratis! Ab CHF 85/h. Oberer Heuelsteig 30-34, 8032 Zürich.',
   keywords: [
     'Personal Training Zürich', 'Personaltrainer Zürich', 'Personal Trainer Zürich kostenlos',
     'Personal Training Zürich Preise', 'Personal Training für Anfänger Zürich',

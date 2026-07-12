@@ -39,7 +39,7 @@ export default function MapSection() {
           }).setHTML(
             '<div class="pt-map-popup-inner">' +
               '<div class="pt-map-popup-text">' +
-              '<strong>Personal Training Zürich<span class="pt-map-popup-by">by Martin</span></strong>' +
+              '<strong>Momentum<span class="pt-map-popup-by">Personal training in Zurich</span></strong>' +
               '<p>Oberer Heuelsteig 30-34<br/>8032 Zürich, Schweiz</p>' +
               '</div>' +
               '<div class="pt-map-popup-avatar">' +

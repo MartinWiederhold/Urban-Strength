@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL ?? 'personaltrainingbymartin@gmail.com'
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'
 const FROM_EMAIL = 'personaltrainingbymartin@gmail.com'
-const FROM_NAME = 'Personal Training Zurich – by Martin'
+const FROM_NAME = 'Momentum – Personal Training in Zurich'
 
 const WA_LINK = 'https://wa.me/41774857535'
 const WA_NUMBER = '+41 77 485 75 35'
@@ -13,14 +13,14 @@ function baseTemplate(content: string) {
   return `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px; background: #f7f6f3;">
       <div style="background: #1c1c1c; border-radius: 16px; padding: 32px; text-align: center; margin-bottom: 24px;">
-        <h1 style="color: white; font-size: 22px; margin: 0 0 6px; font-weight: 700;">Personal Training Zurich</h1>
-        <p style="color: rgba(255,255,255,0.5); margin: 0; font-size: 13px;">by Martin</p>
+        <h1 style="color: white; font-size: 22px; margin: 0 0 6px; font-weight: 700;">Momentum</h1>
+        <p style="color: rgba(255,255,255,0.5); margin: 0; font-size: 13px;">Personal training in Zurich</p>
       </div>
       <div style="background: white; border-radius: 16px; padding: 32px;">
         ${content}
       </div>
       <p style="text-align: center; color: #aaa; font-size: 12px; margin-top: 20px;">
-        Personal Training Zurich – by Martin · ${ADDRESS}
+        Momentum – Personal Training in Zurich · ${ADDRESS}
       </p>
     </div>
   `
@@ -106,7 +106,7 @@ export async function POST(request: NextRequest) {
         </div>
         ${waBlock()}
       `)
-      await sendMail(to, 'Deine Buchungsanfrage ist eingegangen – Personal Training Zürich', html)
+      await sendMail(to, 'Deine Buchungsanfrage ist eingegangen – Momentum', html)
     }
 
     else if (type === 'booking_cancelled_customer') {
@@ -118,7 +118,7 @@ export async function POST(request: NextRequest) {
         ${ctaButton(`${APP_URL}/book/probe-training`, 'Neuen Termin buchen')}
         ${waBlock()}
       `)
-      await sendMail(to, 'Buchung storniert – Personal Training Zürich', html)
+      await sendMail(to, 'Buchung storniert – Momentum', html)
     }
 
     // ── Status-Wechsel durch Admin → Kunden-E-Mails ─────────────────────────────
@@ -127,7 +127,7 @@ export async function POST(request: NextRequest) {
       const html = baseTemplate(`
         <h2 style="color: #1c1c1c; font-size: 20px; font-weight: 700; margin: 0 0 8px;">✓ Dein Termin ist bestätigt!</h2>
         <p style="color: #666; margin: 0 0 4px;">Hallo ${name},</p>
-        <p style="color: #666; margin: 0 0 16px;">dein Termin bei Personal Training Zurich ist bestätigt. Ich freue mich auf unser Training!</p>
+        <p style="color: #666; margin: 0 0 16px;">dein Termin bei Momentum ist bestätigt. Ich freue mich auf unser Training!</p>
         ${bookingTable(service, date, time)}
         <div style="background: #f0f7f3; border: 1px solid #c5dfd0; border-radius: 12px; padding: 16px; margin-top: 0;">
           <p style="color: #4a7c59; font-weight: 600; margin: 0 0 4px;">📍 Trainingsstandort</p>
@@ -135,7 +135,7 @@ export async function POST(request: NextRequest) {
         </div>
         ${waBlock()}
       `)
-      await sendMail(to, 'Dein Termin bei Personal Training Zurich ist bestätigt ✓', html)
+      await sendMail(to, 'Dein Termin bei Momentum ist bestätigt ✓', html)
     }
 
     else if (type === 'status_completed_customer') {

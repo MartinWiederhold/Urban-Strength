@@ -34,7 +34,7 @@ const caveat = Caveat({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://personal-training-zurich.vercel.app'),
-  title: 'Personal Training Zürich | Kostenloses Probetraining | by Martin',
+  title: 'Momentum | Personal Training in Zürich | Kostenloses Probetraining',
   description: 'Dein Personal Trainer in Zürich. Individuelles 1:1 Training für Muskelaufbau, Fettabbau & Fitness. Erster Termin gratis! ✓ CHF 85/h ✓ Geräte-Einweisung ✓ Trainingsplan. Jetzt buchen!',
   keywords: [
     'Personal Training Zürich', 'Personal Trainer Zürich', 'Personaltraining Zürich',
@@ -52,15 +52,15 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'de_CH',
     url: 'https://personal-training-zurich.vercel.app',
-    siteName: 'Personal Training Zurich – by Martin',
-    title: 'Personal Training Zürich | Kostenloses Probetraining | by Martin',
+    siteName: 'Momentum – Personal Training in Zurich',
+    title: 'Momentum | Personal Training in Zürich | Kostenloses Probetraining',
     description: 'Dein Personal Trainer in Zürich. Individuelles 1:1 Training. Erster Termin gratis! Ab CHF 85/h.',
     images: [
       {
         url: '/og-image.jpg?v=2',
         width: 938,
         height: 964,
-        alt: 'Personal Training Zürich – by Martin',
+        alt: 'Momentum – Personal Training in Zürich',
       },
     ],
   },

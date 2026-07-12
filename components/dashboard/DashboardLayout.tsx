@@ -69,7 +69,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </div>
           <div>
             <p className="font-semibold text-sm tracking-tight">Personal Training</p>
-            <p className="text-xs text-muted-foreground">by Martin</p>
+            <p className="text-xs text-muted-foreground">Personal training in Zurich</p>
           </div>
         </Link>
       </div>

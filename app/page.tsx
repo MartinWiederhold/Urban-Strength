@@ -10,7 +10,7 @@ import MapSection from '@/components/sections/MapSection'
 import FAQSection from '@/components/sections/FAQSection'
 
 export const metadata: Metadata = {
-  title: 'Personal Training Zürich | Kostenloses Probetraining | by Martin',
+  title: 'Momentum | Personal Training in Zürich | Kostenloses Probetraining',
   description: 'Dein Personal Trainer in Zürich. Individuelles 1:1 Training für Muskelaufbau, Fettabbau & Fitness. Erster Termin gratis! ✓ CHF 85/h ✓ Geräte-Einweisung ✓ Trainingsplan. Jetzt buchen!',
   keywords: [
     'Personal Training Zürich', 'Personal Trainer Zürich', 'Personaltraining Zürich',
@@ -26,8 +26,8 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'de_CH',
     url: 'https://personal-training-zurich.vercel.app',
-    siteName: 'Personal Training Zurich – by Martin',
-    title: 'Personal Training Zürich | Kostenloses Probetraining | by Martin',
+    siteName: 'Momentum – Personal Training in Zurich',
+    title: 'Momentum | Personal Training in Zürich | Kostenloses Probetraining',
     description: 'Dein Personal Trainer in Zürich. Individuelles 1:1 Training. Erster Termin gratis! Ab CHF 85/h.',
     images: [
       {
@@ -53,8 +53,8 @@ const jsonLdLocalBusiness = {
   '@context': 'https://schema.org',
   '@type': 'HealthAndBeautyBusiness',
   '@id': 'https://personal-training-zurich.vercel.app/#business',
-  name: 'Personal Training Zurich – by Martin',
-  alternateName: ['Personal Training Zürich', 'PT Zurich by Martin'],
+  name: 'Momentum – Personal Training in Zurich',
+  alternateName: ['Momentum Zürich', 'Momentum Personal Training', 'Personal Training Zürich'],
   description: 'Professionelles Personal Training in Zürich. Individuelles 1:1 Training für Muskelaufbau, Fettabbau und Fitness. Kostenlose Geräte-Einweisung und Probetraining.',
   url: 'https://personal-training-zurich.vercel.app',
   image: 'https://personal-training-zurich.vercel.app/og-image.jpg?v=2',
@@ -107,7 +107,7 @@ const jsonLdImage = {
   width: 938,
   height: 964,
   name: 'Personal Training – Gym und Training in Zürich',
-  description: 'Personal Training Zürich – Martin Wiederhold, zertifizierter Personal Trainer',
+  description: 'Momentum – Personal Training in Zürich mit Martin Wiederhold, zertifizierter Personal Trainer',
 }
 
 const jsonLdFAQ = {

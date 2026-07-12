@@ -31,11 +31,11 @@ export default function Footer() {
           {/* Brand */}
           <div className="md:col-span-1">
             <Link href="/" className="mb-4 inline-flex flex-col transition-opacity hover:opacity-70">
-              <span className="font-display text-[1.15rem] font-black uppercase tracking-tight text-white">
-                Personal Training Zurich
+              <span className="font-display text-[1.5rem] font-black uppercase tracking-tight text-white">
+                Momentum
               </span>
-              <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-flame">
-                by Martin
+              <span className="mt-1 text-[10px] font-bold tracking-[0.22em] uppercase text-flame">
+                Personal training in Zurich
               </span>
             </Link>
             <p className="text-sm text-white/45 leading-relaxed">

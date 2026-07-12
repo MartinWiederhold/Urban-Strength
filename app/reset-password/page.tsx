@@ -59,8 +59,8 @@ export default function ResetPasswordPage() {
         <div className="animate-slide-up bg-card border border-border rounded-2xl p-8 shadow-card"
         >
           <div className="mb-8">
-            <p className="text-lg font-bold tracking-tight">Personal Training Zurich</p>
-            <p className="text-sm text-muted-foreground">by Martin</p>
+            <p className="text-lg font-bold tracking-tight">Momentum</p>
+            <p className="text-sm text-muted-foreground">Personal training in Zurich</p>
           </div>
 
           <h1 className="text-2xl font-bold tracking-tight mb-2">Neues Passwort festlegen</h1>

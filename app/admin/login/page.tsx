@@ -67,7 +67,7 @@ export default function AdminLoginPage() {
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-2xl font-semibold tracking-tight text-white">Admin Dashboard</h1>
-          <p className="text-sm text-white/40 mt-1">Personal Training Zurich – by Martin</p>
+          <p className="text-sm text-white/40 mt-1">Momentum – Personal Training in Zurich</p>
         </div>
 
         {/* Form */}
