@@ -15,8 +15,8 @@ export default function Footer() {
         <div className="max-w-[1600px] mx-auto">
           <span className="eyebrow mb-6">(07) — Los geht’s</span>
           <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
-            <h2 className="font-display text-[3.25rem] leading-[0.86] md:text-[8.5rem] font-black uppercase tracking-[-0.03em] text-white">
-              Train<br />with me
+            <h2 className="font-display text-[2.1rem] leading-[0.95] md:text-[3.75rem] font-black uppercase tracking-[-0.02em] text-white">
+              Train with me
             </h2>
             <Link href="/book/probe-training" className="btn-accent h-14 shrink-0 gap-3">
               {t('about.cta')}

@@ -39,6 +39,9 @@ export default function AboRequest() {
   const [sessions, setSessions] = useState<Record<string, string>>({})
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
+  const [age, setAge] = useState('')
+  const [experience, setExperience] = useState('')
+  const [alreadyTraining, setAlreadyTraining] = useState('')
 
   const monthLabel = new Date(viewYear, viewMonth, 1).toLocaleDateString(lang === 'en' ? 'en-GB' : 'de-CH', {
     month: 'long',
@@ -112,8 +115,13 @@ export default function AboRequest() {
     )
     const label = t('Meine Wunschtermine:', 'My preferred sessions:')
     const parts = [intro, '', label, ...lines]
-    if (name.trim()) parts.push('', `${t('Name', 'Name')}: ${name.trim()}`)
-    if (phone.trim()) parts.push(`${t('Telefon', 'Phone')}: ${phone.trim()}`)
+    const details: string[] = []
+    if (name.trim()) details.push(`${t('Name', 'Name')}: ${name.trim()}`)
+    if (phone.trim()) details.push(`${t('Telefon', 'Phone')}: ${phone.trim()}`)
+    if (age.trim()) details.push(`${t('Alter', 'Age')}: ${age.trim()}`)
+    if (experience) details.push(`${t('Erfahrung', 'Experience')}: ${experience}`)
+    if (alreadyTraining) details.push(`${t('Trainierst du bereits', 'Already training')}: ${alreadyTraining}`)
+    if (details.length) parts.push('', ...details)
     const msg = parts.join('\n')
     const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`
     window.open(url, '_blank', 'noopener,noreferrer')
@@ -231,8 +239,11 @@ export default function AboRequest() {
             </ul>
           )}
 
-          {/* Contact (optional) */}
-          <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+          {/* Contact + details (optional) */}
+          <p className="mt-6 mb-3 text-xs uppercase tracking-wide text-muted-foreground">
+            {t('Deine Angaben (optional)', 'Your details (optional)')}
+          </p>
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <input
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -242,9 +253,39 @@ export default function AboRequest() {
             <input
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
-              placeholder={t('Telefon (optional)', 'Phone (optional)')}
+              placeholder={t('Telefon', 'Phone')}
               className="rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground outline-none focus:border-amber-400"
             />
+            <input
+              value={age}
+              onChange={(e) => setAge(e.target.value)}
+              type="number"
+              min={10}
+              max={100}
+              placeholder={t('Alter', 'Age')}
+              className="rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground outline-none focus:border-amber-400"
+            />
+            <select
+              value={experience}
+              onChange={(e) => setExperience(e.target.value)}
+              className="rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground outline-none focus:border-amber-400"
+              aria-label={t('Erfahrung', 'Experience')}
+            >
+              <option value="">{t('Erfahrung wählen', 'Select experience')}</option>
+              <option value={t('Anfänger', 'Beginner')}>{t('Anfänger', 'Beginner')}</option>
+              <option value={t('Fortgeschritten', 'Intermediate')}>{t('Fortgeschritten', 'Intermediate')}</option>
+              <option value={t('Profi', 'Advanced')}>{t('Profi', 'Advanced')}</option>
+            </select>
+            <select
+              value={alreadyTraining}
+              onChange={(e) => setAlreadyTraining(e.target.value)}
+              className="rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground outline-none focus:border-amber-400 sm:col-span-2"
+              aria-label={t('Trainierst du bereits?', 'Already training?')}
+            >
+              <option value="">{t('Trainierst du bereits regelmässig?', 'Do you already train regularly?')}</option>
+              <option value={t('Ja', 'Yes')}>{t('Ja', 'Yes')}</option>
+              <option value={t('Nein', 'No')}>{t('Nein', 'No')}</option>
+            </select>
           </div>
         </div>
       </div>
