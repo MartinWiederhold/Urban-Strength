@@ -143,6 +143,7 @@ const mapDE = {
   'map.transitValue': 'Bus & Tram bis Klusplatz, danach zu Fuss ca. 10 Min.',
   'map.car': 'Mit Auto',
   'map.carValue': 'Parkplätze in der Nähe verfügbar',
+  'map.route': 'Route öffnen',
 }
 const mapEN = {
   'map.title': 'Training location in Zurich',
@@ -154,6 +155,7 @@ const mapEN = {
   'map.transitValue': 'Bus & tram to Klusplatz, then approx. 10 min on foot.',
   'map.car': 'By car',
   'map.carValue': 'Parking available nearby',
+  'map.route': 'Open route',
 }
 
 // ─── CTA Section ───────────────────────────────────────────────────────────

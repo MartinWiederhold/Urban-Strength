@@ -1,6 +1,6 @@
 'use client'
 
-import { MapPin, Clock, Car, Train } from 'lucide-react'
+import { MapPin, Clock, Car, TramFront, ArrowUpRight } from 'lucide-react'
 import { useEffect, useRef } from 'react'
 import { useLanguage } from '@/contexts/LanguageContext'
 
@@ -65,7 +65,7 @@ export default function MapSection() {
   const infoCards = [
     { icon: MapPin, label: t('map.address'), value: <>Oberer Heuelsteig 30-34<br />8032 Zürich, Schweiz</> },
     { icon: Clock, label: t('map.hours'), value: <>{hoursLines[0]}<br />{hoursLines[1]}</> },
-    { icon: Train, label: t('map.transit'), value: transitValue },
+    { icon: TramFront, label: t('map.transit'), value: transitValue },
     { icon: Car, label: t('map.car'), value: carValue },
   ]
 
@@ -84,17 +84,32 @@ export default function MapSection() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
-          {/* Info */}
-          <div className="animate-slide-up space-y-3">
-            {infoCards.map((c, i) => (
-              <div key={i} className="card-light flex items-start gap-3 p-4">
-                <span className="icon-chip h-10 w-10 shrink-0"><c.icon className="w-5 h-5" /></span>
-                <div>
-                  <p className="font-semibold mb-0.5 text-neutral-900">{c.label}</p>
-                  <p className="text-sm text-neutral-500">{c.value}</p>
-                </div>
-              </div>
-            ))}
+          {/* Info — single editorial card with hairline dividers */}
+          <div className="animate-slide-up overflow-hidden rounded-3xl border border-ink/10 bg-white">
+            <ul className="divide-y divide-ink/10">
+              {infoCards.map((c, i) => (
+                <li key={i} className="group flex items-start gap-4 px-5 py-5">
+                  <c.icon className="mt-0.5 h-5 w-5 shrink-0 text-flame" strokeWidth={1.75} />
+                  <div className="min-w-0 flex-1">
+                    <p className="font-display text-[11px] font-bold uppercase tracking-[0.18em] text-ink/45">
+                      {c.label}
+                    </p>
+                    <p className="mt-1.5 text-[15px] leading-relaxed text-ink">{c.value}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+            <a
+              href="https://www.google.com/maps/dir/?api=1&destination=Oberer+Heuelsteig+30-34%2C+8032+Z%C3%BCrich"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-between gap-3 border-t border-ink/10 bg-ink px-5 py-4 text-white transition-colors hover:bg-flame"
+            >
+              <span className="font-display text-xs font-bold uppercase tracking-[0.18em]">
+                {t('map.route')}
+              </span>
+              <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+            </a>
           </div>
 
           {/* Map */}
