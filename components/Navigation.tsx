@@ -215,7 +215,7 @@ export default function Navigation() {
             <span className={`font-display text-[0.95rem] sm:text-[1.05rem] font-extrabold uppercase tracking-[0.02em] leading-[0.95] transition-colors ${txt} group-hover:opacity-70`}>
               Personal Training
             </span>
-            <span className="mt-1 text-[9px] font-bold tracking-[0.3em] uppercase text-flame">
+            <span className={`mt-1 text-[9px] font-bold tracking-[0.3em] uppercase transition-colors ${solid ? 'text-flame' : 'text-white'}`}>
               Zürich · by Martin
             </span>
           </Link>
