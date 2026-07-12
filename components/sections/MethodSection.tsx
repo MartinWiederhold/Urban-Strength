@@ -58,6 +58,49 @@ export default function MethodSection() {
                   className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                   sizes="(max-width: 768px) 100vw, 33vw"
                 />
+
+                {/* Handwritten training plan overlay — only on step 02 (clipboard). */}
+                {i === 1 && (
+                  <div
+                    className="pointer-events-none absolute font-hand text-neutral-800"
+                    style={{
+                      left: '31%',
+                      top: '19%',
+                      width: '40%',
+                      height: '52%',
+                      transform: 'rotate(-2.5deg)',
+                      transformOrigin: 'top left',
+                      lineHeight: 1.05,
+                    }}
+                  >
+                    <div className="text-[clamp(11px,1.4vw,17px)] font-bold uppercase tracking-wide underline decoration-neutral-500 underline-offset-[3px]">
+                      Trainingsplan
+                    </div>
+                    <div className="mt-[3%] text-[clamp(10px,1.15vw,14px)]">
+                      Max · 25 J. — 8 Wochen
+                    </div>
+                    <div className="mt-[6%] text-[clamp(10px,1.15vw,14px)] font-bold">
+                      Woche 1–4
+                    </div>
+                    <div className="text-[clamp(9px,1.1vw,13px)]">Mo · Push</div>
+                    <div className="text-[clamp(9px,1.1vw,13px)]">Mi · Pull</div>
+                    <div className="text-[clamp(9px,1.1vw,13px)]">Fr · Legs</div>
+
+                    <div className="mt-[4%] text-[clamp(10px,1.15vw,14px)] font-bold">
+                      Woche 5–8
+                    </div>
+                    <div className="text-[clamp(9px,1.1vw,13px)]">+ Volumen ↑</div>
+                    <div className="text-[clamp(9px,1.1vw,13px)]">+ Beine 2×/Wo</div>
+
+                    <div className="mt-[5%] text-[clamp(10px,1.15vw,14px)] font-bold">
+                      Ernährung
+                    </div>
+                    <div className="text-[clamp(9px,1.1vw,13px)]">≈ 2800 kcal</div>
+                    <div className="text-[clamp(9px,1.1vw,13px)]">Protein 160 g</div>
+                    <div className="text-[clamp(9px,1.1vw,13px)]">3 Mahlz. + Shake</div>
+                  </div>
+                )}
+
                 {/* Number badge on the image */}
                 <span className="absolute left-4 top-4 flex h-12 w-12 items-center justify-center rounded-full bg-ink font-display text-lg font-black text-white shadow-lg">
                   {step.number}

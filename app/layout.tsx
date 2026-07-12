@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Inter, Archivo } from 'next/font/google'
+import { Inter, Archivo, Caveat } from 'next/font/google'
 import './globals.css'
 import { AuthProvider } from '@/contexts/AuthContext'
 import { LanguageProvider } from '@/contexts/LanguageContext'
@@ -20,6 +20,14 @@ const archivo = Archivo({
   weight: ['400', '500', '600', '700', '800', '900'],
   display: 'swap',
   variable: '--font-archivo',
+})
+
+// Handwritten accent (used e.g. on the training plan clipboard).
+const caveat = Caveat({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  display: 'swap',
+  variable: '--font-caveat',
 })
 
 export const metadata: Metadata = {
@@ -77,7 +85,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="de-CH" className={`${inter.variable} ${archivo.variable}`}>
+    <html lang="de-CH" className={`${inter.variable} ${archivo.variable} ${caveat.variable}`}>
       <head>
         <meta name="google-site-verification" content="PqjATptIERle8deiSP1NeBH7Uf5KaHOBBAwjAL7vaU0" />
         <link href="https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.css" rel="stylesheet" />

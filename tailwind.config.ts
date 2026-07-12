@@ -66,6 +66,7 @@ const config: Config = {
       fontFamily: {
         sans: ["var(--font-archivo)", "var(--font-inter)", "system-ui", "sans-serif"],
         display: ["var(--font-archivo)", "var(--font-inter)", "system-ui", "sans-serif"],
+        hand: ["var(--font-caveat)", "cursive"],
       },
       letterSpacing: {
         tighter: "-0.02em",
