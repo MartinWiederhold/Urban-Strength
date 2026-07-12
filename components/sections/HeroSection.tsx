@@ -18,11 +18,38 @@ export default function HeroSection() {
         }}
       />
 
-      <div className="relative z-20 mx-auto flex min-h-[100svh] max-w-[1500px] items-center px-5 pb-16 pt-28 md:px-10 md:pt-32">
-        <div className="grid w-full grid-cols-1 items-center gap-10 md:grid-cols-[1.15fr_0.85fr] md:gap-10">
+      {/* Desktop portrait — transparent cut-out, right-aligned, full figure,
+          bleeding to the right edge of the screen. */}
+      <div className="animate-hero-athlete pointer-events-none absolute inset-y-0 right-0 z-10 hidden items-end justify-end md:flex">
+        <Image
+          src="/assets/images/Objekt 4.png"
+          alt="Martin – Personal Trainer in Zürich"
+          width={734}
+          height={1660}
+          priority
+          quality={92}
+          className="h-[95%] w-auto max-w-none select-none object-contain object-bottom"
+        />
+      </div>
 
-          {/* Left — copy */}
-          <div className="order-2 text-left md:order-1">
+      <div className="relative z-20 mx-auto flex min-h-[100svh] max-w-[1500px] items-center px-5 pb-16 pt-28 md:px-10 md:pt-32">
+        <div className="flex w-full flex-col items-start gap-8 md:max-w-[56%] md:gap-0">
+
+          {/* Mobile portrait */}
+          <div className="animate-hero-athlete order-1 mx-auto flex w-full justify-center md:hidden">
+            <Image
+              src="/assets/images/Objekt 4.png"
+              alt="Martin – Personal Trainer in Zürich"
+              width={734}
+              height={1660}
+              priority
+              quality={92}
+              className="h-[34svh] w-auto max-w-none select-none object-contain"
+            />
+          </div>
+
+          {/* Copy */}
+          <div className="order-2 text-left">
             <span className="animate-hero-cta font-display text-[11px] font-bold uppercase tracking-[0.24em] text-black/70">
               (01) — Personal Training · Zürich
             </span>
@@ -54,21 +81,6 @@ export default function HeroSection() {
               >
                 {t('hero.ctaSecondary')}
               </Link>
-            </div>
-          </div>
-
-          {/* Right — portrait fully visible inside a black disc (photo bg blends) */}
-          <div className="animate-hero-athlete order-1 flex justify-center md:order-2 md:justify-end">
-            <div className="relative aspect-square w-[66vw] max-w-[25rem] overflow-hidden rounded-full bg-ink ring-1 ring-black/15 shadow-[0_30px_70px_-20px_rgba(90,40,0,0.45)] sm:w-[23rem]">
-              <Image
-                src="/assets/images/ChatGPT Image 11. Juli 2026, 21_51_45.png"
-                alt="Martin – Personal Trainer in Zürich"
-                width={892}
-                height={1763}
-                priority
-                quality={92}
-                className="pointer-events-none absolute left-1/2 top-1/2 h-[92%] w-auto max-w-none -translate-x-1/2 -translate-y-1/2 select-none"
-              />
             </div>
           </div>
 

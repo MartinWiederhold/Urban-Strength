@@ -212,11 +212,11 @@ export default function Navigation() {
         >
           {/* Logo */}
           <Link href="/" className="group flex flex-col">
-            <span className={`font-sans text-[0.82rem] sm:text-[0.95rem] font-semibold uppercase tracking-[0.14em] leading-none transition-colors ${txt} group-hover:opacity-70`}>
-              Personal Training Zürich
+            <span className={`font-display text-[0.95rem] sm:text-[1.05rem] font-extrabold uppercase tracking-[0.02em] leading-[0.95] transition-colors ${txt} group-hover:opacity-70`}>
+              Personal Training
             </span>
-            <span className="mt-1 text-[9px] font-medium tracking-[0.28em] uppercase text-flame">
-              by Martin
+            <span className="mt-1 text-[9px] font-bold tracking-[0.3em] uppercase text-flame">
+              Zürich · by Martin
             </span>
           </Link>
 
