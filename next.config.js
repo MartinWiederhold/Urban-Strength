@@ -8,11 +8,6 @@ const nextConfig = {
   },
   compress: true,
   poweredByHeader: false,
-  async redirects() {
-    return [
-      { source: '/QR', destination: '/qr', permanent: false },
-    ]
-  },
   async headers() {
     return [
       {
