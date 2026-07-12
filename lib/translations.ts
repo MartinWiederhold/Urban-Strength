@@ -405,7 +405,7 @@ export const servicesData = {
     {
       id: 'probe-training',
       badge: 'Kostenlos & Unverbindlich',
-      title: 'Kostenloser Start – Geräte-Einweisung & Probetraining',
+      title: 'Kostenloses Probetraining',
       price: 'CHF 0',
       priceNote: 'Komplett gratis',
       duration: 'ca. 60 Minuten',
@@ -467,7 +467,7 @@ export const servicesData = {
     {
       id: 'probe-training',
       badge: 'Free & No Commitment',
-      title: 'Free Start – Equipment Intro & Trial Training',
+      title: 'Free trial training',
       price: 'CHF 0',
       priceNote: 'Completely free',
       duration: 'approx. 60 minutes',
