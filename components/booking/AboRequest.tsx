@@ -133,8 +133,8 @@ export default function AboRequest() {
   return (
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
       {/* Calendar + selection */}
-      <div className="lg:col-span-2 space-y-6">
-        <div className="rounded-2xl border border-border bg-card p-6">
+      <div className="min-w-0 space-y-6 lg:col-span-2">
+        <div className="rounded-2xl border border-border bg-card p-4 sm:p-6">
           <h2 className="mb-1 text-xl font-bold">{t('Wunschtermine wählen', 'Choose your sessions')}</h2>
           <p className="mb-6 text-sm text-muted-foreground">
             {t(
@@ -166,14 +166,14 @@ export default function AboRequest() {
           </div>
 
           {/* Weekday header */}
-          <div className="mb-1 grid grid-cols-7 gap-1">
+          <div className="mb-1 grid grid-cols-7 gap-1 sm:gap-1.5">
             {weekdays.map((d) => (
-              <div key={d} className="py-1 text-center text-xs text-muted-foreground">{d}</div>
+              <div key={d} className="py-1 text-center text-[11px] text-muted-foreground sm:text-xs">{d}</div>
             ))}
           </div>
 
           {/* Days */}
-          <div className="grid grid-cols-7 gap-1">
+          <div className="grid grid-cols-7 gap-1 sm:gap-1.5">
             {cells.map((d, i) => {
               if (!d) return <div key={`b-${i}`} />
               const key = toKey(d)
@@ -186,7 +186,7 @@ export default function AboRequest() {
                   disabled={past}
                   onClick={() => toggleDay(d)}
                   className={[
-                    'h-10 rounded-lg text-sm font-medium transition-all',
+                    'flex aspect-square items-center justify-center rounded-lg text-[15px] font-medium transition-all active:scale-95 sm:aspect-auto sm:h-10 sm:text-sm',
                     past
                       ? 'cursor-not-allowed text-muted-foreground/30'
                       : selected
@@ -202,7 +202,7 @@ export default function AboRequest() {
         </div>
 
         {/* Selected sessions */}
-        <div className="rounded-2xl border border-border bg-card p-6">
+        <div className="rounded-2xl border border-border bg-card p-4 sm:p-6">
           <h3 className="mb-4 text-lg font-bold">
             {t('Gewählte Termine', 'Selected sessions')}
             {sortedKeys.length > 0 && <span className="ml-2 text-amber-400">({sortedKeys.length})</span>}
@@ -215,26 +215,28 @@ export default function AboRequest() {
           ) : (
             <ul className="space-y-2">
               {sortedKeys.map((key) => (
-                <li key={key} className="flex items-center gap-3 rounded-xl bg-secondary p-3">
-                  <span className="flex-1 text-sm font-medium capitalize">{formatLong(key)}</span>
-                  <Select value={sessions[key]} onValueChange={(v) => setTime(key, v)}>
-                    <SelectTrigger className="w-[128px] shrink-0" aria-label={t('Uhrzeit', 'Time')}>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent className="max-h-64">
-                      {TIME_OPTIONS.map((tm) => (
-                        <SelectItem key={tm} value={tm}>{tm}{t(' Uhr', '')}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <button
-                    type="button"
-                    onClick={() => removeSession(key)}
-                    className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive"
-                    aria-label={t('Entfernen', 'Remove')}
-                  >
-                    <X className="h-4 w-4" />
-                  </button>
+                <li key={key} className="flex flex-col gap-2 rounded-xl bg-secondary p-3 sm:flex-row sm:items-center sm:gap-3">
+                  <span className="text-sm font-medium capitalize sm:flex-1">{formatLong(key)}</span>
+                  <div className="flex items-center gap-2">
+                    <Select value={sessions[key]} onValueChange={(v) => setTime(key, v)}>
+                      <SelectTrigger className="h-11 w-full sm:h-10 sm:w-[128px] sm:shrink-0" aria-label={t('Uhrzeit', 'Time')}>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent className="max-h-64">
+                        {TIME_OPTIONS.map((tm) => (
+                          <SelectItem key={tm} value={tm}>{tm}{t(' Uhr', '')}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <button
+                      type="button"
+                      onClick={() => removeSession(key)}
+                      className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive sm:h-9 sm:w-9"
+                      aria-label={t('Entfernen', 'Remove')}
+                    >
+                      <X className="h-5 w-5 sm:h-4 sm:w-4" />
+                    </button>
+                  </div>
                 </li>
               ))}
             </ul>
