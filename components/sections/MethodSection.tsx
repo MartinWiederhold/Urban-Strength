@@ -2,11 +2,47 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
+import { useEffect, useRef, useState } from 'react'
 import { CalendarCheck, ClipboardCheck, Trophy } from 'lucide-react'
 import { useLanguage } from '@/contexts/LanguageContext'
 
+const PLAN_LINES: { text: string; className: string }[] = [
+  { text: 'Trainingsplan', className: 'text-[clamp(12px,1.55vw,19px)] font-bold uppercase tracking-wide underline decoration-neutral-500 underline-offset-[3px]' },
+  { text: 'Max · 25 J. — 8 Wochen', className: 'mt-[3%] text-[clamp(10px,1.2vw,15px)]' },
+  { text: 'Woche 1–4', className: 'mt-[6%] text-[clamp(11px,1.3vw,16px)] font-bold' },
+  { text: 'Mo · Push', className: 'text-[clamp(10px,1.15vw,14px)]' },
+  { text: 'Mi · Pull', className: 'text-[clamp(10px,1.15vw,14px)]' },
+  { text: 'Fr · Legs', className: 'text-[clamp(10px,1.15vw,14px)]' },
+  { text: 'Woche 5–8', className: 'mt-[4%] text-[clamp(11px,1.3vw,16px)] font-bold' },
+  { text: '+ Volumen ↑', className: 'text-[clamp(10px,1.15vw,14px)]' },
+  { text: '+ Beine 2×/Wo', className: 'text-[clamp(10px,1.15vw,14px)]' },
+  { text: 'Ernährung', className: 'mt-[5%] text-[clamp(11px,1.3vw,16px)] font-bold' },
+  { text: '≈ 2800 kcal', className: 'text-[clamp(10px,1.15vw,14px)]' },
+  { text: 'Protein 160 g', className: 'text-[clamp(10px,1.15vw,14px)]' },
+  { text: '3 Mahlz. + Shake', className: 'text-[clamp(10px,1.15vw,14px)]' },
+]
+
 export default function MethodSection() {
   const { t } = useLanguage()
+
+  const planRef = useRef<HTMLDivElement>(null)
+  const [planVisible, setPlanVisible] = useState(false)
+
+  useEffect(() => {
+    if (!planRef.current || planVisible) return
+    const el = planRef.current
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setPlanVisible(true)
+          obs.disconnect()
+        }
+      },
+      { threshold: 0.35 }
+    )
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [planVisible])
 
   const steps = [
     {
@@ -59,45 +95,36 @@ export default function MethodSection() {
                   sizes="(max-width: 768px) 100vw, 33vw"
                 />
 
-                {/* Handwritten training plan overlay — only on step 02 (clipboard). */}
+                {/* Handwritten training plan overlay — only on step 02 (clipboard),
+                    written line by line via IntersectionObserver + staggered CSS. */}
                 {i === 1 && (
                   <div
+                    ref={planRef}
                     className="pointer-events-none absolute font-hand text-neutral-800"
                     style={{
-                      left: '31%',
-                      top: '19%',
-                      width: '40%',
-                      height: '52%',
-                      transform: 'rotate(-2.5deg)',
+                      left: '24%',
+                      top: '36%',
+                      width: '54%',
+                      height: '42%',
+                      transform: 'rotate(-2deg)',
                       transformOrigin: 'top left',
                       lineHeight: 1.05,
                     }}
                   >
-                    <div className="text-[clamp(11px,1.4vw,17px)] font-bold uppercase tracking-wide underline decoration-neutral-500 underline-offset-[3px]">
-                      Trainingsplan
-                    </div>
-                    <div className="mt-[3%] text-[clamp(10px,1.15vw,14px)]">
-                      Max · 25 J. — 8 Wochen
-                    </div>
-                    <div className="mt-[6%] text-[clamp(10px,1.15vw,14px)] font-bold">
-                      Woche 1–4
-                    </div>
-                    <div className="text-[clamp(9px,1.1vw,13px)]">Mo · Push</div>
-                    <div className="text-[clamp(9px,1.1vw,13px)]">Mi · Pull</div>
-                    <div className="text-[clamp(9px,1.1vw,13px)]">Fr · Legs</div>
-
-                    <div className="mt-[4%] text-[clamp(10px,1.15vw,14px)] font-bold">
-                      Woche 5–8
-                    </div>
-                    <div className="text-[clamp(9px,1.1vw,13px)]">+ Volumen ↑</div>
-                    <div className="text-[clamp(9px,1.1vw,13px)]">+ Beine 2×/Wo</div>
-
-                    <div className="mt-[5%] text-[clamp(10px,1.15vw,14px)] font-bold">
-                      Ernährung
-                    </div>
-                    <div className="text-[clamp(9px,1.1vw,13px)]">≈ 2800 kcal</div>
-                    <div className="text-[clamp(9px,1.1vw,13px)]">Protein 160 g</div>
-                    <div className="text-[clamp(9px,1.1vw,13px)]">3 Mahlz. + Shake</div>
+                    {PLAN_LINES.map((line, k) => (
+                      <div
+                        key={k}
+                        className={line.className}
+                        style={{
+                          opacity: planVisible ? undefined : 0,
+                          animation: planVisible
+                            ? `writeIn 0.45s cubic-bezier(0.22,1,0.36,1) ${k * 0.28}s forwards`
+                            : undefined,
+                        }}
+                      >
+                        {line.text}
+                      </div>
+                    ))}
                   </div>
                 )}
 
