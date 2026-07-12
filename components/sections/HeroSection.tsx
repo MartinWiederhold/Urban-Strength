@@ -9,44 +9,31 @@ export default function HeroSection() {
   const { t } = useLanguage()
 
   return (
-    <section className="relative min-h-[100svh] overflow-hidden">
-      {/* Golden-yellow → warm-orange gradient (matched to the reference artwork) */}
-      <div
-        className="absolute inset-0 z-0"
-        style={{
-          background:
-            'radial-gradient(120% 130% at 25% 14%, #FEC402 0%, #FDB400 26%, #FBA52A 52%, #F3901E 76%, #E87D1D 100%)',
-        }}
-      />
+    <section className="relative min-h-[100svh] overflow-hidden bg-[#F6A527]">
+      {/* Full-bleed hero artwork (athlete on the golden-orange gradient) */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/assets/images/hero-person.png"
+          alt="Personal Training Zürich – Athletin"
+          fill
+          priority
+          quality={92}
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+      </div>
 
-      {/* Centered wordmark — sits behind the athlete for the overlap effect */}
-      <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
+      {/* Wordmark — laid ON TOP of the image */}
+      <div className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center">
         <h1
           className="animate-hero-word whitespace-nowrap select-none text-center font-display font-black uppercase leading-[0.9] tracking-[-0.02em] text-white"
-          style={{ fontSize: 'clamp(2.4rem, 12vw, 11.5rem)' }}
+          style={{
+            fontSize: 'clamp(1.9rem, 8.4vw, 7.5rem)',
+            textShadow: '0 6px 34px rgba(120,55,0,0.28)',
+          }}
         >
           Train with me
         </h1>
-      </div>
-
-      {/* Athlete — transparent cut-out, centered, in front of the wordmark */}
-      <div className="animate-hero-athlete absolute inset-x-0 bottom-0 z-20 mx-auto flex h-full max-w-[1500px] items-end justify-center">
-        <div className="relative h-[90%] w-full max-w-[540px] sm:h-[93%] md:h-[97%]">
-          <div
-            className="pointer-events-none absolute inset-x-[16%] bottom-[2%] h-[5%] rounded-[50%] blur-xl"
-            style={{ background: 'radial-gradient(ellipse at center, rgba(120,60,0,0.4) 0%, transparent 70%)' }}
-          />
-          <Image
-            src="/assets/images/Objekt 3.png"
-            alt="Personal Trainer – Training in Zürich"
-            fill
-            priority
-            quality={92}
-            sizes="(max-width: 768px) 90vw, 540px"
-            className="object-contain object-bottom"
-            style={{ filter: 'drop-shadow(0 30px 44px rgba(90,45,0,0.3))' }}
-          />
-        </div>
       </div>
 
       {/* CTA + scroll cue */}
