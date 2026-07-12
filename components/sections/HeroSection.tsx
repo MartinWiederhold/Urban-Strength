@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
+import { ChevronDown } from 'lucide-react'
 import { useLanguage } from '@/contexts/LanguageContext'
 
 export default function HeroSection() {
@@ -9,82 +10,58 @@ export default function HeroSection() {
 
   return (
     <section className="relative min-h-[100svh] overflow-hidden">
-      {/* Warm yellow → orange gradient (from the title artwork) */}
+      {/* Golden-yellow → warm-orange gradient (matched to the reference artwork) */}
       <div
         className="absolute inset-0 z-0"
         style={{
           background:
-            'radial-gradient(125% 125% at 18% 8%, #ffc73a 0%, #ffab1f 32%, #ff9412 60%, #ff7a0a 84%, #f56b06 100%)',
+            'radial-gradient(120% 130% at 25% 14%, #FEC402 0%, #FDB400 26%, #FBA52A 52%, #F3901E 76%, #E87D1D 100%)',
         }}
       />
 
-      {/* Desktop portrait — transparent cut-out, right-aligned, full figure,
-          bleeding to the right edge of the screen. */}
-      <div className="animate-hero-athlete pointer-events-none absolute inset-y-0 right-0 z-10 hidden items-end justify-end md:flex">
-        <Image
-          src="/assets/images/Objekt 4.png"
-          alt="Martin – Personal Trainer in Zürich"
-          width={734}
-          height={1660}
-          priority
-          quality={92}
-          className="h-[95%] w-auto max-w-none select-none object-contain object-bottom"
-        />
+      {/* Centered wordmark — sits behind the athlete for the overlap effect */}
+      <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
+        <h1
+          className="animate-hero-word whitespace-nowrap select-none text-center font-display font-black uppercase leading-[0.9] tracking-[-0.02em] text-white"
+          style={{ fontSize: 'clamp(2.4rem, 12vw, 11.5rem)' }}
+        >
+          Train with me
+        </h1>
       </div>
 
-      <div className="relative z-20 mx-auto flex min-h-[100svh] max-w-[1500px] items-center px-5 pb-16 pt-28 md:px-10 md:pt-32">
-        <div className="flex w-full flex-col items-start gap-8 md:max-w-[56%] md:gap-0">
-
-          {/* Mobile portrait */}
-          <div className="animate-hero-athlete order-1 mx-auto flex w-full justify-center md:hidden">
-            <Image
-              src="/assets/images/Objekt 4.png"
-              alt="Martin – Personal Trainer in Zürich"
-              width={734}
-              height={1660}
-              priority
-              quality={92}
-              className="h-[34svh] w-auto max-w-none select-none object-contain"
-            />
-          </div>
-
-          {/* Copy */}
-          <div className="order-2 text-left">
-            <span className="animate-hero-cta font-display text-[11px] font-bold uppercase tracking-[0.24em] text-black/70">
-              (01) — Personal Training · Zürich
-            </span>
-
-            <h1
-              className="animate-hero-word mt-5 whitespace-nowrap font-display font-black uppercase leading-[0.95] tracking-[-0.02em] text-ink"
-              style={{ fontSize: 'clamp(1.85rem, 5vw, 4.6rem)' }}
-            >
-              Train with me
-            </h1>
-
-            <p className="animate-hero-cta mt-6 max-w-md text-[15px] leading-relaxed text-black/70 md:text-base">
-              {t('hero.subtitle')}
-            </p>
-
-            <div className="animate-hero-cta mt-8 flex flex-wrap items-center gap-3">
-              <Link href="/book/probe-training" className="btn-dark h-14 gap-3">
-                {t('hero.ctaPrimary')}
-                <span aria-hidden className="text-flame">→</span>
-              </Link>
-              <Link
-                href="/#angebote"
-                className="inline-flex h-14 items-center rounded-full border border-black/25 px-7 text-[13px] font-bold uppercase tracking-[0.14em] text-ink transition-colors duration-300 hover:bg-black/[0.06]"
-                onClick={(e) => {
-                  if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return
-                  e.preventDefault()
-                  document.getElementById('angebote')?.scrollIntoView({ behavior: 'smooth' })
-                }}
-              >
-                {t('hero.ctaSecondary')}
-              </Link>
-            </div>
-          </div>
-
+      {/* Athlete — transparent cut-out, centered, in front of the wordmark */}
+      <div className="animate-hero-athlete absolute inset-x-0 bottom-0 z-20 mx-auto flex h-full max-w-[1500px] items-end justify-center">
+        <div className="relative h-[90%] w-full max-w-[540px] sm:h-[93%] md:h-[97%]">
+          <div
+            className="pointer-events-none absolute inset-x-[16%] bottom-[2%] h-[5%] rounded-[50%] blur-xl"
+            style={{ background: 'radial-gradient(ellipse at center, rgba(120,60,0,0.4) 0%, transparent 70%)' }}
+          />
+          <Image
+            src="/assets/images/Objekt 3.png"
+            alt="Personal Trainer – Training in Zürich"
+            fill
+            priority
+            quality={92}
+            sizes="(max-width: 768px) 90vw, 540px"
+            className="object-contain object-bottom"
+            style={{ filter: 'drop-shadow(0 30px 44px rgba(90,45,0,0.3))' }}
+          />
         </div>
+      </div>
+
+      {/* CTA + scroll cue */}
+      <div className="absolute inset-x-0 bottom-9 z-30 flex flex-col items-center gap-5 px-4 md:bottom-11">
+        <Link href="/book/probe-training" className="btn-dark animate-hero-cta h-14 gap-3">
+          {t('hero.ctaPrimary')}
+          <span aria-hidden className="text-flame">→</span>
+        </Link>
+        <button
+          onClick={() => document.getElementById('angebote')?.scrollIntoView({ behavior: 'smooth' })}
+          className="group inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.22em] text-black/60 transition-colors hover:text-black/90 md:text-[11px]"
+        >
+          <span>Scroll</span>
+          <ChevronDown className="h-4 w-4 transition-transform duration-500 group-hover:translate-y-[2px]" />
+        </button>
       </div>
     </section>
   )

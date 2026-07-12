@@ -13,7 +13,6 @@ export default function Footer() {
       {/* Oversized call-to-train band */}
       <div className="border-b border-white/10 px-4 py-16 md:px-10 md:py-24">
         <div className="max-w-[1600px] mx-auto">
-          <span className="eyebrow mb-6">(07) — Los geht’s</span>
           <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
             <h2 className="font-display text-[2.1rem] leading-[0.95] md:text-[3.75rem] font-black uppercase tracking-[-0.02em] text-white">
               Train with me

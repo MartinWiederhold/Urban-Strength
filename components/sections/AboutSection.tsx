@@ -21,8 +21,7 @@ export default function AboutSection() {
 
           {/* Text */}
           <div className="animate-slide-up order-2 min-w-0 md:order-1">
-            <span className="eyebrow mb-6">(01) — Über Martin</span>
-            <h2 className="mt-4 mb-6 font-display text-[1.9rem] sm:text-4xl md:text-[3rem] font-black uppercase leading-[0.98] tracking-[-0.02em] text-ink text-balance">
+            <h2 className="mb-6 font-display text-[1.9rem] sm:text-4xl md:text-[3rem] font-black uppercase leading-[0.98] tracking-[-0.02em] text-ink text-balance">
               {t('about.titleShort')}
             </h2>
             <p className="max-w-xl leading-relaxed text-ink/60">
@@ -50,22 +49,17 @@ export default function AboutSection() {
             </div>
           </div>
 
-          {/* Portrait */}
+          {/* Portrait — full figure inside the disc (photo bg blends with the disc) */}
           <div className="animate-slide-up order-1 flex justify-center md:order-2">
-            <div className="relative">
-              <div className="relative aspect-square w-72 overflow-hidden rounded-full bg-ink ring-1 ring-ink/10 sm:w-80 md:w-[22rem]">
-                <Image
-                  src="/assets/images/ChatGPT Image 11. Juli 2026, 21_51_45.png"
-                  alt="Martin – Personal Trainer in Zürich"
-                  fill
-                  className="object-cover object-[46%_18%]"
-                  sizes="(max-width: 768px) 288px, 352px"
-                  priority
-                />
-              </div>
-              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-flame px-5 py-2">
-                <p className="font-display text-sm font-black uppercase tracking-[0.14em] text-white">Martin</p>
-              </div>
+            <div className="relative aspect-square w-72 overflow-hidden rounded-full bg-ink ring-1 ring-ink/10 sm:w-80 md:w-[22rem]">
+              <Image
+                src="/assets/images/ChatGPT Image 11. Juli 2026, 21_51_45.png"
+                alt="Martin – Personal Trainer in Zürich"
+                width={892}
+                height={1763}
+                priority
+                className="pointer-events-none absolute left-1/2 top-1/2 h-[94%] w-auto max-w-none -translate-x-1/2 -translate-y-1/2 select-none"
+              />
             </div>
           </div>
 
