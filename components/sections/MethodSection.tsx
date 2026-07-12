@@ -47,22 +47,24 @@ export default function MethodSection() {
     return () => obs.disconnect()
   }, [planVisible])
 
-  // Handwriting reveal: sweeps the line from left to right (clip-path).
+  // Handwriting reveal: sweeps each line from left to right.
+  // `both` fill-mode: the hidden "from" state is applied DURING the delay too,
+  // so the line stays invisible until its turn instead of being pre-visible.
   const writeStyle = (idx: number): React.CSSProperties => ({
-    opacity: planVisible ? undefined : 0,
-    clipPath: planVisible ? undefined : 'inset(0 100% 0 0)',
+    opacity: 0,
+    clipPath: 'inset(0 100% 0 0)',
     animation: planVisible
-      ? `handwrite 0.85s cubic-bezier(0.4,0,0.2,1) ${idx * 0.42}s forwards`
+      ? `handwrite 0.9s cubic-bezier(0.4,0,0.2,1) ${idx * 0.5}s both`
       : undefined,
   })
 
   // SVG stroke draw for the curly brace.
   const strokeStyle = (idx: number): React.CSSProperties => ({
-    opacity: planVisible ? undefined : 0,
+    opacity: 0,
     strokeDasharray: 320,
-    strokeDashoffset: planVisible ? undefined : 320,
+    strokeDashoffset: 320,
     animation: planVisible
-      ? `drawStroke 0.9s cubic-bezier(0.4,0,0.2,1) ${idx * 0.42}s forwards`
+      ? `drawStroke 1s cubic-bezier(0.4,0,0.2,1) ${idx * 0.5}s both`
       : undefined,
   })
 
