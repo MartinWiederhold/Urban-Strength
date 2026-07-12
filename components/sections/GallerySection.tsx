@@ -64,7 +64,7 @@ function GalleryTile({
     <button
       type="button"
       onClick={onClick}
-      className="group relative aspect-square w-full overflow-hidden cursor-pointer border border-white/10 transition-all duration-300 hover:border-flame text-left"
+      className="group relative aspect-square w-full overflow-hidden cursor-pointer border border-ink/15 transition-all duration-300 hover:border-ink text-left"
       aria-label={`${alt} vergrössern`}
     >
       <Image
@@ -118,15 +118,24 @@ export default function GallerySection() {
   }, [lightboxIndex, close, prev, next])
 
   return (
-    <section className="section-padding bg-ink" id="galerie">
+    <section className="section-padding relative overflow-hidden" id="galerie">
+      {/* Yellow → orange gradient background (matches the hero artwork) */}
+      <div
+        className="pointer-events-none absolute inset-0 -z-10"
+        style={{
+          background:
+            'radial-gradient(120% 130% at 25% 14%, #FEC402 0%, #FDB400 26%, #FBA52A 52%, #F3901E 76%, #E87D1D 100%)',
+        }}
+        aria-hidden
+      />
       <div className="container-max">
-        <div className="animate-slide-up mb-12 flex flex-col items-start gap-5 border-b border-white/12 pb-8 md:flex-row md:items-end md:justify-between">
+        <div className="animate-slide-up mb-12 flex flex-col items-start gap-5 border-b border-ink/15 pb-8 md:flex-row md:items-end md:justify-between">
           <div>
-            <h2 className="font-display text-[1.5rem] sm:text-2xl md:text-[2.5rem] font-black uppercase tracking-[-0.01em] leading-[1.15] text-white">
+            <h2 className="font-display text-[1.5rem] sm:text-2xl md:text-[2.5rem] font-black uppercase tracking-[-0.01em] leading-[1.15] text-ink">
               {t('gallery.title')}
             </h2>
           </div>
-          <p className="text-white/55 text-base max-w-sm md:text-right">
+          <p className="text-ink/65 text-base max-w-sm md:text-right">
             {t('gallery.subtitle')}
           </p>
         </div>
