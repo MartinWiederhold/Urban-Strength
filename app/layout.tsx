@@ -6,6 +6,8 @@ import { LanguageProvider } from '@/contexts/LanguageContext'
 import WhatsAppButton from '@/components/WhatsAppButton'
 import { WebVitals } from '@/components/WebVitals'
 import PageTracker from '@/components/PageTracker'
+import { Analytics } from '@vercel/analytics/next'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -55,9 +57,9 @@ export const metadata: Metadata = {
     description: 'Dein Personal Trainer in Zürich. Individuelles 1:1 Training. Erster Termin gratis! Ab CHF 85/h.',
     images: [
       {
-        url: '/og-image.jpg',
-        width: 1536,
-        height: 1024,
+        url: '/og-image.jpg?v=2',
+        width: 938,
+        height: 964,
         alt: 'Personal Training Zürich – by Martin',
       },
     ],
@@ -71,7 +73,7 @@ export const metadata: Metadata = {
     apple: { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
     shortcut: '/favicon.ico',
   },
-  twitter: { card: 'summary_large_image', images: ['/og-image.jpg'] },
+  twitter: { card: 'summary_large_image', images: ['/og-image.jpg?v=2'] },
   robots: {
     index: true,
     follow: true,
@@ -97,6 +99,8 @@ export default function RootLayout({
             <PageTracker />
             {children}
             <WhatsAppButton />
+            <Analytics />
+            <SpeedInsights />
           </AuthProvider>
         </LanguageProvider>
       </body>

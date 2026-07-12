@@ -31,16 +31,16 @@ export const metadata: Metadata = {
     description: 'Dein Personal Trainer in Zürich. Individuelles 1:1 Training. Erster Termin gratis! Ab CHF 85/h.',
     images: [
       {
-        url: '/og-image.jpg',
-        width: 1536,
-        height: 1024,
+        url: '/og-image.jpg?v=2',
+        width: 938,
+        height: 964,
         alt: 'Personal Training – Gym und Training in Zürich',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    images: ['/og-image.jpg'],
+    images: ['/og-image.jpg?v=2'],
   },
   robots: {
     index: true, follow: true,
@@ -57,7 +57,7 @@ const jsonLdLocalBusiness = {
   alternateName: ['Personal Training Zürich', 'PT Zurich by Martin'],
   description: 'Professionelles Personal Training in Zürich. Individuelles 1:1 Training für Muskelaufbau, Fettabbau und Fitness. Kostenlose Geräte-Einweisung und Probetraining.',
   url: 'https://personaltrainingbymartin.netlify.app',
-  image: 'https://personaltrainingbymartin.netlify.app/og-image.jpg',
+  image: 'https://personaltrainingbymartin.netlify.app/og-image.jpg?v=2',
   priceRange: 'CHF 0-600',
   currenciesAccepted: 'CHF',
   paymentAccepted: 'Twint',
@@ -103,7 +103,7 @@ const jsonLdPerson = {
 const jsonLdImage = {
   '@context': 'https://schema.org',
   '@type': 'ImageObject',
-  url: 'https://personaltrainingbymartin.netlify.app/og-image.jpg',
+  url: 'https://personaltrainingbymartin.netlify.app/og-image.jpg?v=2',
   width: 1536,
   height: 1024,
   name: 'Personal Training – Gym und Training in Zürich',
