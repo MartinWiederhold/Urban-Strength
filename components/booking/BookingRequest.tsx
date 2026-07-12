@@ -22,11 +22,12 @@ const TIME_OPTIONS: string[] = (() => {
 const pad = (n: number) => String(n).padStart(2, '0')
 const toKey = (d: Date) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
 
-export default function AboRequest() {
+export default function BookingRequest({ serviceId }: { serviceId: string }) {
   const { lang } = useLanguage()
   const t = (de: string, en: string) => (lang === 'en' ? en : de)
 
-  const abo = servicesData[lang].find((s) => s.id === 'quartals-abo')
+  const service = servicesData[lang].find((s) => s.id === serviceId) ?? servicesData[lang][0]
+  const isAbo = service.id === 'quartals-abo'
 
   const today = useMemo(() => {
     const d = new Date()
@@ -79,6 +80,11 @@ export default function AboRequest() {
   const toggleDay = (d: Date) => {
     const key = toKey(d)
     setSessions((prev) => {
+      if (!isAbo) {
+        // Single-session mode: selecting a different day replaces the previous one.
+        if (prev[key]) return {}
+        return { [key]: '07:00' }
+      }
       const next = { ...prev }
       if (next[key]) delete next[key]
       else next[key] = '07:00'
@@ -110,11 +116,14 @@ export default function AboRequest() {
 
   const sendWhatsApp = () => {
     const lines = sortedKeys.map((k) => `• ${formatLong(k)} ${t('um', 'at')} ${sessions[k]} ${t('Uhr', '')}`.trim())
+    const priceStr = `${service.price} ${service.priceNote}`.trim()
     const intro = t(
-      `Hallo Martin, ich möchte gerne das Quartals-Abo (${abo?.price ?? 'CHF 600'} / Quartal) buchen.`,
-      `Hi Martin, I'd like to book the quarterly membership (${abo?.price ?? 'CHF 600'} / quarter).`,
+      `Hallo Martin, ich möchte gerne "${service.title}" (${priceStr}) buchen.`,
+      `Hi Martin, I'd like to book "${service.title}" (${priceStr}).`,
     )
-    const label = t('Meine Wunschtermine:', 'My preferred sessions:')
+    const label = isAbo
+      ? t('Meine Wunschtermine:', 'My preferred sessions:')
+      : t('Mein Wunschtermin:', 'My preferred date:')
     const parts = [intro, '', label, ...lines]
     const details: string[] = []
     if (name.trim()) details.push(`${t('Name', 'Name')}: ${name.trim()}`)
@@ -135,12 +144,21 @@ export default function AboRequest() {
       {/* Calendar + selection */}
       <div className="min-w-0 space-y-6 lg:col-span-2">
         <div className="rounded-2xl border border-border bg-card p-4 sm:p-6">
-          <h2 className="mb-1 text-xl font-bold">{t('Wunschtermine wählen', 'Choose your sessions')}</h2>
+          <h2 className="mb-1 text-xl font-bold">
+            {isAbo
+              ? t('Wunschtermine wählen', 'Choose your sessions')
+              : t('Wunschtermin wählen', 'Choose your session')}
+          </h2>
           <p className="mb-6 text-sm text-muted-foreground">
-            {t(
-              'Tippe die gewünschten Tage an und wähle für jeden Tag eine Uhrzeit (06:00–22:00).',
-              'Tap the days you want and pick a time for each (06:00–22:00).',
-            )}
+            {isAbo
+              ? t(
+                  'Tippe die gewünschten Tage an und wähle für jeden Tag eine Uhrzeit (06:00–22:00).',
+                  'Tap the days you want and pick a time for each (06:00–22:00).',
+                )
+              : t(
+                  'Tippe einen Tag im Kalender an und wähle eine Uhrzeit (06:00–22:00).',
+                  'Tap a day in the calendar and pick a time (06:00–22:00).',
+                )}
           </p>
 
           {/* Month header */}
@@ -204,13 +222,15 @@ export default function AboRequest() {
         {/* Selected sessions */}
         <div className="rounded-2xl border border-border bg-card p-4 sm:p-6">
           <h3 className="mb-4 text-lg font-bold">
-            {t('Gewählte Termine', 'Selected sessions')}
-            {sortedKeys.length > 0 && <span className="ml-2 text-amber-400">({sortedKeys.length})</span>}
+            {isAbo ? t('Gewählte Termine', 'Selected sessions') : t('Dein Termin', 'Your session')}
+            {isAbo && sortedKeys.length > 0 && <span className="ml-2 text-amber-400">({sortedKeys.length})</span>}
           </h3>
 
           {sortedKeys.length === 0 ? (
             <p className="text-sm text-muted-foreground">
-              {t('Noch keine Termine gewählt. Tippe oben auf einen Tag im Kalender.', 'No sessions yet. Tap a day in the calendar above.')}
+              {isAbo
+                ? t('Noch keine Termine gewählt. Tippe oben auf einen Tag im Kalender.', 'No sessions yet. Tap a day in the calendar above.')
+                : t('Noch kein Termin gewählt. Tippe oben auf einen Tag im Kalender.', 'No session yet. Tap a day in the calendar above.')}
             </p>
           ) : (
             <ul className="space-y-2">
@@ -296,20 +316,26 @@ export default function AboRequest() {
       {/* Sidebar / summary + send */}
       <div className="space-y-4">
         <div className="sticky top-24 rounded-2xl border border-border bg-card p-5">
-          <h3 className="mb-2 font-bold">{abo?.title ?? 'Quartals-Abo'}</h3>
+          <h3 className="mb-2 font-bold">{service.title}</h3>
           <div className="mb-1 flex items-baseline gap-1">
-            <span className="text-2xl font-bold text-amber-400">{abo?.price ?? 'CHF 600'}</span>
-            <span className="text-sm text-muted-foreground">{abo?.priceNote ?? (lang === 'en' ? 'per quarter' : 'pro Quartal')}</span>
+            <span className="text-2xl font-bold text-amber-400">{service.price}</span>
+            <span className="text-sm text-muted-foreground">{service.priceNote}</span>
           </div>
-          <p className="mb-4 text-sm text-muted-foreground">{abo?.duration}</p>
+          <p className="mb-4 text-sm text-muted-foreground">{service.duration}</p>
 
           <div className="mb-4 rounded-lg bg-secondary p-3 text-sm">
             {sortedKeys.length > 0 ? (
               <span className="font-medium text-amber-400">
-                {sortedKeys.length} {t('Termin(e) gewählt', 'session(s) selected')}
+                {isAbo
+                  ? `${sortedKeys.length} ${t('Termin(e) gewählt', 'session(s) selected')}`
+                  : t('Termin gewählt', 'Session selected')}
               </span>
             ) : (
-              <span className="text-muted-foreground">{t('Noch keine Termine gewählt', 'No sessions selected yet')}</span>
+              <span className="text-muted-foreground">
+                {isAbo
+                  ? t('Noch keine Termine gewählt', 'No sessions selected yet')
+                  : t('Noch kein Termin gewählt', 'No session selected yet')}
+              </span>
             )}
           </div>
 
