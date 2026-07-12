@@ -29,7 +29,7 @@ export default function AboutSection() {
             </p>
 
             {/* Highlights — icon left, text next to it */}
-            <div className="mt-10 grid grid-cols-1 gap-x-8 gap-y-6 border-t border-ink/15 pt-8 sm:grid-cols-3">
+            <div className="mt-10 grid grid-cols-1 gap-x-8 gap-y-8 border-t border-ink/15 pt-8 sm:grid-cols-3">
               {highlights.map((item, i) => (
                 <div key={i} className="flex items-start gap-3">
                   <item.icon className="mt-0.5 h-[22px] w-[22px] shrink-0 text-flame" strokeWidth={1.75} />
@@ -37,7 +37,7 @@ export default function AboutSection() {
                     <p className="font-display text-sm font-bold uppercase leading-snug tracking-wide text-ink">
                       {t(item.titleKey)}
                     </p>
-                    <p className="mt-1 text-sm leading-snug text-ink/50">{t(item.subtitleKey)}</p>
+                    <p className="mt-2.5 text-sm leading-relaxed text-ink/50">{t(item.subtitleKey)}</p>
                   </div>
                 </div>
               ))}
