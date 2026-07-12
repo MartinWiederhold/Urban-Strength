@@ -3,7 +3,7 @@ import { Outfit, Inter, Archivo } from 'next/font/google'
 import './globals.css'
 import { AuthProvider } from '@/contexts/AuthContext'
 import { LanguageProvider } from '@/contexts/LanguageContext'
-import ScrollToTop from '@/components/ScrollToTop'
+import WhatsAppButton from '@/components/WhatsAppButton'
 import { WebVitals } from '@/components/WebVitals'
 import PageTracker from '@/components/PageTracker'
 
@@ -94,7 +94,7 @@ export default function RootLayout({
             <WebVitals />
             <PageTracker />
             {children}
-            <ScrollToTop />
+            <WhatsAppButton />
           </AuthProvider>
         </LanguageProvider>
       </body>

@@ -212,20 +212,13 @@ export default function Navigation() {
         >
           {/* Logo */}
           <Link href="/" className="group flex flex-col">
-            <span className={`font-display text-[0.78rem] sm:text-[0.92rem] font-extrabold uppercase tracking-[-0.01em] leading-none transition-colors ${txt} group-hover:opacity-70`}>
-              Personal Training Zurich
+            <span className={`font-sans text-[0.82rem] sm:text-[0.95rem] font-semibold uppercase tracking-[0.14em] leading-none transition-colors ${txt} group-hover:opacity-70`}>
+              Personal Training Zürich
             </span>
-            <span className={`mt-1 text-[9px] font-bold tracking-[0.2em] uppercase transition-colors ${solid ? 'text-flame' : 'text-flame'}`}>
+            <span className="mt-1 text-[9px] font-medium tracking-[0.28em] uppercase text-flame">
               by Martin
             </span>
           </Link>
-
-          {/* Desktop Center – Phone */}
-          <div className="pointer-events-none absolute left-1/2 hidden -translate-x-1/2 md:block">
-            <div className="pointer-events-auto">
-              <PhoneCenter />
-            </div>
-          </div>
 
           {/* Desktop Right */}
           <div className="ml-auto hidden items-center gap-2 md:flex">
@@ -282,9 +275,8 @@ export default function Navigation() {
             )}
           </div>
 
-          {/* Mobile: Phone + language + optional hamburger */}
+          {/* Mobile: language + optional hamburger */}
           <div className="ml-auto flex items-center gap-0.5 md:hidden">
-            <PhoneCenter compact />
             <button
               type="button"
               onClick={() => setLang(lang === 'de' ? 'en' : 'de')}

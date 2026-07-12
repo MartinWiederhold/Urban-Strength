@@ -38,6 +38,7 @@ const AvailabilityCalendar = dynamic(
     ),
   }
 )
+import AboRequest from '@/components/booking/AboRequest'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -221,6 +222,25 @@ export default function BookingPage() {
     { number: 2, label: t('book.step2') },
     { number: 3, label: t('book.step3') },
   ]
+
+  // Abo model → dedicated multi-session WhatsApp request flow.
+  if (serviceId === 'quartals-abo') {
+    return (
+      <>
+        <Navigation />
+        <main className="min-h-screen bg-background pt-20">
+          <div className="container-max px-4 md:px-10 py-12">
+            <Link href="/#angebote" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-8 transition-colors">
+              <ArrowLeft className="w-4 h-4" />
+              {t('book.back')}
+            </Link>
+            <AboRequest />
+          </div>
+        </main>
+        <Footer />
+      </>
+    )
+  }
 
   return (
     <>
