@@ -53,7 +53,7 @@ export default function AboutSection() {
 
           {/* Portrait — full figure inside the disc (photo bg blends with the disc) */}
           <div className="animate-slide-up order-1 flex justify-center md:order-2 md:justify-end">
-            <div className="relative aspect-square w-[80vw] max-w-[28.5rem] overflow-hidden rounded-full bg-ink ring-1 ring-ink/10 sm:w-[26rem] md:w-[28.5rem] md:translate-x-[3.4rem] lg:translate-x-[6.75rem]">
+            <div className="relative aspect-square w-[80vw] max-w-[28.5rem] overflow-hidden rounded-full bg-ink ring-1 ring-ink/10 sm:w-[26rem] md:w-[28.5rem] md:translate-x-[4.1rem] lg:translate-x-[8.1rem]">
               <Image
                 src="/assets/images/ChatGPT Image 11. Juli 2026, 21_51_45.png"
                 alt="Martin – Personal Trainer in Zürich"
