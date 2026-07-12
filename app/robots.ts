@@ -9,6 +9,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/dashboard/', '/admin/', '/api/', '/qrcode'],
       },
     ],
-    sitemap: 'https://momentum-zurich.vercel.app/sitemap.xml',
+    sitemap: 'https://momentum-zurich.ch/sitemap.xml',
   }
 }

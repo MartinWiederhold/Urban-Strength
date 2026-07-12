@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     'Personal Training Zürich Preise', 'Personal Training für Anfänger Zürich',
     'Personal Training Zürich Kreis 7', 'Fitness Coaching Zürich', 'Individuelles Training Zürich',
   ],
-  alternates: { canonical: 'https://momentum-zurich.vercel.app/personal-training-zuerich' },
+  alternates: { canonical: 'https://momentum-zurich.ch/personal-training-zuerich' },
   robots: { index: true, follow: true },
 }
 
@@ -21,8 +21,8 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://momentum-zurich.vercel.app' },
-    { '@type': 'ListItem', position: 2, name: 'Personal Training Zürich', item: 'https://momentum-zurich.vercel.app/personal-training-zuerich' },
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://momentum-zurich.ch' },
+    { '@type': 'ListItem', position: 2, name: 'Personal Training Zürich', item: 'https://momentum-zurich.ch/personal-training-zuerich' },
   ],
 }
 

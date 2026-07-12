@@ -33,7 +33,7 @@ const caveat = Caveat({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://momentum-zurich.vercel.app'),
+  metadataBase: new URL('https://momentum-zurich.ch'),
   title: 'Momentum | Personal Training in Zürich | Kostenloses Probetraining',
   description: 'Dein Personal Trainer in Zürich. Individuelles 1:1 Training für Muskelaufbau, Fettabbau & Fitness. Erster Termin gratis! ✓ CHF 85/h ✓ Geräte-Einweisung ✓ Trainingsplan. Jetzt buchen!',
   keywords: [
@@ -42,16 +42,16 @@ export const metadata: Metadata = {
     'Muskelaufbau Zürich', 'Fettabbau Zürich', 'Gym Zürich', 'Trainingsplan Zürich',
   ],
   alternates: {
-    canonical: 'https://momentum-zurich.vercel.app',
+    canonical: 'https://momentum-zurich.ch',
     languages: {
-      'de-CH': 'https://momentum-zurich.vercel.app',
-      'de': 'https://momentum-zurich.vercel.app',
+      'de-CH': 'https://momentum-zurich.ch',
+      'de': 'https://momentum-zurich.ch',
     },
   },
   openGraph: {
     type: 'website',
     locale: 'de_CH',
-    url: 'https://momentum-zurich.vercel.app',
+    url: 'https://momentum-zurich.ch',
     siteName: 'Momentum – Personal Training in Zurich',
     title: 'Momentum | Personal Training in Zürich | Kostenloses Probetraining',
     description: 'Dein Personal Trainer in Zürich. Individuelles 1:1 Training. Erster Termin gratis! Ab CHF 85/h.',
