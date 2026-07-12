@@ -1,18 +1,11 @@
 import type { Metadata } from 'next'
-import { Outfit, Inter, Archivo } from 'next/font/google'
+import { Inter, Archivo } from 'next/font/google'
 import './globals.css'
 import { AuthProvider } from '@/contexts/AuthContext'
 import { LanguageProvider } from '@/contexts/LanguageContext'
 import WhatsAppButton from '@/components/WhatsAppButton'
 import { WebVitals } from '@/components/WebVitals'
 import PageTracker from '@/components/PageTracker'
-
-const outfit = Outfit({
-  subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700', '800', '900'],
-  display: 'swap',
-  variable: '--font-outfit',
-})
 
 const inter = Inter({
   subsets: ['latin'],
@@ -21,9 +14,10 @@ const inter = Inter({
   variable: '--font-inter',
 })
 
+// Sporty grotesk used across the whole site (body + display).
 const archivo = Archivo({
   subsets: ['latin'],
-  weight: ['600', '700', '800', '900'],
+  weight: ['400', '500', '600', '700', '800', '900'],
   display: 'swap',
   variable: '--font-archivo',
 })
@@ -83,7 +77,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="de-CH" className={`${outfit.variable} ${inter.variable} ${archivo.variable}`}>
+    <html lang="de-CH" className={`${inter.variable} ${archivo.variable}`}>
       <head>
         <meta name="google-site-verification" content="PqjATptIERle8deiSP1NeBH7Uf5KaHOBBAwjAL7vaU0" />
         <link href="https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.css" rel="stylesheet" />

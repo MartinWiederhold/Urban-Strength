@@ -28,15 +28,17 @@ export default function AboutSection() {
               {t('about.bio')}
             </p>
 
-            {/* Highlights */}
+            {/* Highlights — icon left, text next to it */}
             <div className="mt-10 grid grid-cols-1 gap-x-8 gap-y-6 border-t border-ink/15 pt-8 sm:grid-cols-3">
               {highlights.map((item, i) => (
-                <div key={i} className="flex flex-col items-start">
-                  <item.icon className="mb-3 h-5 w-5 shrink-0 text-flame" />
-                  <p className="font-display text-sm font-bold uppercase leading-snug tracking-wide text-ink">
-                    {t(item.titleKey)}
-                  </p>
-                  <p className="mt-1 text-sm leading-snug text-ink/50">{t(item.subtitleKey)}</p>
+                <div key={i} className="flex items-start gap-3">
+                  <item.icon className="mt-0.5 h-5 w-5 shrink-0 text-flame" />
+                  <div>
+                    <p className="font-display text-sm font-bold uppercase leading-snug tracking-wide text-ink">
+                      {t(item.titleKey)}
+                    </p>
+                    <p className="mt-1 text-sm leading-snug text-ink/50">{t(item.subtitleKey)}</p>
+                  </div>
                 </div>
               ))}
             </div>
@@ -50,8 +52,8 @@ export default function AboutSection() {
           </div>
 
           {/* Portrait — full figure inside the disc (photo bg blends with the disc) */}
-          <div className="animate-slide-up order-1 flex justify-center md:order-2">
-            <div className="relative aspect-square w-72 overflow-hidden rounded-full bg-ink ring-1 ring-ink/10 sm:w-80 md:w-[22rem]">
+          <div className="animate-slide-up order-1 flex justify-center md:order-2 md:justify-end">
+            <div className="relative aspect-square w-72 overflow-hidden rounded-full bg-ink ring-1 ring-ink/10 sm:w-80 md:w-[22rem] md:translate-x-8 lg:translate-x-16">
               <Image
                 src="/assets/images/ChatGPT Image 11. Juli 2026, 21_51_45.png"
                 alt="Martin – Personal Trainer in Zürich"

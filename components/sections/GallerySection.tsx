@@ -64,7 +64,7 @@ function GalleryTile({
     <button
       type="button"
       onClick={onClick}
-      className="group relative aspect-square w-full overflow-hidden cursor-pointer border border-ink/10 transition-all duration-300 hover:border-flame text-left"
+      className="group relative aspect-square w-full overflow-hidden cursor-pointer border border-white/10 transition-all duration-300 hover:border-flame text-left"
       aria-label={`${alt} vergrössern`}
     >
       <Image
@@ -118,15 +118,15 @@ export default function GallerySection() {
   }, [lightboxIndex, close, prev, next])
 
   return (
-    <section className="section-padding bg-[#EDE9DF]" id="galerie">
+    <section className="section-padding bg-ink" id="galerie">
       <div className="container-max">
-        <div className="animate-slide-up mb-12 flex flex-col items-start gap-5 border-b border-ink/12 pb-8 md:flex-row md:items-end md:justify-between">
+        <div className="animate-slide-up mb-12 flex flex-col items-start gap-5 border-b border-white/12 pb-8 md:flex-row md:items-end md:justify-between">
           <div>
-            <h2 className="font-display text-[1.5rem] sm:text-2xl md:text-[2.5rem] font-black uppercase tracking-[-0.01em] leading-[1.05] text-ink">
+            <h2 className="font-display text-[1.5rem] sm:text-2xl md:text-[2.5rem] font-black uppercase tracking-[-0.01em] leading-[1.05] text-white">
               {t('gallery.title')}
             </h2>
           </div>
-          <p className="text-ink/55 text-base max-w-sm md:text-right">
+          <p className="text-white/55 text-base max-w-sm md:text-right">
             {t('gallery.subtitle')}
           </p>
         </div>
