@@ -52,7 +52,7 @@ const servicesEN = {
 const aboutDE = {
   'about.titleShort': 'Dein Personal Trainer in Zürich',
   'about.titleLong': 'Dein Personal Trainer in Zürich – Martin',
-  'about.bio': 'Ich bin Martin, 31 Jahre alt, komme aus Zürich und trainiere seit über 10 Jahren mit Leidenschaft. In dieser Zeit habe ich gelernt, was wirklich funktioniert – ohne komplizierte Pläne oder unnötigen Schnickschnack. Egal, ob du Muskeln aufbauen, Körperfett reduzieren, fitter für den Alltag oder leistungsfähiger für Tennis werden möchtest: Gemeinsam entwickeln wir einen Plan, der zu dir und deinem Leben passt. Standardmässig trainieren wir in unserem Gym an der Heubergstrasse in Zürich. Auf Wunsch komme ich aber auch zu dir nach Hause oder wir trainieren in einem Fitnessstudio deiner Wahl. Persönlich, motivierend und mit dem Fokus auf nachhaltige Ergebnisse.',
+  'about.bio': 'Ich bin Martin, 31 Jahre alt, komme aus Zürich und trainiere seit über 10 Jahren mit Leidenschaft. In dieser Zeit habe ich gelernt, was wirklich funktioniert – ohne komplizierte Pläne oder unnötigen Schnickschnack. Egal, ob du Muskeln aufbauen, Körperfett reduzieren, fitter für den Alltag oder leistungsfähiger für Tennis werden möchtest: Gemeinsam entwickeln wir einen Plan, der zu dir und deinem Leben passt. Standardmässig trainieren wir in unserem Gym am Oberer Heuelsteig 30-34 in Zürich. Auf Wunsch komme ich aber auch zu dir nach Hause oder wir trainieren in einem Fitnessstudio deiner Wahl. Persönlich, motivierend und mit dem Fokus auf nachhaltige Ergebnisse.',
   'about.highlight1Title': 'Flexibler Trainingsort',
   'about.highlight1Sub': 'Im Gym, bei dir zu Hause oder in deinem Fitnessstudio.',
   'about.highlight2Title': '100 % Individueller Plan',
@@ -64,7 +64,7 @@ const aboutDE = {
 const aboutEN = {
   'about.titleShort': 'Your Personal Trainer in Zurich',
   'about.titleLong': 'Your Personal Trainer in Zurich – Martin',
-  'about.bio': 'I\'m Martin, 31 years old, from Zurich, and I\'ve been training with passion for over 10 years. In that time I\'ve learned what really works – without complicated plans or unnecessary gimmicks. Whether you want to build muscle, reduce body fat, get fitter for everyday life or perform better at tennis: together we develop a plan that fits you and your life. By default we train in our gym on Heubergstrasse in Zurich. On request I\'ll also come to your home, or we train at a fitness studio of your choice. Personal, motivating and focused on lasting results.',
+  'about.bio': 'I\'m Martin, 31 years old, from Zurich, and I\'ve been training with passion for over 10 years. In that time I\'ve learned what really works – without complicated plans or unnecessary gimmicks. Whether you want to build muscle, reduce body fat, get fitter for everyday life or perform better at tennis: together we develop a plan that fits you and your life. By default we train in our gym at Oberer Heuelsteig 30-34 in Zurich. On request I\'ll also come to your home, or we train at a fitness studio of your choice. Personal, motivating and focused on lasting results.',
   'about.highlight1Title': 'Flexible location',
   'about.highlight1Sub': 'In the gym, at your home or at your fitness studio.',
   'about.highlight2Title': '100% individual plan',
