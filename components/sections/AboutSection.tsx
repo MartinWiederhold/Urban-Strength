@@ -2,20 +2,20 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { Award, Target, Sparkles, ChevronRight } from 'lucide-react'
+import { Medal, TrendingUp, SlidersHorizontal, ChevronRight } from 'lucide-react'
 import { useLanguage } from '@/contexts/LanguageContext'
 
 export default function AboutSection() {
   const { t } = useLanguage()
 
   const highlights = [
-    { icon: Award, titleKey: 'about.highlight1Title', subtitleKey: 'about.highlight1Sub' },
-    { icon: Target, titleKey: 'about.highlight2Title', subtitleKey: 'about.highlight2Sub' },
-    { icon: Sparkles, titleKey: 'about.highlight3Title', subtitleKey: 'about.highlight3Sub' },
+    { icon: Medal, titleKey: 'about.highlight1Title', subtitleKey: 'about.highlight1Sub' },
+    { icon: TrendingUp, titleKey: 'about.highlight2Title', subtitleKey: 'about.highlight2Sub' },
+    { icon: SlidersHorizontal, titleKey: 'about.highlight3Title', subtitleKey: 'about.highlight3Sub' },
   ]
 
   return (
-    <section className="section-padding bg-paper" id="ueber-martin">
+    <section className="section-padding bg-paper overflow-hidden" id="ueber-martin">
       <div className="container-max">
         <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-[1.1fr_0.9fr] md:gap-16">
 
@@ -32,7 +32,7 @@ export default function AboutSection() {
             <div className="mt-10 grid grid-cols-1 gap-x-8 gap-y-6 border-t border-ink/15 pt-8 sm:grid-cols-3">
               {highlights.map((item, i) => (
                 <div key={i} className="flex items-start gap-3">
-                  <item.icon className="mt-0.5 h-5 w-5 shrink-0 text-flame" />
+                  <item.icon className="mt-0.5 h-[22px] w-[22px] shrink-0 text-flame" strokeWidth={1.75} />
                   <div>
                     <p className="font-display text-sm font-bold uppercase leading-snug tracking-wide text-ink">
                       {t(item.titleKey)}
@@ -53,7 +53,7 @@ export default function AboutSection() {
 
           {/* Portrait — full figure inside the disc (photo bg blends with the disc) */}
           <div className="animate-slide-up order-1 flex justify-center md:order-2 md:justify-end">
-            <div className="relative aspect-square w-72 overflow-hidden rounded-full bg-ink ring-1 ring-ink/10 sm:w-80 md:w-[22rem] md:translate-x-8 lg:translate-x-16">
+            <div className="relative aspect-square w-[80vw] max-w-[28.5rem] overflow-hidden rounded-full bg-ink ring-1 ring-ink/10 sm:w-[26rem] md:w-[28.5rem] md:translate-x-8 lg:translate-x-16">
               <Image
                 src="/assets/images/ChatGPT Image 11. Juli 2026, 21_51_45.png"
                 alt="Martin – Personal Trainer in Zürich"
