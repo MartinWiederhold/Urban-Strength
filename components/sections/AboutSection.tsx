@@ -17,7 +17,7 @@ export default function AboutSection() {
   return (
     <section className="section-padding bg-paper overflow-hidden" id="ueber-martin">
       <div className="container-max">
-        <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-[1.1fr_0.9fr] md:gap-16">
+        <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-[1.35fr_0.65fr] md:gap-14">
 
           {/* Text */}
           <div className="animate-slide-up order-2 min-w-0 md:order-1">
@@ -29,12 +29,12 @@ export default function AboutSection() {
             </p>
 
             {/* Highlights — icon left, text next to it */}
-            <div className="mt-10 grid grid-cols-1 gap-x-8 gap-y-8 border-t border-ink/15 pt-8 sm:grid-cols-3">
+            <div className="mt-10 grid grid-cols-1 gap-x-5 gap-y-8 border-t border-ink/15 pt-8 sm:grid-cols-3">
               {highlights.map((item, i) => (
-                <div key={i} className="flex items-start gap-3">
-                  <item.icon className="mt-0.5 h-[22px] w-[22px] shrink-0 text-flame" strokeWidth={1.75} />
+                <div key={i} className="flex items-start gap-2.5">
+                  <item.icon className="mt-0.5 h-5 w-5 shrink-0 text-flame" strokeWidth={1.75} />
                   <div>
-                    <p className="font-display text-sm font-bold uppercase leading-snug tracking-wide text-ink">
+                    <p className="font-display text-[13px] font-bold uppercase leading-snug text-ink lg:whitespace-nowrap">
                       {t(item.titleKey)}
                     </p>
                     <p className="mt-2.5 text-sm leading-relaxed text-ink/50">{t(item.subtitleKey)}</p>
@@ -53,7 +53,7 @@ export default function AboutSection() {
 
           {/* Portrait — full figure inside the disc (photo bg blends with the disc) */}
           <div className="animate-slide-up order-1 flex justify-center md:order-2 md:justify-end">
-            <div className="relative aspect-square w-[80vw] max-w-[28.5rem] overflow-hidden rounded-full bg-ink ring-1 ring-ink/10 sm:w-[26rem] md:w-[28.5rem] md:translate-x-8 lg:translate-x-16">
+            <div className="relative aspect-square w-[80vw] max-w-[28.5rem] overflow-hidden rounded-full bg-ink ring-1 ring-ink/10 sm:w-[26rem] md:w-[28.5rem] md:translate-x-[2.6rem] lg:translate-x-[5.2rem]">
               <Image
                 src="/assets/images/ChatGPT Image 11. Juli 2026, 21_51_45.png"
                 alt="Martin – Personal Trainer in Zürich"
