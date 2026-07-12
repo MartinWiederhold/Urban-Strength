@@ -2,16 +2,16 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { Medal, TrendingUp, SlidersHorizontal, ChevronRight } from 'lucide-react'
+import { MapPin, Target, TrendingUp, ChevronRight } from 'lucide-react'
 import { useLanguage } from '@/contexts/LanguageContext'
 
 export default function AboutSection() {
   const { t } = useLanguage()
 
   const highlights = [
-    { icon: Medal, titleKey: 'about.highlight1Title', subtitleKey: 'about.highlight1Sub' },
-    { icon: TrendingUp, titleKey: 'about.highlight2Title', subtitleKey: 'about.highlight2Sub' },
-    { icon: SlidersHorizontal, titleKey: 'about.highlight3Title', subtitleKey: 'about.highlight3Sub' },
+    { icon: MapPin, titleKey: 'about.highlight1Title', subtitleKey: 'about.highlight1Sub' },
+    { icon: Target, titleKey: 'about.highlight2Title', subtitleKey: 'about.highlight2Sub' },
+    { icon: TrendingUp, titleKey: 'about.highlight3Title', subtitleKey: 'about.highlight3Sub' },
   ]
 
   return (
@@ -34,7 +34,7 @@ export default function AboutSection() {
                 <div key={i} className="flex items-start gap-2.5">
                   <item.icon className="mt-0.5 h-5 w-5 shrink-0 text-flame" strokeWidth={1.75} />
                   <div>
-                    <p className="font-display text-[13px] font-bold uppercase leading-snug text-ink lg:whitespace-nowrap">
+                    <p className="font-display text-sm font-bold uppercase leading-snug text-ink">
                       {t(item.titleKey)}
                     </p>
                     <p className="mt-2.5 text-sm leading-relaxed text-ink/50">{t(item.subtitleKey)}</p>
