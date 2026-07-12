@@ -5,6 +5,7 @@ import { ArrowLeft, ChevronLeft, ChevronRight, X, Check } from 'lucide-react'
 import Link from 'next/link'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { servicesData } from '@/lib/translations'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 
 const WHATSAPP_NUMBER = '41774857535'
 
@@ -216,16 +217,16 @@ export default function AboRequest() {
               {sortedKeys.map((key) => (
                 <li key={key} className="flex items-center gap-3 rounded-xl bg-secondary p-3">
                   <span className="flex-1 text-sm font-medium capitalize">{formatLong(key)}</span>
-                  <select
-                    value={sessions[key]}
-                    onChange={(e) => setTime(key, e.target.value)}
-                    className="rounded-lg border border-border bg-background px-2 py-1.5 text-sm text-foreground outline-none focus:border-amber-400"
-                    aria-label={t('Uhrzeit', 'Time')}
-                  >
-                    {TIME_OPTIONS.map((tm) => (
-                      <option key={tm} value={tm}>{tm}{t(' Uhr', '')}</option>
-                    ))}
-                  </select>
+                  <Select value={sessions[key]} onValueChange={(v) => setTime(key, v)}>
+                    <SelectTrigger className="w-[128px] shrink-0" aria-label={t('Uhrzeit', 'Time')}>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="max-h-64">
+                      {TIME_OPTIONS.map((tm) => (
+                        <SelectItem key={tm} value={tm}>{tm}{t(' Uhr', '')}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <button
                     type="button"
                     onClick={() => removeSession(key)}
@@ -265,27 +266,27 @@ export default function AboRequest() {
               placeholder={t('Alter', 'Age')}
               className="rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground outline-none focus:border-amber-400"
             />
-            <select
-              value={experience}
-              onChange={(e) => setExperience(e.target.value)}
-              className="rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground outline-none focus:border-amber-400"
-              aria-label={t('Erfahrung', 'Experience')}
-            >
-              <option value="">{t('Erfahrung wählen', 'Select experience')}</option>
-              <option value={t('Anfänger', 'Beginner')}>{t('Anfänger', 'Beginner')}</option>
-              <option value={t('Fortgeschritten', 'Intermediate')}>{t('Fortgeschritten', 'Intermediate')}</option>
-              <option value={t('Profi', 'Advanced')}>{t('Profi', 'Advanced')}</option>
-            </select>
-            <select
-              value={alreadyTraining}
-              onChange={(e) => setAlreadyTraining(e.target.value)}
-              className="rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground outline-none focus:border-amber-400 sm:col-span-2"
-              aria-label={t('Trainierst du bereits?', 'Already training?')}
-            >
-              <option value="">{t('Trainierst du bereits regelmässig?', 'Do you already train regularly?')}</option>
-              <option value={t('Ja', 'Yes')}>{t('Ja', 'Yes')}</option>
-              <option value={t('Nein', 'No')}>{t('Nein', 'No')}</option>
-            </select>
+            <Select value={experience} onValueChange={setExperience}>
+              <SelectTrigger aria-label={t('Erfahrung', 'Experience')}>
+                <SelectValue placeholder={t('Erfahrung wählen', 'Select experience')} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value={t('Anfänger', 'Beginner')}>{t('Anfänger', 'Beginner')}</SelectItem>
+                <SelectItem value={t('Fortgeschritten', 'Intermediate')}>{t('Fortgeschritten', 'Intermediate')}</SelectItem>
+                <SelectItem value={t('Profi', 'Advanced')}>{t('Profi', 'Advanced')}</SelectItem>
+              </SelectContent>
+            </Select>
+            <div className="sm:col-span-2">
+              <Select value={alreadyTraining} onValueChange={setAlreadyTraining}>
+                <SelectTrigger aria-label={t('Trainierst du bereits?', 'Already training?')}>
+                  <SelectValue placeholder={t('Trainierst du bereits regelmässig?', 'Do you already train regularly?')} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value={t('Ja', 'Yes')}>{t('Ja', 'Yes')}</SelectItem>
+                  <SelectItem value={t('Nein', 'No')}>{t('Nein', 'No')}</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
         </div>
       </div>
