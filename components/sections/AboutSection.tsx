@@ -53,7 +53,7 @@ export default function AboutSection() {
 
           {/* Portrait — full figure inside the disc (photo bg blends with the disc) */}
           <div className="animate-slide-up order-1 flex justify-center md:order-2 md:justify-end">
-            <div className="relative h-[68vw] w-[68vw] max-h-[28.5rem] max-w-[28.5rem] translate-x-[15vw] overflow-hidden rounded-full ring-1 ring-black/10 sm:h-[26rem] sm:w-[26rem] sm:translate-x-14 md:h-[28.5rem] md:w-[28.5rem] md:translate-x-[4.1rem] lg:translate-x-[9.8rem]" style={{ backgroundColor: '#060607' }}>
+            <div className="relative h-[68vw] w-[68vw] max-h-[28.5rem] max-w-[28.5rem] translate-x-[21vw] overflow-hidden rounded-full ring-1 ring-black/10 sm:h-[26rem] sm:w-[26rem] sm:translate-x-14 md:h-[28.5rem] md:w-[28.5rem] md:translate-x-[4.1rem] lg:translate-x-[9.8rem]" style={{ backgroundColor: '#060607' }}>
               <Image
                 src="/assets/images/ChatGPT Image 11. Juli 2026, 21_51_45.png"
                 alt="Martin – Personal Trainer in Zürich"
