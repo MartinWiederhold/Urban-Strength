@@ -132,6 +132,18 @@
     60%  { opacity: 1; filter: blur(0); }
     100% { opacity: 1; transform: translateY(0); filter: blur(0); }
   }
+  /* Live-handwriting reveal: swipes the line from left to right as if a pen writes it. */
+  @keyframes handwrite {
+    0%   { clip-path: inset(0 100% 0 0); opacity: 0; }
+    25%  { opacity: 1; }
+    100% { clip-path: inset(0 0 0 0); opacity: 1; }
+  }
+  /* Stroke draw for the SVG curly brace (paired with stroke-dasharray). */
+  @keyframes drawStroke {
+    0%   { stroke-dashoffset: 320; opacity: 0; }
+    15%  { opacity: 1; }
+    100% { stroke-dashoffset: 0; opacity: 1; }
+  }
 }
 
 @layer utilities {

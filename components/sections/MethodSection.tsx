@@ -47,10 +47,22 @@ export default function MethodSection() {
     return () => obs.disconnect()
   }, [planVisible])
 
+  // Handwriting reveal: sweeps the line from left to right (clip-path).
   const writeStyle = (idx: number): React.CSSProperties => ({
     opacity: planVisible ? undefined : 0,
+    clipPath: planVisible ? undefined : 'inset(0 100% 0 0)',
     animation: planVisible
-      ? `writeIn 0.45s cubic-bezier(0.22,1,0.36,1) ${idx * 0.28}s forwards`
+      ? `handwrite 0.85s cubic-bezier(0.4,0,0.2,1) ${idx * 0.42}s forwards`
+      : undefined,
+  })
+
+  // SVG stroke draw for the curly brace.
+  const strokeStyle = (idx: number): React.CSSProperties => ({
+    opacity: planVisible ? undefined : 0,
+    strokeDasharray: 320,
+    strokeDashoffset: planVisible ? undefined : 320,
+    animation: planVisible
+      ? `drawStroke 0.9s cubic-bezier(0.4,0,0.2,1) ${idx * 0.42}s forwards`
       : undefined,
   })
 
@@ -123,8 +135,8 @@ export default function MethodSection() {
                       lineHeight: 1.05,
                     }}
                   >
-                    {/* Header block — shifted 15% left */}
-                    <div style={{ transform: 'translateX(-15%)' }}>
+                    {/* Header block — shifted 20% left */}
+                    <div style={{ transform: 'translateX(-20%)' }}>
                       {HEADER_LINES.map((line, k) => (
                         <div key={k} className={line.className} style={writeStyle(k)}>
                           {line.text}
@@ -136,7 +148,7 @@ export default function MethodSection() {
                     <div className="relative mt-[6%]" style={{ paddingLeft: '13%' }}>
                       <svg
                         className="pointer-events-none absolute left-0 top-0 h-full text-neutral-800"
-                        style={{ width: '10%', minWidth: 12, ...writeStyle(bracketIdx) }}
+                        style={{ width: '10%', minWidth: 12 }}
                         viewBox="0 0 20 100"
                         preserveAspectRatio="none"
                         fill="none"
@@ -149,6 +161,7 @@ export default function MethodSection() {
                         <path
                           vectorEffect="non-scaling-stroke"
                           d="M 16 3 C 10 4 12 10 12 14 L 12 44 C 12 48 8 50 4 50 C 8 50 12 52 12 56 L 12 86 C 12 90 10 96 16 97"
+                          style={strokeStyle(bracketIdx)}
                         />
                       </svg>
                       {BODY_LINES.map((line, k) => (
