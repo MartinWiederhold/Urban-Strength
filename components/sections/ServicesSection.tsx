@@ -29,7 +29,16 @@ export default function ServicesSection() {
         </div>
 
         {/* Mobile: accordion of narrow/expanded cards ─────────────────────── */}
-        <div className="flex gap-2 md:hidden" style={{ minHeight: '32rem' }}>
+        <div
+          className="grid gap-2 md:hidden"
+          style={{
+            minHeight: '32rem',
+            gridTemplateColumns: services
+              .map((_, idx) => (idx === openIndex ? '1fr' : '3.5rem'))
+              .join(' '),
+            transition: 'grid-template-columns 600ms cubic-bezier(0.22, 1, 0.36, 1)',
+          }}
+        >
           {services.map((service, i) => {
             const isOpen = i === openIndex
             const featured = service.highlight
@@ -38,11 +47,11 @@ export default function ServicesSection() {
                 key={service.id}
                 id={service.id}
                 onClick={() => !isOpen && setOpenIndex(i)}
-                className={`relative overflow-hidden rounded-3xl transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                className={`relative min-w-0 overflow-hidden rounded-3xl transition-colors duration-500 ${
                   isOpen
-                    ? 'flex-1 cursor-default bg-white text-black shadow-[0_20px_40px_-16px_rgba(20,20,20,0.18)]'
-                    : 'w-14 cursor-pointer bg-neutral-900 text-white'
-                } ${featured && isOpen ? 'ring-2 ring-flame ring-offset-2 ring-offset-[#EDE9DF]' : ''}`}
+                    ? 'cursor-default bg-white text-black shadow-[0_20px_40px_-16px_rgba(20,20,20,0.18)]'
+                    : 'cursor-pointer bg-neutral-900 text-white'
+                }`}
               >
                 {isOpen ? (
                   <div className="flex h-full flex-col p-6">

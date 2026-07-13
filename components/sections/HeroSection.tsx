@@ -1,8 +1,31 @@
 'use client'
 
 import Image from 'next/image'
+import { useRef, useState } from 'react'
+import { Play, Pause } from 'lucide-react'
 
 export default function HeroSection() {
+  const audioRef = useRef<HTMLAudioElement | null>(null)
+  const [isPlaying, setIsPlaying] = useState(false)
+
+  const toggleMusic = () => {
+    const el = audioRef.current
+    if (!el) return
+    if (el.paused) {
+      // Every fresh play starts from the beginning.
+      el.currentTime = 0
+      const p = el.play()
+      if (p && typeof p.then === 'function') {
+        p.then(() => setIsPlaying(true)).catch(() => setIsPlaying(false))
+      } else {
+        setIsPlaying(true)
+      }
+    } else {
+      el.pause()
+      setIsPlaying(false)
+    }
+  }
+
   return (
     <section className="relative min-h-[100svh] overflow-hidden bg-[#F6A527]">
       {/* Gradient background (stretched full-bleed – smooth, so no visible seams) */}
@@ -47,6 +70,36 @@ export default function HeroSection() {
         </h1>
       </div>
 
+      {/* Music toggle — right side of the hero */}
+      <button
+        type="button"
+        onClick={toggleMusic}
+        aria-label={isPlaying ? 'Musik pausieren' : 'Musik abspielen'}
+        aria-pressed={isPlaying}
+        className="group absolute right-5 top-1/2 z-30 flex h-14 w-14 -translate-y-1/2 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-md ring-1 ring-white/25 transition-all duration-300 hover:scale-105 hover:bg-black/55 active:scale-95 md:right-8 md:h-16 md:w-16"
+      >
+        {/* Pulse ring while playing */}
+        <span
+          aria-hidden
+          className={`pointer-events-none absolute inset-0 rounded-full ring-2 ring-white/40 transition-opacity duration-300 ${
+            isPlaying ? 'animate-ping-slow opacity-100' : 'opacity-0'
+          }`}
+        />
+        {isPlaying ? (
+          <Pause className="h-6 w-6 md:h-7 md:w-7" strokeWidth={2.25} fill="currentColor" />
+        ) : (
+          <Play className="ml-0.5 h-6 w-6 md:h-7 md:w-7" strokeWidth={2.25} fill="currentColor" />
+        )}
+      </button>
+
+      <audio
+        ref={audioRef}
+        src="/assets/audio/Momentum_music.m4a"
+        preload="none"
+        onEnded={() => setIsPlaying(false)}
+        onPause={() => setIsPlaying(false)}
+        onPlay={() => setIsPlaying(true)}
+      />
     </section>
   )
 }
