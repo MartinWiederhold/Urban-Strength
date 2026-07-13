@@ -29,25 +29,24 @@ export default function ServicesSection() {
         </div>
 
         {/* Mobile: accordion of narrow/expanded cards ─────────────────────── */}
-        <div
-          className="grid gap-2 md:hidden"
-          style={{
-            minHeight: '32rem',
-            gridTemplateColumns: services
-              .map((_, idx) => (idx === openIndex ? '1fr' : '3.5rem'))
-              .join(' '),
-            transition: 'grid-template-columns 600ms cubic-bezier(0.22, 1, 0.36, 1)',
-          }}
-        >
+        <div className="flex gap-2 md:hidden" style={{ minHeight: '32rem' }}>
           {services.map((service, i) => {
             const isOpen = i === openIndex
             const featured = service.highlight
+            // Math for smooth width transition:
+            //   - collapsed card = 3.5rem, gap-2 = 0.5rem
+            //   - 2 collapsed + 2 gaps = 8rem, so expanded fills the rest
             return (
               <div
                 key={service.id}
                 id={service.id}
                 onClick={() => !isOpen && setOpenIndex(i)}
-                className={`relative min-w-0 overflow-hidden rounded-3xl transition-colors duration-500 ${
+                style={{
+                  width: isOpen ? 'calc(100% - 8rem)' : '3.5rem',
+                  transition: 'width 700ms cubic-bezier(0.32, 0.72, 0, 1), background-color 500ms ease',
+                  willChange: 'width',
+                }}
+                className={`relative min-w-0 overflow-hidden rounded-3xl ${
                   isOpen
                     ? 'cursor-default bg-white text-black shadow-[0_20px_40px_-16px_rgba(20,20,20,0.18)]'
                     : 'cursor-pointer bg-neutral-900 text-white'
