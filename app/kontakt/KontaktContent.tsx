@@ -73,13 +73,17 @@ export default function KontaktContent() {
 
               {/* CTA */}
               <div className="rounded-2xl bg-[hsl(0,0%,11%)] text-white p-8 flex flex-col justify-center items-center text-center">
-                <div className="relative mb-6 h-36 w-36 shrink-0 overflow-hidden rounded-full border-2 border-white/15 bg-[#181818] shadow-[0_16px_40px_-12px_rgba(0,0,0,0.65)] md:h-44 md:w-44">
+                <div
+                  className="relative mb-6 h-36 w-36 shrink-0 overflow-hidden rounded-full border-2 border-white/15 shadow-[0_16px_40px_-12px_rgba(0,0,0,0.65)] md:h-44 md:w-44"
+                  style={{ backgroundColor: '#060607' }}
+                >
                   <Image
-                    src="/assets/images/IMG_99828.jpg"
+                    src="/assets/images/ChatGPT Image 11. Juli 2026, 21_51_45.png"
                     alt="Martin – Personal Trainer in Zürich"
-                    fill
-                    className="object-cover object-[50%_18%]"
-                    sizes="(max-width: 768px) 144px, 176px"
+                    width={892}
+                    height={1763}
+                    priority
+                    className="pointer-events-none absolute left-1/2 top-[60%] h-[94%] w-auto max-w-none -translate-x-1/2 -translate-y-1/2 select-none"
                   />
                 </div>
                 <h2 className="text-2xl font-bold tracking-tight mb-3">
