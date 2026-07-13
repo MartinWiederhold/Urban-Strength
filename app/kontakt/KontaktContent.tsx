@@ -83,7 +83,7 @@ export default function KontaktContent() {
                     width={892}
                     height={1763}
                     priority
-                    className="pointer-events-none absolute left-1/2 top-[60%] h-[94%] w-auto max-w-none -translate-x-[20%] -translate-y-1/2 select-none"
+                    className="pointer-events-none absolute left-1/2 top-[60%] h-[94%] w-auto max-w-none translate-x-0 -translate-y-1/2 select-none"
                   />
                 </div>
                 <h2 className="text-2xl font-bold tracking-tight mb-3">
