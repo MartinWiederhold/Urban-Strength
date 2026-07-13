@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import { useRef, useState } from 'react'
-import { Play, Pause } from 'lucide-react'
+import { Volume2, VolumeX } from 'lucide-react'
 
 export default function HeroSection() {
   const audioRef = useRef<HTMLAudioElement | null>(null)
@@ -70,25 +70,18 @@ export default function HeroSection() {
         </h1>
       </div>
 
-      {/* Music toggle — right side of the hero */}
+      {/* Music toggle — subtle speaker icon, bottom-left */}
       <button
         type="button"
         onClick={toggleMusic}
         aria-label={isPlaying ? 'Musik pausieren' : 'Musik abspielen'}
         aria-pressed={isPlaying}
-        className="group absolute right-5 top-1/2 z-30 flex h-14 w-14 -translate-y-1/2 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-md ring-1 ring-white/25 transition-all duration-300 hover:scale-105 hover:bg-black/55 active:scale-95 md:right-8 md:h-16 md:w-16"
+        className="group absolute bottom-4 left-4 z-30 flex h-9 w-9 items-center justify-center rounded-full bg-black/25 text-white/75 backdrop-blur-sm ring-1 ring-white/15 transition-all duration-300 hover:bg-black/45 hover:text-white active:scale-95 md:bottom-5 md:left-5"
       >
-        {/* Pulse ring while playing */}
-        <span
-          aria-hidden
-          className={`pointer-events-none absolute inset-0 rounded-full ring-2 ring-white/40 transition-opacity duration-300 ${
-            isPlaying ? 'animate-ping-slow opacity-100' : 'opacity-0'
-          }`}
-        />
         {isPlaying ? (
-          <Pause className="h-6 w-6 md:h-7 md:w-7" strokeWidth={2.25} fill="currentColor" />
+          <Volume2 className="h-4 w-4" strokeWidth={2} />
         ) : (
-          <Play className="ml-0.5 h-6 w-6 md:h-7 md:w-7" strokeWidth={2.25} fill="currentColor" />
+          <VolumeX className="h-4 w-4" strokeWidth={2} />
         )}
       </button>
 
