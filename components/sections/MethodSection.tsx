@@ -126,9 +126,8 @@ export default function MethodSection() {
                 {i === 1 && (
                   <div
                     ref={planRef}
-                    className="pointer-events-none absolute font-hand text-neutral-800"
+                    className="pointer-events-none absolute font-hand text-neutral-800 left-[54%] md:left-[49%]"
                     style={{
-                      left: '54%',
                       top: '34%',
                       width: '38%',
                       height: '44%',
